@@ -1,9 +1,10 @@
 import React, {Component} from "react";
-import {Platform, StyleSheet, Text, View, Button} from "react-native";
+import {Platform, StyleSheet, ScrollView, Text, View, Button, Image} from "react-native";
 import { Root } from "native-base";
-import { createAppContainer, createStackNavigator, createDrawerNavigator } from "react-navigation";
+import { createAppContainer, createStackNavigator, createDrawerNavigator, SafeAreaView, DrawerItems } from "react-navigation";
 import AnnouncementPage from "./containers/announcementPage";
 import FacilitiesPage from "./containers/facilitiesPage";
+
 import NavigationManager from "./managers/navigationManager";
 
 
@@ -51,16 +52,42 @@ const MyDrawerNavigator = createDrawerNavigator(
     },
   }, 
   { 
+    contentComponent: props => (
+      <ScrollView>
+        <SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
+          <Image 
+          source={require("./assets/images/rh_logo.png")}
+          style={{
+                width: 120,
+                // flex: 1,
+                //justifyContent: "center",
+                //marginLeft: 40, 
+                height: 120,
+                // padding:50,
+                // borderWidth: 50,
+                // marginLeft: "auto",
+                // marginRight: "auto",
+                alignSelf: "center",
+                marginTop:  40,
+                marginBottom: 20
+                
+                }}
+                resizeMode="contain"
+          />
+          <DrawerItems {...props} />
+        </SafeAreaView>
+      </ScrollView>
+    ),
+    
     contentOptions: {
       activeTintColor: '#006400',
       itemsContainerStyle: {
-        marginVertical: 150,
+        marginVertical: 10,
       },
       iconContainerStyle: {
         opacity: 1
       }
     },
-    // contentComponent: customComponent,
     headerMode: "none",
   }
 );
@@ -78,12 +105,26 @@ export default () => (
 );
 
 
+
+// drawerContentComponent = props => (
+//   <ScrollView>
+  
+//     <SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
+//       <DrawerItems {...props} />
+//     </SafeAreaView>
+//   </ScrollView>
+// );
+
+
+
 // const customComponent = (props) => (
 //   <ScrollView
 //     style={styles.container}>
 //     <DrawerItems {...props} />
 //   </ScrollView>
 // );
+
+
 
 
 
@@ -118,13 +159,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#006400',
+    alignItems: 'flex-start',
+    backgroundColor: '#F8F8F8',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  stretch: {
+    height: 120,
+    width: 120
   },
   instructions: {
     textAlign: 'center',
