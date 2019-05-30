@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { StyleProvider } from "native-base";
 
-import App from './app';
-import getTheme from './assets/native-base-theme/components';
-import variables from './assets/native-base-theme/variables/commonColor';
+import App from "./app";
+import getTheme from "./assets/native-base-theme/components";
+import variables from "./assets/native-base-theme/variables/commonColor";
 
 export default class Setup extends Component {
-    render() {
-        return (
-            <StyleProvider style={getTheme(variables)}>
-              <App />
-            </StyleProvider>
-        );
-    }
+  render() {
+    return (
+      <StyleProvider style={getTheme(variables)}>
+        <App />
+      </StyleProvider>
+    );
+  }
 }
