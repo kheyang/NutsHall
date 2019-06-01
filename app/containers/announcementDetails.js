@@ -15,34 +15,6 @@ export default class AnnouncementPage extends Component {
       //state property here
     };
   }
-
-  static navigationOptions = ({ navigation }) => {
-    //return header with Custom View which will replace the original header 
-    return {
-      header: (
-        <View
-          style={{
-            height: 45,
-            marginTop: 20,
-            backgroundColor: 'red',
-            justifyContent: 'center',
-          }}>
-          <Text
-            style={{
-              color: 'white',
-              textAlign: 'center',
-              fontWeight: 'bold',
-              fontSize: 18,
-            }}>
-            This is Custom Header
-          </Text>
-        </View>
-      ),
-    };
-  };
-
-
-
   /*
     React LifeCycle Methods: 
     e.g. componentWillMount(),

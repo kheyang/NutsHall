@@ -1,94 +1,170 @@
 import React, {Component} from "react";
-import {Platform, StyleSheet, ScrollView, Text, View, Button, Image} from "react-native";
+import {Platform, StyleSheet, ScrollView, Text, View, Button, Image, TouchableOpacity } from "react-native";
 import { Root } from "native-base";
-import { createAppContainer, createStackNavigator, createDrawerNavigator, SafeAreaView, DrawerItems } from "react-navigation";
-import AnnouncementPage from "./containers/announcementPage";
-import FacilitiesPage from "./containers/facilitiesPage";
-
+import { createAppContainer, createStackNavigator, createDrawerNavigator, SafeAreaView, DrawerItems} from "react-navigation";
+import Announcements from "./containers/announcementPage";
+import AnnouncementDetails from './containers/announcementDetails';
+import Facilities from "./containers/facilitiesPage";
+import Facility from './containers/facility';
 import NavigationManager from "./managers/navigationManager";
 
 
-// const MyStackNavigator = createStackNavigator(
-//   {
-//     AnnouncementPage: {
-//       screen: AnnouncementPage
-//     },
-//     FacilitiesPage: {
-//       screen: FacilitiesPage
-//     },
-//   },
-//   {
-//     headerMode: "none"
-//   }
-
-// );
-
-// const AppContainer = createAppContainer(MyStackNavigator);
-
-// // export default AppContainer;
-
-// export default () => (
-//   <Root>
-//     <AppContainer
-//       ref={navigatorRef => {
-//         // console.log(navigatorRef);
-//         NavigationManager.setTopLevelNavigator(navigatorRef);
-//       }}
-//     />
-//   </Root>
-// );
 
 
+class NavigationDrawerStructure extends Component {
+  toggleDrawer = () => {
+    this.props.navigationProps.toggleDrawer();
+  };
+  render() {
+    return (
+      <View style={{ flexDirection: 'row' }}>
+        <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
+          <Image
+            source={require('./assets/images/drawer.png')}
+            style={{ width: 25, height: 25, marginLeft: 5 }}
+          />
+        </TouchableOpacity>
+      </View>
+    );
+  }
+}
+
+//Announcement StackNavigation
+export const AnnouncementStack = createStackNavigator({
+  Announcements: { 
+    screen: Announcements,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Announcements',
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerTitleStyle: {
+        fontFamily: "Raleway-Medium",
+        fontWeight: 'normal'
+      },
+      headerStyle: {
+        backgroundColor: '#006400',
+      },
+      headerTintColor: '#fff',
+    }),
+  }, 
+  'AnnouncementDetails': { 
+    screen: AnnouncementDetails, 
+    navigationOptions: ({ navigation }) => ({
+        title: 'Announcement Details',
+        headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+        headerTitleStyle: {
+          fontFamily: "Raleway-Medium",
+          fontWeight: 'normal'
+        },
+        headerStyle: {
+          backgroundColor: '#989898',
+        },
+        headerTintColor: '#fff',
+      }),
+    },
+}, {
+  initialRouteName: 'Announcements',
+})
 
 
+
+//Facilities StackNavigation
+export const FacilitiesStack = createStackNavigator({
+  Facilities: { 
+    screen: Facilities,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Facilities',
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerTitleStyle: {
+        fontFamily: "Raleway-Medium",
+        fontWeight: 'normal'
+      },
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      headerTintColor: '#000000',
+    }),
+  }, 
+              // },
+  'Facility': { 
+    screen: Facility, 
+    navigationOptions: ({ navigation }) => ({
+        headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+        headerTitleStyle: {
+          fontFamily: "Raleway-Medium",
+          fontWeight: 'normal'
+        },
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000000',
+      }),
+    },
+}, {
+  initialRouteName: 'Facilities',
+})
+
+
+
+//DrawerNavigation
+const drawerContentComponent = props => (
+  <ScrollView>
+    <SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
+      <Image 
+        source={require("./assets/images/rh_logo.png")}
+        style={{
+          width: 120,
+          height: 120,
+          alignSelf: "center",
+          marginTop:  40,
+          marginBottom: 20         
+              }}
+        resizeMode="contain"
+      />
+      <DrawerItems {...props} />
+    </SafeAreaView>
+  </ScrollView>
+);
+
+const drawerContentOptions = {
+  activeTintColor: '#006400',
+  labelStyle: {
+    fontFamily: 'Raleway-Bold',
+    fontWeight: 'normal',
+  },
+  itemsContainerStyle: {
+    marginVertical: 10,
+  },
+  iconContainerStyle: {
+    opacity: 1
+  }
+}
 
 const MyDrawerNavigator = createDrawerNavigator(
   {
-    'Announcement Page': {
-      screen: AnnouncementPage
+    AnnouncementStack: {
+      screen: AnnouncementStack,
+      navigationOptions: {
+        drawerLabel: "Announcement"
+      }
     },
-    'Facilities Page': {
-      screen: FacilitiesPage
+    'FacilitiesStack': {
+      screen: FacilitiesStack,
+      navigationOptions: {
+        drawerLabel: "Facilities"
+      }
     },
   }, 
   { 
-    contentComponent: props => (
-      <ScrollView>
-        <SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
-          <Image 
-          source={require("./assets/images/rh_logo.png")}
-          style={{
-                width: 120,
-                // flex: 1,
-                //justifyContent: "center",
-                //marginLeft: 40, 
-                height: 120,
-                // padding:50,
-                // borderWidth: 50,
-                // marginLeft: "auto",
-                // marginRight: "auto",
-                alignSelf: "center",
-                marginTop:  40,
-                marginBottom: 20
-                
-                }}
-                resizeMode="contain"
-          />
-          <DrawerItems {...props} />
-        </SafeAreaView>
-      </ScrollView>
-    ),
-    
-    contentOptions: {
-      activeTintColor: '#006400',
-      itemsContainerStyle: {
-        marginVertical: 10,
-      },
-      iconContainerStyle: {
-        opacity: 1
-      }
-    },
-    headerMode: "none",
+    contentComponent: drawerContentComponent,
+    contentOptions:  drawerContentOptions,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Facilities',
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      // headerStyle: {
+      //   backgroundColor: '#FF9800',
+      // },
+      // headerTintColor: '#fff',
+    }),
   }
 );
 
@@ -104,71 +180,12 @@ export default () => (
   </Root>
 );
 
-
-
-// drawerContentComponent = props => (
-//   <ScrollView>
-  
-//     <SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
-//       <DrawerItems {...props} />
-//     </SafeAreaView>
-//   </ScrollView>
-// );
-
-
-
-// const customComponent = (props) => (
-//   <ScrollView
-//     style={styles.container}>
-//     <DrawerItems {...props} />
-//   </ScrollView>
-// );
-
-
-
-
-
-
-/*const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-
-export default class App extends Component {
-  render() {
-    return (
-      
-        <View>
-          <AppHeader />
-          <Text> Hello World!!! </Text>
-        </View>
-
-      // <View style={styles.container}>
-      //   <Text style={styles.welcome}>Welcome to React Native!</Text>
-      //   <Text style={styles.instructions}>HELLO!!</Text>
-      //   <Text style={styles.instructions}>{instructions}</Text>
-      // </View>
-    );
-  }
-}*/
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    backgroundColor: '#F8F8F8',
-  },
-  stretch: {
-    height: 120,
-    width: 120
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+    backgroundColor: '#fff',
+    
   },
 });

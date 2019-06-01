@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, Image, StyleSheet } from "react-native";
 import { Container, Text, Header, Left, Right, Button, Icon } from "native-base";
-import navigationManager from "../managers/navigationManager";
+import NavigationManager from "../managers/navigationManager";
 
 /*
     other import statements or 
@@ -36,7 +36,8 @@ export default class AppHeader extends Component {
     return (
       <Header transparent>
         <Left style={{ flex: 1, flexDirection: "row" }}>
-          <Button transparent>
+          <Button transparent
+                  onPress={() => NavigationManager.navigate("DrawerOpen")}> 
             <Icon ios="ios-menu" android="md-menu" style={{ color: "black"}}/>
           </Button>
         </Left>
@@ -52,3 +53,4 @@ export default class AppHeader extends Component {
 */
 
 module.export = AppHeader; //module export statement
+
