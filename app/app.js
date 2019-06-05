@@ -10,7 +10,7 @@ import NavigationManager from "./managers/navigationManager";
 
 
 
-
+//Drawer navigator's toggle button
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
     this.props.navigationProps.toggleDrawer();
@@ -29,83 +29,21 @@ class NavigationDrawerStructure extends Component {
   }
 }
 
-//Announcement StackNavigation
-export const AnnouncementStack = createStackNavigator({
-  Announcements: { 
-    screen: Announcements,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Announcements',
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerTitleStyle: {
-        fontFamily: "Raleway-Medium",
-        fontWeight: 'normal'
-      },
-      headerStyle: {
-        backgroundColor: '#006400',
-      },
-      headerTintColor: '#fff',
-    }),
-  }, 
-  'AnnouncementDetails': { 
-    screen: AnnouncementDetails, 
-    navigationOptions: ({ navigation }) => ({
-        title: 'Announcement Details',
-        headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-        headerTitleStyle: {
-          fontFamily: "Raleway-Medium",
-          fontWeight: 'normal'
-        },
-        headerStyle: {
-          backgroundColor: '#989898',
-        },
-        headerTintColor: '#fff',
-      }),
-    },
-}, {
-  initialRouteName: 'Announcements',
+//Stack Navigator's navigation options
+const stackNavOptions =  ({ navigation }) => ({
+  headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+  headerTitleStyle: {
+    fontFamily: "Raleway-Medium",
+    fontWeight: 'normal'
+  },
+  headerStyle: {
+    backgroundColor: '#fff',
+  },
+  headerTintColor: '#000000',
 })
 
 
-
-//Facilities StackNavigation
-export const FacilitiesStack = createStackNavigator({
-  Facilities: { 
-    screen: Facilities,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Facilities',
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerTitleStyle: {
-        fontFamily: "Raleway-Medium",
-        fontWeight: 'normal'
-      },
-      headerStyle: {
-        backgroundColor: '#fff',
-      },
-      headerTintColor: '#000000',
-    }),
-  }, 
-              // },
-  'Facility': { 
-    screen: Facility, 
-    navigationOptions: ({ navigation }) => ({
-        headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-        headerTitleStyle: {
-          fontFamily: "Raleway-Medium",
-          fontWeight: 'normal'
-        },
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTintColor: '#000000',
-      }),
-    },
-}, {
-  initialRouteName: 'Facilities',
-})
-
-
-
-//DrawerNavigation
+//Drawer Navigator's content component
 const drawerContentComponent = props => (
   <ScrollView>
     <SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
@@ -125,6 +63,7 @@ const drawerContentComponent = props => (
   </ScrollView>
 );
 
+//Drawer Navigator's content options
 const drawerContentOptions = {
   activeTintColor: '#006400',
   labelStyle: {
@@ -139,6 +78,61 @@ const drawerContentOptions = {
   }
 }
 
+
+//Announcement StackNavigation
+export const AnnouncementStack = createStackNavigator({
+  Announcements: { 
+    screen: Announcements,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Announcements',
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerTitleStyle: {
+        fontFamily: "Raleway-Medium",
+        fontWeight: 'normal'
+      },
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      headerTintColor: '#000000',
+    }),
+  }, 
+  'Announcement Details': { 
+    screen: AnnouncementDetails, 
+    navigationOptions: ({ navigation }) => ({
+        title: 'Announcement Details',
+        headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+        headerTitleStyle: {
+          fontFamily: "Raleway-Medium",
+          fontWeight: 'normal'
+        },
+        headerStyle: {
+          backgroundColor: '#989898',
+        },
+        headerTintColor: '#fff',
+      }),
+    },
+}, {
+  initialRouteName: 'Announcements',
+})
+
+
+//Facilities StackNavigation
+export const FacilitiesStack = createStackNavigator({
+  Facilities: { 
+    screen: Facilities,
+    navigationOptions: stackNavOptions,
+  }, 
+  'Facility': { 
+    screen: Facility, 
+    navigationOptions: stackNavOptions,
+
+    },
+}, {
+  initialRouteName: 'Facilities',
+})
+
+
+//Slide in DrawerNavigation
 const MyDrawerNavigator = createDrawerNavigator(
   {
     AnnouncementStack: {
@@ -147,7 +141,7 @@ const MyDrawerNavigator = createDrawerNavigator(
         drawerLabel: "Announcement"
       }
     },
-    'FacilitiesStack': {
+    FacilitiesStack: {
       screen: FacilitiesStack,
       navigationOptions: {
         drawerLabel: "Facilities"

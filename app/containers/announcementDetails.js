@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Image, TouchableOpacity, Button } from "react-native";
+import { View, Image, TouchableOpacity, Button, StyleSheet } from "react-native";
 import { Container, Text } from "native-base";
 import AppHeader from "../components/header.js";
 import NavigationManager from "../managers/navigationManager";
@@ -39,7 +39,7 @@ export default class AnnouncementPage extends Component {
       <Container>
          <View>
           {/* <AppHeader /> */}
-          <Text> Hello World!!! Announcement Page!!! </Text>
+          <Text style={styles.text }> Announcement Details!! </Text>
           <Button
             title="Go to facilities page!!"
             onPress={() => NavigationManager.navigate("Facilities")}
@@ -70,5 +70,15 @@ export default class AnnouncementPage extends Component {
 /*
 //Internal StyleSheet here
 */
+
+const styles = StyleSheet.create({
+    text: {
+        color: 'black',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 18,
+        fontFamily: "Raleway-Regular",
+    },
+  });
 
 module.export = AnnouncementPage; //module export statement
