@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { View, Image, TouchableOpacity, Button, StyleSheet } from "react-native";
+import {View, Image, TouchableOpacity, Button, StyleSheet } from "react-native";
 import { Container, Text } from "native-base";
 import AppHeader from "../components/header.js";
 import NavigationManager from "../managers/navigationManager";
-
+import ViewPager from "@react-native-community/viewpager";
 /*
     other import statements or 
     JS variables like const here - can be dummy datas to use for development
@@ -55,6 +55,64 @@ export default class AnnouncementPage extends Component {
   */
 
   render() {
+    return (
+      <ViewPager
+        style={styles.viewPager}
+        initialPage={0}>
+        <View style={styles.pageStyle} key="1">
+          <Image
+            source={require('../assets/images/dancestudio.png')}
+            style={{
+              width: 300,
+              height: 120,
+              alignSelf: "center",
+              marginTop:  40,
+              marginBottom: 20         
+            }}
+            resizeMode="contain"
+          />
+          <Text>INSERT EVENT DETAILS HERE</Text>
+          <Button
+            // onPress={}
+            title="See Details"
+          />
+        </View>
+
+        {/* <View style={{
+          flex:1,
+          flexDirection:"column",
+          justifyContent: "flex-start",
+          // alignItems: "baseline",
+          // padding: 20
+          }} key="1">
+          <View style={{height: 0, width: 100, alignSelf:'center'}}>
+            <Image
+              source={require('../assets/images/dancestudio.png')}
+              style={{
+                width: 300,
+                alignSelf: 'center'
+              }}
+              resizeMode="contain"
+            />
+          </View> */}
+
+          {/* <View>
+            <Text>INSERT EVENT DETAILS HERE</Text>
+            <Button 
+              // onPress={}
+              title="See Details"
+            />
+          </View> */}
+        {/* </View> */}
+
+        <View style={styles.pageStyle} key="2">
+          <Text>Second page</Text>
+        </View>
+        <View style={styles.pageStyle} key="3">
+          <Text>Third page</Text>
+        </View>
+      </ViewPager>
+    );
     /*
     JS Expressions here
     -> to pass state data here
@@ -62,22 +120,22 @@ export default class AnnouncementPage extends Component {
     */
 
     // Notice JSX - a html-JS like syntax is within ()
-    return (
+    // return (
       
-      <Container>
-         <View>
-          {/* <AppHeader /> */}
-          <Text
-          style={ styles.text }
-          > Hello World!!! Announcement Page!!! </Text>
-          <Button
-            title="Go to facilities page!!"
-            onPress={() => NavigationManager.navigate("Facilities")}
-          />
+    //   <Container>
+    //      <View>
+    //       {/* <AppHeader /> */}
+    //       <Text
+    //       style={ styles.text }
+    //       > Hello World!!! Announcement Page!!! </Text>
+    //       <Button
+    //         title="Go to facilities page!!"
+    //         onPress={() => NavigationManager.navigate("Facilities")}
+    //       />
         
-        </View>
-      </Container>
-    );
+    //     </View>
+    //   </Container>
+    // );
   }
 
 
@@ -98,11 +156,28 @@ export default class AnnouncementPage extends Component {
 
 const styles = StyleSheet.create({
   text: {
-      color: 'black',
-      textAlign: 'center',
-      fontWeight: 'bold',
-      fontSize: 18,
-      fontFamily: "Raleway-Regular",
+    color: 'black',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 18,
+    fontFamily: "Raleway-Regular",
+  },
+  viewPager: {
+    flex: 1
+  },
+  pageStyle: {
+    alignItems: 'center',
+    padding: 20,
+  },
+  posterContainer: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  poster: {
+    flex: 2,
+    width: 300,
+    alignItems: 'center',
+    marginTop: 20,
   },
 });
 
