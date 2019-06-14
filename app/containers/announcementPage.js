@@ -4,6 +4,7 @@ import { Container, Text } from "native-base";
 import AppHeader from "../components/header.js";
 import NavigationManager from "../managers/navigationManager";
 import ViewPager from "@react-native-community/viewpager";
+import symbolicateStackTrace from "react-native/Libraries/Core/Devtools/symbolicateStackTrace";
 /*
     other import statements or 
     JS variables like const here - can be dummy datas to use for development
@@ -59,57 +60,62 @@ export default class AnnouncementPage extends Component {
       <ViewPager
         style={styles.viewPager}
         initialPage={0}>
-        <View style={styles.pageStyle} key="1">
-          <Image
-            source={require('../assets/images/dancestudio.png')}
-            style={{
-              width: 300,
-              height: 120,
-              alignSelf: "center",
-              marginTop:  40,
-              marginBottom: 20         
-            }}
-            resizeMode="contain"
-          />
-          <Text>INSERT EVENT DETAILS HERE</Text>
-          <Button
-            // onPress={}
-            title="See Details"
-          />
-        </View>
-
-        {/* <View style={{
-          flex:1,
-          flexDirection:"column",
-          justifyContent: "flex-start",
-          // alignItems: "baseline",
-          // padding: 20
-          }} key="1">
-          <View style={{height: 0, width: 100, alignSelf:'center'}}>
+        <View style={styles.pageStyle} key='1'>
+          <View style={styles.posterContainer}>
             <Image
               source={require('../assets/images/dancestudio.png')}
-              style={{
-                width: 300,
-                alignSelf: 'center'
-              }}
-              resizeMode="contain"
+              style={styles.poster}
+              resizeMode='contain'
             />
-          </View> */}
-
-          {/* <View>
-            <Text>INSERT EVENT DETAILS HERE</Text>
-            <Button 
+          </View>
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.description}>INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! </Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              color='darkgreen'
               // onPress={}
               title="See Details"
             />
-          </View> */}
-        {/* </View> */}
-
-        <View style={styles.pageStyle} key="2">
-          <Text>Second page</Text>
+          </View>
         </View>
-        <View style={styles.pageStyle} key="3">
-          <Text>Third page</Text>
+        <View style={styles.pageStyle} key='2'>
+          <View style={styles.posterContainer}>
+            <Image
+              source={require('../assets/images/dancestudio.png')}
+              style={styles.poster}
+              resizeMode='contain'
+            />
+          </View>
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.description}>INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! </Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              color='darkgreen'
+              // onPress={}
+              title="See Details"
+            />
+          </View>
+        </View>
+        <View style={styles.pageStyle} key='3'>
+          <View style={styles.posterContainer}>
+            <Image
+              source={require('../assets/images/dancestudio.png')}
+              style={styles.poster}
+              resizeMode='contain'
+            />
+          </View>
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.description}>INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! </Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              color='darkgreen'
+              // onPress={}
+              title="See Details"
+            />
+          </View>
         </View>
       </ViewPager>
     );
@@ -166,19 +172,30 @@ const styles = StyleSheet.create({
     flex: 1
   },
   pageStyle: {
+    flexDirection:'column', 
     alignItems: 'center',
-    padding: 20,
   },
   posterContainer: {
-    flex: 1,
-    flexDirection: 'column',
+    flex:5,
+    justifyContent: 'center'
   },
   poster: {
-    flex: 2,
-    width: 300,
-    alignItems: 'center',
+    flex: 1,
     marginTop: 20,
   },
+  descriptionContainer: {
+    flex:4, 
+    maxWidth: 300,
+    justifyContent: 'center' 
+  },
+  description: {
+    marginBottom: 20, 
+    marginTop: 20,
+  },
+  buttonContainer: {
+    flex:1, 
+    maxWidth: 150,
+  }
 });
 
 module.export = AnnouncementPage; //module export statement
