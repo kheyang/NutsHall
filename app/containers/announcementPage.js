@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {View, Image, TouchableOpacity, Button, StyleSheet } from "react-native";
+import {View, Image, Button, StyleSheet, ScrollView} from "react-native";
 import { Container, Text } from "native-base";
 import AppHeader from "../components/header.js";
 import NavigationManager from "../managers/navigationManager";
@@ -9,7 +9,32 @@ import symbolicateStackTrace from "react-native/Libraries/Core/Devtools/symbolic
     other import statements or 
     JS variables like const here - can be dummy datas to use for development
 */
+const eventAnnouncement = [
+  {
+    name: 'Event 1',
+    poster: require('../assets/images/dancestudio.png'),
+    description: 'Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
+    details: 'kagdsfiagsdkfasdbfjaglfa'
+  },
+  {
+    name: 'Event 2',
+    poster: require('../assets/images/dancestudio.png'),
+    description: 'Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
+  },
+  {
+    name: 'Event 3',
+    poster: require('../assets/images/dancestudio.png'),
+    description: 'Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
+  },
+  {
+    name: 'Event 4',
+    poster: require('../assets/images/dancestudio.png'),
+    description: 'Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
+  },
+]
+
 export default class AnnouncementPage extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -42,8 +67,6 @@ export default class AnnouncementPage extends Component {
     };
   };
 
-
-
   /*
     React LifeCycle Methods: 
     e.g. componentWillMount(),
@@ -54,13 +77,39 @@ export default class AnnouncementPage extends Component {
     -> call API to pass and receive data from backend
     -> any other functions etc.
   */
-
+  renderAnnouncement = (event, i) => {
+    return(
+      <View style={styles.pageStyle} key={i}>
+        <View style={styles.posterContainer}>
+          <Image
+            source={event.poster}
+            style={styles.poster}
+            resizeMode='contain'
+          />
+        </View>
+        <View style={styles.eventTitleContainer}>
+          <Text style={styles.eventTitle}>
+            {event.name}
+          </Text>
+        </View>
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.description}>{event.description}</Text>
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            color='green'
+            onPress={() => NavigationManager.navigate('Announcement Details', { title: event.name })}
+            title="See Details"
+          />
+        </View>
+      </View>
+    )
+  }
   render() {
     return (
-      <ViewPager
-        style={styles.viewPager}
-        initialPage={0}>
-        <View style={styles.pageStyle} key='1'>
+      <ViewPager style={styles.viewPager} initialPage={0}>
+        {eventAnnouncement.map(this.renderAnnouncement)}
+        {/* <View style={styles.pageStyle} key='1'>
           <View style={styles.posterContainer}>
             <Image
               source={require('../assets/images/dancestudio.png')}
@@ -112,11 +161,11 @@ export default class AnnouncementPage extends Component {
           <View style={styles.buttonContainer}>
             <Button
               color='darkgreen'
-              // onPress={}
+              onPress={() => NavigationManager.navigate("AnnouncementDetails")}
               title="See Details"
             />
           </View>
-        </View>
+        </View> */}
       </ViewPager>
     );
     /*
@@ -149,11 +198,6 @@ export default class AnnouncementPage extends Component {
   static navigationOptions = {
     drawerLabel: 'Announcement Page',
   }
-  
-
-
-
-
 }
 
 /*
@@ -183,6 +227,14 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 20,
   },
+  eventTitleContainer: {
+    flex: 0.5,
+    marginTop: 20,
+  },
+  eventTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
   descriptionContainer: {
     flex:4, 
     maxWidth: 300,
@@ -190,12 +242,14 @@ const styles = StyleSheet.create({
   },
   description: {
     marginBottom: 20, 
-    marginTop: 20,
+    marginTop: 10,
+    textAlign: 'center',
   },
   buttonContainer: {
-    flex:1, 
+    flex:2, 
     maxWidth: 150,
   }
 });
 
+export {eventAnnouncement};
 module.export = AnnouncementPage; //module export statement
