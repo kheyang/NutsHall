@@ -14,22 +14,25 @@ const eventAnnouncement = [
     name: 'Event 1',
     poster: require('../assets/images/dancestudio.png'),
     description: 'Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
-    details: 'kagdsfiagsdkfasdbfjaglfa'
+    details: 'Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
   },
   {
     name: 'Event 2',
     poster: require('../assets/images/dancestudio.png'),
     description: 'Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
+    details: 'Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
   },
   {
     name: 'Event 3',
     poster: require('../assets/images/dancestudio.png'),
     description: 'Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
+    details: 'Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
   },
   {
     name: 'Event 4',
     poster: require('../assets/images/dancestudio.png'),
     description: 'Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
+    details: 'Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
   },
 ]
 
@@ -109,63 +112,6 @@ export default class AnnouncementPage extends Component {
     return (
       <ViewPager style={styles.viewPager} initialPage={0}>
         {eventAnnouncement.map(this.renderAnnouncement)}
-        {/* <View style={styles.pageStyle} key='1'>
-          <View style={styles.posterContainer}>
-            <Image
-              source={require('../assets/images/dancestudio.png')}
-              style={styles.poster}
-              resizeMode='contain'
-            />
-          </View>
-          <View style={styles.descriptionContainer}>
-            <Text style={styles.description}>INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! </Text>
-          </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              color='darkgreen'
-              // onPress={}
-              title="See Details"
-            />
-          </View>
-        </View>
-        <View style={styles.pageStyle} key='2'>
-          <View style={styles.posterContainer}>
-            <Image
-              source={require('../assets/images/dancestudio.png')}
-              style={styles.poster}
-              resizeMode='contain'
-            />
-          </View>
-          <View style={styles.descriptionContainer}>
-            <Text style={styles.description}>INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! </Text>
-          </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              color='darkgreen'
-              // onPress={}
-              title="See Details"
-            />
-          </View>
-        </View>
-        <View style={styles.pageStyle} key='3'>
-          <View style={styles.posterContainer}>
-            <Image
-              source={require('../assets/images/dancestudio.png')}
-              style={styles.poster}
-              resizeMode='contain'
-            />
-          </View>
-          <View style={styles.descriptionContainer}>
-            <Text style={styles.description}>INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! INSERT EVENT DETAILS HERE! </Text>
-          </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              color='darkgreen'
-              onPress={() => NavigationManager.navigate("AnnouncementDetails")}
-              title="See Details"
-            />
-          </View>
-        </View> */}
       </ViewPager>
     );
     /*
@@ -173,24 +119,6 @@ export default class AnnouncementPage extends Component {
     -> to pass state data here
     -> to access data of array etc
     */
-
-    // Notice JSX - a html-JS like syntax is within ()
-    // return (
-      
-    //   <Container>
-    //      <View>
-    //       {/* <AppHeader /> */}
-    //       <Text
-    //       style={ styles.text }
-    //       > Hello World!!! Announcement Page!!! </Text>
-    //       <Button
-    //         title="Go to facilities page!!"
-    //         onPress={() => NavigationManager.navigate("Facilities")}
-    //       />
-        
-    //     </View>
-    //   </Container>
-    // );
   }
 
 
