@@ -42,30 +42,30 @@ export default class AnnouncementPage extends Component {
     };
   }
 
-  static navigationOptions = ({ navigation }) => {
-    //return header with Custom View which will replace the original header 
-    return {
-      header: (
-        <View
-          style={{
-            height: 45,
-            marginTop: 20,
-            backgroundColor: 'red',
-            justifyContent: 'center',
-          }}>
-          <Text
-            style={{
-              color: 'white',
-              textAlign: 'center',
-              fontWeight: 'bold',
-              fontSize: 18,
-            }}>
-            This is Custom Header
-          </Text>
-        </View>
-      ),
-    };
-  };
+  // static navigationOptions = ({ navigation }) => {
+  //   //return header with Custom View which will replace the original header 
+  //   return {
+  //     header: (
+  //       <View
+  //         style={{
+  //           height: 45,
+  //           marginTop: 20,
+  //           backgroundColor: 'red',
+  //           justifyContent: 'center',
+  //         }}>
+  //         <Text
+  //           style={{
+  //             color: 'white',
+  //             textAlign: 'center',
+  //             fontWeight: 'bold',
+  //             fontSize: 18,
+  //           }}>
+  //           This is Custom Header
+  //         </Text>
+  //       </View>
+  //     ),
+  //   };
+  // };
 
   /*
     React LifeCycle Methods: 
@@ -98,7 +98,7 @@ export default class AnnouncementPage extends Component {
         <View style={styles.buttonContainer}>
           <Button
             color='green'
-            onPress={() => NavigationManager.navigate('Announcement Details', { title: event.name })}
+            onPress={() => NavigationManager.navigate('Announcement Details', { title: event.name, eventPoster: event.poster, eventDetails: event.details })}
             title="See Details"
           />
         </View>

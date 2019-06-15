@@ -99,16 +99,16 @@ export const AnnouncementStack = createStackNavigator({
   'Announcement Details': { 
     screen: AnnouncementDetails, 
     navigationOptions: ({ navigation }) => ({
-        title: 'Announcement Details',
+        // title: 'Announcement Details',
         headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
         headerTitleStyle: {
           fontFamily: "Raleway-Medium",
           fontWeight: 'normal'
         },
         headerStyle: {
-          backgroundColor: '#989898',
+          backgroundColor: '#fff',
         },
-        headerTintColor: '#fff',
+        headerTintColor: '#000000',
       }),
     },
 }, {
@@ -130,7 +130,6 @@ export const FacilitiesStack = createStackNavigator({
 }, {
   initialRouteName: 'Facilities',
 })
-
 
 //Slide in DrawerNavigation
 const MyDrawerNavigator = createDrawerNavigator(
