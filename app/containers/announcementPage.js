@@ -11,28 +11,73 @@ import symbolicateStackTrace from "react-native/Libraries/Core/Devtools/symbolic
 */
 const eventAnnouncement = [
   {
-    name: 'Event 1',
-    poster: require('../assets/images/dancestudio.png'),
-    description: 'Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
-    details: 'Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
+    name: 'Phoenix Fest\' 19',
+    poster: require('../assets/images/events/phoenixFest.jpeg'),
+    description: 'Date: 11 April 2019' + '\n' +
+    'Registration: 7:30pm' + '\n' +
+    'Event starts: 8:00pm' + '\n' +
+    'Venue: Communal Hall',
+    details: '\n'   + 'RH CULTURE COMM would like to present to you the biggest cultural event in RH:' + '\n' +
+    'PHOENIX FEST 2019' + '\n' + '\n' +
+    'Clear out your schedule for the following timing' + '\n' +
+    'Date: Thursday, 11 April 2019' + '\n' +
+    'Venue: Comm Hall' + '\n' +
+    'Time: Registration for lucky draw starts at 730! Performance starts at 8pm :)' + '\n' + '\n' +
+    'Let\'s hype RH up at the end of the academic year with a blast!' + '\n' + '\n' +
+    'We have everything you need:' + '\n' +
+    '- Come support your friends in PERFORMANCES 🎸💃 and have fun together by playing GAMES 🎯' + '\n' +
+    '- Capture memorable moments with your friends at our PHOTO BOOTH 📷' + '\n' +
+    '- We have FOOD 🍔' + '\n' + '\n' +
+    'PS: ATTRACTIVE PRIZES 🌚 awaits you from the LUCKY DRAW' + '\n' + '\n' +
+    'See you there! 👋',
   },
   {
-    name: 'Event 2',
-    poster: require('../assets/images/dancestudio.png'),
-    description: 'Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
-    details: 'Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
+    name: 'Kent Ridge Tour',
+    poster: require('../assets/images/events/kentRidgeTour.jpeg'),
+    description: 'Date: 13 April 2019' + '\n' +
+    'Time: 9:00am - 12:00pm' + '\n' +
+    'Attire: Casual & Ezlink Card' + '\n' +
+    'Meeting Venue: Blk 2 BBQ pit',
+    details: '\n' + 'Hi! 👋 Raffles Hall Green Comm is presenting to you the Kent Ridge Tour!!😆😆' + '\n' + '\n' +
+    'Date: 13th April 2019' + '\n' +
+    'Time: 9am-12pm' + '\n' +   
+    'Attire: Casual & Bring along an ezlink card!' + '\n' + '\n' +
+    'We will bring you tour along Kent Ridge Road 🌳 and KR Park🏞.  We are pleased to have you join us on this appreciation of mother-nature tour! Your Green Guide for this trip would be none other than Prof Yap from Blk 4!' + '\n' + '\n' +
+    'THERE IS A FREE PIZZA SESSION AFTER THE TOUR!' + '\n' + '\n' +    
+    'Hurry sign up now!!! First come first serve!! I\'m sure his fatherly smile and passion for the environment would give you a memorable experience of a RHtime!',
   },
   {
-    name: 'Event 3',
-    poster: require('../assets/images/dancestudio.png'),
-    description: 'Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
-    details: 'Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
+    name: 'Raffles Hall Flag Fundraising',
+    poster: require('../assets/images/events/flagFundRaising.jpeg'),
+    description: 'White, Grey, Navy $12'  + '\n' +
+    'Water Colour $15' + '\n' +
+    'Buy any 4 shirts for $8 off' + '\n' +
+    'Deadline: 6 April 2019' + '\n' +
+    'Contact: Chun Long @ 9816 5222',
+    details: '\n' + 'Hello everyone!🎊' + '\n' + '\n' + 
+    'Raffles Hall Flag will be raising fund for Hospice Care Singapore through shirts selling this year. Show your support by buying the T-shirts as shown in the posters.😊' + '\n' + '\n' + 
+    'Classic design (Design 1-3): $12/pc' + '\n' +
+    'Limited design with watercolor prints (Design 4): $15/pc' + '\n' +
+    'Buy 4 shirts (Any 4 designs to mix and match) : $8 off total price' + '\n' + '\n' + 
+    'Do spread to your friends outside Raffles hall to buy the T-shirts! ❤' + '\n' + '\n' + 
+    'Flag comm will also be stationed at comm hall during dinner time on Thursday and Friday, can made your payment and order at the same time!' + '\n' + '\n' +    
+    'Pre-order at https://bit.ly/2HSjtkL' + '\n' + '\n' +    
+    'Pre-order closes at 6th April 2359.' + '\n' + 
+    'Feel free to contact Chun Long at 98165222 for any enquiries.',
   },
   {
-    name: 'Event 4',
-    poster: require('../assets/images/dancestudio.png'),
-    description: 'Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
-    details: 'Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.Event Details: Lorem ipsum incididunt ut labore et dolore magna aliqua. Sed euismod nisi porta lorem. In iaculis nunc sed augue lacus viverra vitae congue eu. Ullamcorper eget nulla facilisi etiam.',
+    name: 'Safety Night 2019',
+    poster: require('../assets/images/events/safetyNight.jpeg'),
+    description: 'Date: 28 March 2019' + '\n' +
+    'Time: 8:00pm - 10:00pm'+ '\n' +
+    'Venue: Conference Room',
+    details: '\n' + 'Don\'t know what to do when there are casualties🧟‍♂? Wanna help your friend when he/she gets injured👩🏻‍⚕? Fret not! cuz Safety Night is here! This year, Dr Patrick Tan from UHC will be coming down to share about Basic First Aid tips!' + '\n' + '\n' +
+    'Date: 28th March (Thursday)' + '\n' +
+    'Time: 8pm' + '\n' +
+    'Venue: Conference Room (Upper Lounge)' + '\n' + '\n' +
+    'Free door gift (I think is a 16GB thumbdrive) and free food🍕🍕🍕🥤 are waiting for you!' + '\n' +
+    'Sign up now at https://tinyurl.com/safetynight19!'+ '\n' + 
+    'See you this Thursday, be there or be square!'   
   },
 ]
 
@@ -164,7 +209,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   descriptionContainer: {
-    flex:4, 
+    flex:3, 
     maxWidth: 300,
     justifyContent: 'center' 
   },
@@ -174,8 +219,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   buttonContainer: {
-    flex:2, 
+    flex:1, 
     maxWidth: 150,
+    marginBottom: 40,
   }
 });
 
