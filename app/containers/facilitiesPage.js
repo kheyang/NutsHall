@@ -13,7 +13,8 @@ import NavigationManager from "../managers/navigationManager";
 const facilities = [
   { 
     name: 'Hard Court',
-    image: require("../assets/images/hardcourt.jpg")
+    image: require("../assets/images/hardcourt.jpg"),
+    detail: 'ahhh',
   },
   { 
     name: 'Tv Room',
@@ -101,7 +102,7 @@ export default class FacilitiesPage extends Component {
     <TouchableOpacity
       key={i}
       style={styles.facility}
-      onPress={() => NavigationManager.navigate('Facility', { title: facility.name })}
+      onPress={() => NavigationManager.navigate('Facility', { title: facility.name, image: facility.image, detail: facility.detail } )}
       title={facility.name}
     >
     <View>
