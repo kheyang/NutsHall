@@ -20,6 +20,7 @@
     "react-native-calendars": "^1.187.0",
     "react-native-gesture-handler": "^1.2.2",
     "react-native-numeric-input": "^1.6.5",
+    "react-native-svg": "^9.5.1",
     "react-native-vector-icons": "^6.4.2",
     "react-navigation": "^3.11.0"
   },
