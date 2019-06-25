@@ -8,7 +8,7 @@ import Facilities from "./containers/facilitiesPage";
 import Facility from './containers/facility';
 // import FacilityBooking from './containers/facilitiesBooking';
 import NavigationManager from "./managers/navigationManager";
-
+import Calendar from "./containers/calendar";
 
 
 //Drawer navigator's toggle button
@@ -100,16 +100,16 @@ export const AnnouncementStack = createStackNavigator({
   'Announcement Details': { 
     screen: AnnouncementDetails, 
     navigationOptions: ({ navigation }) => ({
-        title: 'Announcement Details',
+        // title: 'Announcement Details',
         headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
         headerTitleStyle: {
           fontFamily: "Raleway-Medium",
           fontWeight: 'normal'
         },
         headerStyle: {
-          backgroundColor: '#989898',
+          backgroundColor: '#fff',
         },
-        headerTintColor: '#fff',
+        headerTintColor: '#000000',
       }),
     },
 }, {
@@ -136,7 +136,25 @@ export const FacilitiesStack = createStackNavigator({
   initialRouteName: 'Facilities',
 })
 
-
+export const CalendarStack = createStackNavigator({
+  Calendar: { 
+    screen: Calendar,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Calendar',
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerTitleStyle: {
+        fontFamily: "Raleway-Medium",
+        fontWeight: 'normal'
+      },
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      headerTintColor: '#000000',
+    }),
+  }, 
+}, {
+  initialRouteName: 'Calendar',
+})
 //Slide in DrawerNavigation
 const MyDrawerNavigator = createDrawerNavigator(
   {
@@ -152,7 +170,15 @@ const MyDrawerNavigator = createDrawerNavigator(
         drawerLabel: "Facilities"
       }
     },
-  }, 
+    CalendarStack: {
+      screen: CalendarStack,
+      navigationOptions: {
+        drawerLabel: "Calendar"
+      }
+    },
+  },
+
+
   { 
     contentComponent: drawerContentComponent,
     contentOptions:  drawerContentOptions,
@@ -164,7 +190,7 @@ const MyDrawerNavigator = createDrawerNavigator(
       // },
       // headerTintColor: '#fff',
     }),
-  }
+  },
 );
 
 const AppContainer = createAppContainer(MyDrawerNavigator);
