@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Image, ScrollView, CardItem, Card, TouchableOpacity, Button, StyleSheet } from "react-native";
-import { Container, Text, Thumbnail } from "native-base";
+import { Container, Thumbnail, Text } from "native-base";
 import AppHeader from "../components/header.js";
 import NavigationManager from "../managers/navigationManager";
 
@@ -134,6 +134,7 @@ export default class FacilitiesPage extends Component {
             
       <Text style={styles.facilityText}>{facility.name}</Text>
       </View>
+    
     </TouchableOpacity>)
  }
 
@@ -171,6 +172,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 40,
     fontWeight: 'bold',
+    
   },
   facility: {
     padding: 1,
@@ -180,6 +182,7 @@ const styles = StyleSheet.create({
     fontFamily: "Raleway-Medium",
     color: 'black',
     fontSize: 20,
+
   }
 })
 

@@ -12,6 +12,7 @@ import symbolicateStackTrace from "react-native/Libraries/Core/Devtools/symbolic
 const eventAnnouncement = [
   {
     name: 'Phoenix Fest\' 19',
+    date: '2019-04-11',
     poster: require('../assets/images/events/phoenixFest.jpeg'),
     description: 'Date: 11 April 2019' + '\n' +
     'Registration: 7:30pm' + '\n' +
@@ -33,6 +34,7 @@ const eventAnnouncement = [
   },
   {
     name: 'Kent Ridge Tour',
+    date: '2019-04-13',
     poster: require('../assets/images/events/kentRidgeTour.jpeg'),
     description: 'Date: 13 April 2019' + '\n' +
     'Time: 9:00am - 12:00pm' + '\n' +
@@ -48,6 +50,7 @@ const eventAnnouncement = [
   },
   {
     name: 'Raffles Hall Flag Fundraising',
+    date: '2019-04-06',
     poster: require('../assets/images/events/flagFundRaising.jpeg'),
     description: 'White, Grey, Navy $12'  + '\n' +
     'Water Colour $15' + '\n' +
@@ -67,6 +70,7 @@ const eventAnnouncement = [
   },
   {
     name: 'Safety Night 2019',
+    date: '2019-03-28',
     poster: require('../assets/images/events/safetyNight.jpeg'),
     description: 'Date: 28 March 2019' + '\n' +
     'Time: 8:00pm - 10:00pm'+ '\n' +
