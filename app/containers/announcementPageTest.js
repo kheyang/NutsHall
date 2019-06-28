@@ -93,6 +93,7 @@ export default class AnnouncementPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+        items: []
       //state property here
     };
   }
@@ -132,6 +133,14 @@ export default class AnnouncementPage extends Component {
     -> call API to pass and receive data from backend
     -> any other functions etc.
   */
+  componentDidMount() {
+      itemsRef.on('value', snapshot => {
+          let data = snapshot.val()
+          let items = Object.values(data)
+          this.setState({ items})
+      })
+  }
+
   renderAnnouncement = (event, i) => {
     return(
       <View style={styles.pageStyle} key={i}>
@@ -144,7 +153,7 @@ export default class AnnouncementPage extends Component {
         </View>
         <View style={styles.eventTitleContainer}>
           <Text style={styles.eventTitle}>
-            {event.name}
+            {this.state.items.name}
           </Text>
         </View>
         <View style={styles.descriptionContainer}>

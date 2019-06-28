@@ -9,7 +9,7 @@ import Facility from './containers/facility';
 // import FacilityBooking from './containers/facilitiesBooking';
 import NavigationManager from "./managers/navigationManager";
 import Calendar from "./containers/calendar";
-
+import Icon from "react-native-vector-icons/FontAwesome";
 
 //Drawer navigator's toggle button
 class NavigationDrawerStructure extends Component {
@@ -42,7 +42,6 @@ const stackNavOptions =  ({ navigation }) => ({
   },
   headerTintColor: '#000000',
 })
-
 
 //Drawer Navigator's content component
 const drawerContentComponent = props => (
@@ -78,7 +77,6 @@ const drawerContentOptions = {
     opacity: 1
   }
 }
-
 
 //Announcement StackNavigation
 export const AnnouncementStack = createStackNavigator({
@@ -116,7 +114,6 @@ export const AnnouncementStack = createStackNavigator({
   initialRouteName: 'Announcements',
 })
 
-
 //Facilities StackNavigation
 export const FacilitiesStack = createStackNavigator({
   Facilities: { 
@@ -126,7 +123,6 @@ export const FacilitiesStack = createStackNavigator({
   'Facility': { 
     screen: Facility, 
     navigationOptions: stackNavOptions,
-
     },
     // 'FacilityBooking': { 
     //   screen: FacilityBooking, 
@@ -136,12 +132,20 @@ export const FacilitiesStack = createStackNavigator({
   initialRouteName: 'Facilities',
 })
 
+//Calendar StackNavigation
 export const CalendarStack = createStackNavigator({
   Calendar: { 
     screen: Calendar,
     navigationOptions: ({ navigation }) => ({
       title: 'Calendar',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight:  <Icon.Button
+                      name='plus'
+                      color = 'black'
+                      backgroundColor='transparent'
+                      onPress = {Calendar.addEvent}
+                    >
+                    </Icon.Button>,
       headerTitleStyle: {
         fontFamily: "Raleway-Medium",
         fontWeight: 'normal'
@@ -155,6 +159,7 @@ export const CalendarStack = createStackNavigator({
 }, {
   initialRouteName: 'Calendar',
 })
+
 //Slide in DrawerNavigation
 const MyDrawerNavigator = createDrawerNavigator(
   {
@@ -177,7 +182,6 @@ const MyDrawerNavigator = createDrawerNavigator(
       }
     },
   },
-
 
   { 
     contentComponent: drawerContentComponent,
@@ -211,6 +215,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     backgroundColor: '#fff',
-    
   },
 });
