@@ -1,4 +1,4 @@
- import React, { Component } from 'react'
+import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView, Image, Button } from 'react-native'
 import NavigationManager from "../managers/navigationManager";
 
