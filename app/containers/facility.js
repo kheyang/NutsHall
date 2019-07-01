@@ -1,227 +1,207 @@
+// import React, { Component } from 'react';
+// import { Alert, View, Button, StyleSheet, TouchableOpacity, PanResponder, AsyncStorage, Image, Dimensions, TextInput, ScrollView,Platform } from 'react-native';
+// import moment from 'moment';
+// import DatePicker from 'react-native-datepicker';
+// import Picker from 'react-native-picker-select';
+// import NavigationManager from "../managers/navigationManager";
+ 
+// import WeekView, { addLocale } from 'react-native-week-view';
+
+
+// export default class Facility extends Component {
+//   constructor(props) {
+//     super(props);
+//     selectedDate = new Date();
+
+
+
+//     this.state = {
+  
+
+//     };
+//   }
+
+//   generateDates = (hours, minutes) => {
+//     const date = new Date();
+//     date.setHours(date.getHours() + hours);
+//     if (minutes != null) {
+//       date.setMinutes(0);
+//     }
+//     return date;
+//   };
+
+//   render() {
+//     const events = [
+//       {
+//         id: 1,
+//         description: 'Event 1',
+//         startDate: this.generateDates(0),
+//         endDate: this.generateDates(2),
+//         color: 'blue',
+//       },
+//       {
+//         id: 2,
+//         description: 'Event 2',
+//         startDate: this.generateDates(1),
+//         endDate: this.generateDates(4),
+//         color: 'red',
+//       },
+//       {
+//         id: 3,
+//         description: 'Event 3',
+//         startDate: this.generateDates(-5),
+//         endDate: this.generateDates(-3),
+//         color: 'green',
+//       },
+//     ];
+
+//     return (
+//       <View style={styles.container}>
+//         <WeekView
+//           events={events}
+//           selectedDate={this.selectedDate}
+//           numberOfDays={5}
+//           onEventPress={(event) => Alert.alert('eventId:' + event.id)}
+//           headerStyle={styles.headerStyle}
+//           formatDateHeader="MMM D"
+//           locale="fr"
+//         />
+//       </View>
+//     );
+//   }
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#FFF',
+//     paddingTop: 22,
+//   },
+//   headerStyle: {
+//     backgroundColor: '#000000',
+//   },
+// });
+
+// //     const { params } = this.props.navigation.state;
+
+// //     const today = this.state.currentDate;
+
+// //     return (
+// //       <View style={styles.container}>
+
+
+// //         <Button
+// //           title="TO BOOKING PAGE"
+// //           color='#000000'
+// //           onPress={() => NavigationManager.navigate('FacilityBooking', { title: params.title, image: params.image, detail: params.detail} )}
+
+// //           // onPress={() => {
+// //             // const { numbers } = this.state;
+// //             // const value = numbers.length + 1;
+// //             // numbers.push({
+// //             //   label: `${value}`,
+// //             //   value,
+// //             //   color: 'dodgerblue',
+// //             // });
+// //             // this.setState({
+// //             //   numbers,
+// //             // });
+// //           // }}
+// //         />
+// //         </View>
+// //     );
+// //   }
+// // }
+
+
+
+// module.export = Facility; //module export statement
+
+
+
+//New
 import React, { Component } from 'react';
-import { Text, Alert, View, Button, StyleSheet, TouchableOpacity, PanResponder, AsyncStorage, Image, Dimensions, TextInput, ScrollView,Platform } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Alert,
+} from 'react-native';
+import WeekView, { addLocale } from './weekView';
 import moment from 'moment';
-import DatePicker from 'react-native-datepicker';
-import Picker from 'react-native-picker-select';
 
+// addLocale('fr', {
+//   months: 'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split('_'),
+//   monthsShort: 'janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.'.split('_'),
+//   weekdays: 'dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi'.split('_'),
+//   weekdaysShort: 'dim._lun._mar._mer._jeu._ven._sam.'.split('_'),
+// });
 
-const data = [
-  {
-    label: '00:00',
-    value: '00:00',
-  },
-  {
-    label: '01:00',
-    value: '01:00',
-  },
-  {
-    label: '02:00',
-    value: '02:00',
-  },
-  {
-    label: '08:00',
-    value: '08:00',
-  },
-];
 
 export default class Facility extends Component {
-  constructor(props) {
-    super(props);
+  selectedDate = new Date();
 
-    this.inputRefs = {
-      firstTextInput: null,
-      startTime: null,
-      endTime: null,
-    };
+  generateDates = (hours, minutes) => {
+    const date = new Date();
+    date.setHours(date.getHours() + hours);
+    if (minutes != null) {
+      date.setMinutes(0);
+    }
+    console.log(date);
+    return date;
+  };
 
-    this.state = {
-      date: '',
-      // startTime: '00:00',
-      // endTime: '00:00',
+  static navigationOptions = {
+    title: 'Facility'
+   }
 
-      // numbers: [
-      //   {
-      //     label: '1',
-      //     value: 1,
-      //     color: 'orange',
-      //   },
-      //   {
-      //     label: '2',
-      //     value: 2,
-      //     color: 'green',
-      //   },
-      // ],
-      startTime: undefined,
-      endTime: undefined,
-    };
-  }
+   static navigationOptions = ({ navigation }) => ({
+    title: navigation.state.params.title,
+    image: navigation.state.params.image, 
+    detail: navigation.state.params.detail,
 
-  componentWillMount() {
-    this._panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (e) => {console.log('onStartShouldSetPanResponder'); return true;},
-      onMoveShouldSetPanResponder: (e) => {console.log('onMoveShouldSetPanResponder'); return true;},
-      onPanResponderGrant: (e) => console.log('onPanResponderGrant'),
-      onPanResponderMove: (e) => console.log('onPanResponderMove'),
-      onPanResponderRelease: (e) => console.log('onPanResponderRelease'),
-      onPanResponderTerminate: (e) => console.log('onPanResponderTerminate')
-    });
-  }
-
-  
-  static navigationOptions = ({ navigation }) => ({
-        title: navigation.state.params.title,
-        image: navigation.state.params.image, 
-        detail: navigation.state.params.detail,
-      })
+  })
 
 
+   
   render() {
-    const startTimePlaceholder = {
-      label: 'Start Time',
-      value: null,
-      color: '#9EA0A4',
-    };
+    const events = [
+      {
+        id: 1,
+        description: 'Chong KY',
+        // startDate: new Date('28-06-2019').setHours('12', '00'),
+        startDate: this.generateDates(0),
+        endDate: this.generateDates(2),
+        color: 'blue',
+      },
+      {
+        id: 2,
+        description: 'Event 2',
+        startDate: this.generateDates(2),
+        endDate: this.generateDates(4),
+        color: 'red',
+      },
+      {
+        id: 3,
+        description: 'Event 3',
+        startDate: this.generateDates(-5),
+        endDate: this.generateDates(-3),
+        color: 'green',
+      },
+    ];
 
-    const endTimePlaceholder = {
-      label: 'End Time',
-      value: null,
-      color: '#9EA0A4',
-    };
 
-    const { params } = this.props.navigation.state;
-
+    
     return (
       <View style={styles.container}>
-
-        <Image
-          resizeMode="cover"
-          source={params.image}
-          style={styles.image} 
+        <WeekView
+          events={events}
+          selectedDate={this.selectedDate}
+          numberOfDays={7}
+          onEventPress={(event) => Alert.alert(event.id + '\n' + event.description + '\n' + event.startDate)}
+          headerStyle={styles.headerStyle}
+          formatDateHeader={"ddd[\n] D"}
+          locale="en"
         />
-
-        <View style={styles.textContainer}> 
-          <Text style={styles.headerText}>
-            Booking 
-            {/* {params.title} */}
-          </Text>
-        </View>
-
-        <View style={styles.smallContainer}>
-
-        <Text style={styles.text}>Facility: {params.title}</Text>
-
-        <View paddingVertical={5} />   
-
-        <View style={styles.rowContainer}>
-        <Text style={styles.text}>Date selected: </Text>
-        <DatePicker
-            style={{width: 130}}
-            date={this.state.date}
-            mode="date"
-            placeholder="Booking Date"
-            format="DD-MM-YYYY"
-            minDate={moment().startOf('day').fromNow()}
-            maxDate={moment().add(3, 'months').startOf('day').fromNow()}
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            showIcon={false}
-            // iconSource={require('../assets/images/calendar.png')}
-            // iconSource={{}}
-            onDateChange={(date) => {this.setState({date: date});}}
-          />
-          {/* <Text style={styles.instructions}>date: {this.state.date}</Text> */}
-      
-      </View>
-        <View paddingVertical={5} />   
-
-
-        <Text style={styles.text}>Start Time</Text>
-        <Picker
-          placeholder={startTimePlaceholder}
-          items={data}
-          onValueChange={value => {
-            this.setState({
-              startTime: value,
-            });
-          }}
-          // onUpArrow={() => {
-          //   this.inputRefs.firstTextInput.focus();
-          // }}
-          onDownArrow={() => {
-            this.inputRefs.endTime.togglePicker();
-          }}
-          style={pickerSelectStyles}
-          value={this.state.startTime}
-          ref={el => {
-            this.inputRefs.startTime = el;
-          }}
-        />
-
-        <View paddingVertical={5} />
-
-        <Text style={styles.text}>End Time</Text>
-        <Picker
-          placeholder={endTimePlaceholder}
-          items={data}
-          onValueChange={value => {
-            this.setState({
-              endTime: value,
-            });
-          }}
-          onUpArrow={() => {
-            this.inputRefs.startTime.togglePicker();
-          }}
-          onDownArrow={() => {
-            this.inputRefs.firstTextInput.focus();
-          }}
-          style={pickerSelectStyles}
-          value={this.state.endTime}
-          ref={el => {
-            this.inputRefs.endTime= el;
-          }}
-        />
-
-        <View paddingVertical={5} />   
-
-
-        <Text style={styles.text}>CCA and/or purpose of booking</Text>
-        <TextInput
-          ref={el => {
-            this.inputRefs.firstTextInput = el;
-          }}
-          returnKeyType="next"
-          enablesReturnKeyAutomatically
-          onSubmitEditing={() => {
-            this.inputRefs.startTime.togglePicker();
-          }}
-          style={
-            Platform.OS === 'ios'
-              ? pickerSelectStyles.inputIOS
-              : pickerSelectStyles.inputAndroid
-          }
-          blurOnSubmit={false}
-        />
-
-        <View paddingVertical={5} />
-
-
-        <Button
-          title="Book Now"
-          color='#000000'
-          onPress={() => {
-            // const { numbers } = this.state;
-            // const value = numbers.length + 1;
-            // numbers.push({
-            //   label: `${value}`,
-            //   value,
-            //   color: 'dodgerblue',
-            // });
-            // this.setState({
-            //   numbers,
-            // });
-          }}
-        />
-  </View>
       </View>
     );
   }
@@ -229,82 +209,14 @@ export default class Facility extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
+    flex: 1,
+    backgroundColor: '#FFF',
+    paddingTop: 22,
   },
-  headerText: {
-    fontFamily: "Raleway-Regular",
-    color: 'black',
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  text: {
-    fontFamily: "Raleway-Regular",
-    color: 'black',
-    fontSize: 16,
-    fontWeight: 'normal',
-    textAlign: 'center',
-  },
-  image: {
-    width: "100%",
-    height: 100,
-    opacity: 0.4,
-    borderWidth: 0,
-    borderColor: '#000000',
-    bottom: 10,
-    // padding: 0,
-    // backgroundColor: 'transparent',
-  },
-  textContainer: {
-    position: 'absolute', 
-    height: 100,
-    top: 0, 
-    left: 0, 
-    right: 0, 
-    bottom: 0, 
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  smallContainer: {
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-    // paddingVertical: 40,
-    // paddingHorizontal: 10,
-    // flex: 1,
-  },
-  rowContainer: {
-    flexDirection: 'row'
-  },
-
-});
-
-
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    height:40,
-    margin:15,
-    fontSize: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: 'gray',
-    // borderRadius: 4,
-    color: 'black',
-    // paddingRight: 30, // to ensure the text is never behind the icon
-  },
-  inputAndroid: {
-    height:40,
-    margin:15,
-    fontSize: 16,
-    paddingHorizontal: 50,
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: 'gray',
-    // borderRadius: 8,
-    color: 'black',
-    // paddingRight: 30, // to ensure the text is never behind the icon
+  headerStyle: {
+    backgroundColor: '#000000',
   },
 });
+
+module.export = Facility; //module export statement
+

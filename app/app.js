@@ -6,7 +6,8 @@ import Announcements from "./containers/announcementPage";
 import AnnouncementDetails from './containers/announcementDetails';
 import Facilities from "./containers/facilitiesPage";
 import Facility from './containers/facility';
-// import FacilityBooking from './containers/facilitiesBooking';
+import Events from './containers/events';
+import FacilityBooking from './containers/facilityBooking';
 import NavigationManager from "./managers/navigationManager";
 import Calendar from "./containers/calendar";
 
@@ -123,15 +124,20 @@ export const FacilitiesStack = createStackNavigator({
     screen: Facilities,
     navigationOptions: stackNavOptions,
   }, 
+  'Events': { 
+    screen: Events, 
+    navigationOptions: stackNavOptions,
+
+    },
   'Facility': { 
     screen: Facility, 
     navigationOptions: stackNavOptions,
 
     },
-    // 'FacilityBooking': { 
-    //   screen: FacilityBooking, 
-    //   navigationOptions: stackNavOptions,
-    //   },
+    'FacilityBooking': { 
+      screen: FacilityBooking, 
+      navigationOptions: stackNavOptions,
+      },
 }, {
   initialRouteName: 'Facilities',
 })
