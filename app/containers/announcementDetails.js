@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+ import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView, Image, Button } from 'react-native'
 import NavigationManager from "../managers/navigationManager";
 
@@ -6,24 +6,23 @@ export default class AnnouncementDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //state property here
-      // title: this.props.navigation.state.params.title,
+
     };
   }
 
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.title,
-    eventPoster: navigation.state.params.poster,
+    eventPoster: navigation.state.params.url,
     eventDetails: navigation.state.params.details,
   })
 
   render () {
-      const { params } = this.props.navigation.state
+    const { params } = this.props.navigation.state
     return (
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.posterContainer}>
-            <Image source={params.eventPoster} style={styles.poster} resizeMode='contain'/>
+            <Image source={{uri: params.eventPoster}} style={styles.poster} resizeMode='contain'/>
           </View>
           <View style={styles.detailsContainer}>
             <Text style={styles.details}>
@@ -51,6 +50,7 @@ const styles = StyleSheet.create({
   },
   posterContainer: {
     height: 300,
+    width: 250
   },
   poster: {
     flex:1, 
