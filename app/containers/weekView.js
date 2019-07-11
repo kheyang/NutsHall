@@ -6,16 +6,36 @@ import {
   Dimensions,
   Text,
   StyleSheet,
+  TouchableHighlight
 } from 'react-native';
-import { Button } from "native-base";
+import { Button, } from "native-base";
 import moment from 'moment';
-import Events from './events';
+// import Events from './events';
 import Header from './header';
 import NavigationManager from "../managers/navigationManager";
+import GridView from 'react-native-super-grid';
+import Swiper from 'react-native-swiper';
+
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const TIME_LABELS_COUNT = 16;
 const ROW_HEIGHT = 40;
+
+const cache = {
+    "0": "zero",
+    "1": "one",
+    "2": "two",
+    "3": "three",
+    "4": "four",
+    "5": "five",
+    "6": "six",
+    "7": "seven",
+    "8": "eight",
+    "9": "nine",
+    "10": "ten"
+  }
+
+
 
 
 export default class WeekView extends Component {
@@ -23,29 +43,147 @@ export default class WeekView extends Component {
     super(props);
     this.state = {
       currentMoment: props.selectedDate,
+      pages: ["2", "3", "4"],
+      key: 1,
     };
     this.calendar = null;
     // setLocale(props.locale);
     this.times = this.generateTimes();
   }
 
-  componentDidMount() {
-    requestAnimationFrame(() => {
-      this.calendar.scrollTo({ y: 0, x: 2 * (SCREEN_WIDTH - 60), animated: false });
-    });
+//   componentDidMount() {
+//     requestAnimationFrame(() => {
+//       this.calendar.scrollTo({ y: 0, x: 2 * (SCREEN_WIDTH - 60), animated: false });
+//     });
+//   }
+
+//   componentWillReceiveProps(nextProps) {
+//     if (nextProps.selectedDate) {
+//       this.setState({ currentMoment: nextProps.selectedDate });
+//     }
+//     // if (nextProps.locale !== this.props.locale) {
+//     //   setLocale(nextProps.locale);
+//     // }
+//   }
+
+//   componentDidUpdate() {
+//     this.calendar.scrollTo({ y: 0, x: 2 * (SCREEN_WIDTH - 60), animated: false });
+//   }
+
+
+////////
+// state = {
+//     pages: ["2", "3", "4"],
+//     key: 1,
+//     currentMoment: this.state
+
+//   }
+
+
+
+
+  renderItem(item, idx) {
+
+    const itemInt = parseInt(item)
+    const style = itemInt % 2 == 0 ? styles.slide1 : styles.slide2
+    
+
+
+    const  currentMoment = moment(this.state.currentMoment).add(1,'w');
+    
+    const dates = this.prepareDates(currentMoment, numberOfDays);
+    const dateTimes = this.generateDateTimes(dates, this.times);
+    const {
+        numberOfDays,
+        headerStyle,
+        formatDateHeader,
+        onEventPress,
+        events,
+      } = this.props;
+    
+    return (
+      <View style={style} key={idx}>
+
+        <View style={styles.header}>
+          <Header
+            style={headerStyle}
+            formatDate={formatDateHeader}
+            selectedDate={currentMoment}
+            numberOfDays={numberOfDays}
+          />
+        </View>
+
+     <ScrollView>
+          <View style={styles.scrollViewContent}>
+            <View style={styles.timeColumn}>
+              {this.times.map((time) => (
+                <View key={time} style={styles.timeLabel}>
+                  <Text style={styles.timeText}>{time}</Text>
+                </View>
+              ))}
+            </View>
+
+{/* 
+        <GridView
+                spacing={0.5}
+                itemDimension={((SCREEN_WIDTH - 60)/7)-1}
+                items={dateTimes}
+                style={styles.gridView}
+                renderItem={({ item, index }) => (
+                    <TouchableHighlight onPress={() => NavigationManager.navigate('FacilityBooking', {date: item.code, time: item.time})}>
+
+                <View style={[styles.itemContainer, { backgroundColor: "#000000"}]}>
+                    <Text style={styles.itemName}>{item.date}</Text>
+                    <Text style={styles.itemCode}>{item.time}</Text>
+                </View>
+                </TouchableHighlight>
+
+                
+                )}
+            /> */}
+        {/* <Text style={styles.text}>{cache[item]}</Text> */}
+      </View>
+
+      </ScrollView>
+      </View>
+
+    )
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedDate) {
-      this.setState({ currentMoment: nextProps.selectedDate });
+
+  
+//   prevWeek =() => {
+//     const { currentMoment } = this.state;
+//         requestAnimationFrame(() => {
+//         const newMoment = moment(currentMoment).startOf('week').isoWeekday(1);
+//         console.log("PREV " + newMoment.toString());
+//         })
+//     }
+
+//     nextWeek =() => {
+//         const { currentMoment } = this.state;
+//             requestAnimationFrame(() => {
+//                 const newMoment = moment(currentMoment).add(1, 'w').startOf('week').isoWeekday(1);
+//                 console.log("NEXT " + newMoment.toString());
+        
+//             })
+//     }
+
+
+ 
+  onPageChanged(idx) {
+      console.log("CHANGING PAGE" +idx);
+    const { currentMoment } = this.state;
+    if (idx == 2) {
+      const newPages = this.state.pages.map(i => (parseInt(i)+1).toString())
+      const newWeek = moment(currentMoment).add(1, 'w');
+      this.setState({pages: newPages, key: ((this.state.key+1)%2), currentMoment: newWeek })
+    } else if (idx == 0) {
+        
+      const newPages = this.state.pages.map(i => (parseInt(i)-1).toString())
+      const newWeek = moment(currentMoment).subtract(1, 'w');
+      this.setState({pages: newPages, key: ((this.state.key+1)%2), currentMoment: newWeek  })
     }
-    // if (nextProps.locale !== this.props.locale) {
-    //   setLocale(nextProps.locale);
-    // }
-  }
-
-  componentDidUpdate() {
-    this.calendar.scrollTo({ y: 0, x: 2 * (SCREEN_WIDTH - 60), animated: false });
   }
 
   generateTimes = () => {
@@ -61,39 +199,49 @@ export default class WeekView extends Component {
     return times;
   };
 
-  scrollEnded = (event) => {
-    const { nativeEvent: { contentOffset, contentSize } } = event;
-    const { x: position } = contentOffset;
-    const { width: innerWidth } = contentSize;
-    const newPage = (position / innerWidth) * 5;
-    const { onSwipePrev, onSwipeNext, numberOfDays } = this.props;
-    const { currentMoment } = this.state;
-    requestAnimationFrame(() => {
-      const newMoment = moment(currentMoment)
-        .add((newPage - 2) * numberOfDays, 'd')
-        // .add((newPage) * numberOfDays, 'd')
-        .toDate();
+//   scrollEnded = (event) => {
+//     const { nativeEvent: { contentOffset, contentSize } } = event;
+//     const { x: position } = contentOffset;
+//     console.log(contentOffset);
+//     const { width: innerWidth } = contentSize;
+//     const newPage = (position / innerWidth) * 5;
+//     // const newPage = (position/Math.abs(position));
+//     const { onSwipePrev, onSwipeNext, numberOfDays } = this.props;
+//     const { currentMoment } = this.state;
+//     requestAnimationFrame(() => {
+//       const newMoment = moment(currentMoment).startOf('week').isoWeekday(1);
+//       console.log(newMoment);
+//         // .add((newPage - 2) * numberOfDays, 'd')
+//         // // .add((newPage) * numberOfDays, 'd')
+//         // .toDate();
 
-      this.setState({ currentMoment: newMoment });
+//       this.setState({ currentMoment: newMoment });
 
-      if (newPage < 2) {
-        onSwipePrev && onSwipePrev(newMoment);
-        console.log(onSwipePrev);
-      } else if (newPage > 2) {
-        onSwipeNext && onSwipeNext(newMoment);
-      }
-    });
-  };
+//       if (newPage < 1) {
+//         onSwipePrev && onSwipePrev(newMoment);
+//         console.log(onSwipePrev);
+//       } else if (newPage > 1) {
+//         onSwipeNext && onSwipeNext(newMoment);
+//       }
+//     });
+//   };
 
-  scrollViewRef = (ref) => {
-    this.calendar = ref;
-  }
+//   scrollViewRef = (ref) => {
+//     this.calendar = ref;
+//   }
+
+
+
+
 
   prepareDates = (currentMoment, numberOfDays) => {
     const dates = [];
-    for (let i = -2; i < 5; i++) {
-      const date = moment(currentMoment).add(numberOfDays * i, 'd');
-      dates.push(date);
+    // for (let i = -2; i < 5; i++) {
+    //   const date = moment(currentMoment).add(numberOfDays * i, 'd');
+    for (let i = 0; i < 7; i++) {
+        const date = moment(currentMoment).startOf('week').isoWeekday(1).add(i, 'd');
+
+    dates.push(date);
     }
     return dates;
   };
@@ -115,11 +263,13 @@ export default class WeekView extends Component {
 //   };
 
 
+
+
   generateDateTimes = (dates, times) => {
     const dateTimes =[];
-    for(let i = 0; i < dates.length; i++) {
-        for(let j = 0; j < times.length; j++) {
-            dateTimes.push(Array(dates[i], times[j]));
+    for(let i = 0; i < times.length; i++) {
+        for(let j = 0; j < dates.length; j++) {
+            dateTimes.push({time: times[i], date: dates[j].format("MMM D").toString()});
        }
     }
     console.log(dateTimes);
@@ -134,95 +284,135 @@ export default class WeekView extends Component {
 //   }
 
   render() {
-    const {
-      numberOfDays,
-      headerStyle,
-      formatDateHeader,
-      onEventPress,
-      events,
-    } = this.props;
-    const { currentMoment } = this.state;
-    const dates = this.prepareDates(currentMoment, numberOfDays);
-    const dateTimes = this.generateDateTimes(dates, this.times);
+    
+    
+   
+   
     return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Header
-            style={headerStyle}
-            formatDate={formatDateHeader}
-            selectedDate={currentMoment}
-            numberOfDays={numberOfDays}
-          />
-        </View>
-        <ScrollView>
-          <View style={styles.scrollViewContent}>
-            <View style={styles.timeColumn}>
-              {this.times.map((time) => (
-                <View key={time} style={styles.timeLabel}>
-                  <Text style={styles.timeText}>{time}</Text>
-                </View>
-              ))}
-            </View>
-
-
-            <ScrollView
-              horizontal
-              pagingEnabled
-              automaticallyAdjustContentInsets={false}
-              onMomentumScrollEnd={this.scrollEnded}
-              ref={this.scrollViewRef}
-            >
-              {dates.map(date => (
-                <View
-                  key={date}
-                  style={{ flex: 1, height: ROW_HEIGHT * TIME_LABELS_COUNT, width: SCREEN_WIDTH - 60, flexDirection:"column", flexWrap:"wrap" }}
-                >
-            
-              {dateTimes.map((date, time) => (
-                <View key={time}>
-                    <Button bordered dark
-                        key = {time}
-                        value = {date}
-                        onPress={() => NavigationManager.navigate('FacilityBooking', { time: time, date: date})}
-                        style={styles.timeRow}
-                        >
-                        <Text></Text>
-                    </Button>
-                    {/* <View style={styles.timeLabelLine} /> */}
-                </View>
-              ))}
-
-
+        
+        <Swiper
+        index={1}
+        key={this.state.key}
+        style={styles.wrapper}
+        loop={false}
+        showsPagination={false}
+        onIndexChanged={(index) => this.onPageChanged(index)}>
+        {this.state.pages.map((item, idx) => this.renderItem(item, idx))}
+      </Swiper>
         
 
 
-                  {/* <Events
-                    key={dates}
-                    times={this.times}
-                    selectedDate={date.toDate()}
-                    numberOfDays={numberOfDays}
-                    onEventPress={onEventPress}
-                    events={events}
-                  /> */}
-                </View>
-              ))}
-            </ScrollView>
-          </View>
-        </ScrollView>
-      </View>
+
+        /////////////////////////////////////
+    //   <View>
+
+
+  
+
+    //     <View style={styles.header}>
+    //       <Header
+    //         style={headerStyle}
+    //         formatDate={formatDateHeader}
+    //         selectedDate={currentMoment}
+    //         numberOfDays={numberOfDays}
+    //       />
+    //     </View>
+
+        
+
+    //     <ScrollView>
+    //       <View style={styles.scrollViewContent}>
+    //         <View style={styles.timeColumn}>
+    //           {this.times.map((time) => (
+    //             <View key={time} style={styles.timeLabel}>
+    //               <Text style={styles.timeText}>{time}</Text>
+    //             </View>
+    //           ))}
+    //         </View>
+
+
+
+    //         <ScrollView
+    //           horizontal
+    //         //   pagingEnabled={true}
+
+    //         //   decelerationRate={0}
+    //         //   snapToInterval={(SCREEN_WIDTH - 60)/7} //your element width
+    //         //   snapToAlignment={"center"}
+              
+    //           automaticallyAdjustContentInsets={false}
+    //           onMomentumScrollEnd={this.scrollEnded}
+    //           ref={this.scrollViewRef}
+              
+    //         >
+
+    //          {/*  {dates.map(date => (
+    //             <View
+    //               key={date}
+    //               style={{ flex: 1, height: ROW_HEIGHT * TIME_LABELS_COUNT, width: SCREEN_WIDTH - 60, flexDirection:"column", flexWrap:"wrap" }}
+    //             >
+    //                 {dateTimes.map((date, time) => (
+    //                     <View key={time}>
+    //                         <Button bordered dark
+    //                             key = {time}
+    //                             value = {date}
+    //                             onPress={() => NavigationManager.navigate('FacilityBooking', { time: time, date: date})}
+    //                             style={styles.timeRow}
+    //                             >
+    //                             <Text></Text>
+    //                         </>
+    //                          <View style={styles.timeLabelLine} /> 
+    //                     </View>
+    //                     ))}
+
+    //                 </View>
+    //           ))} */}
+
+    //           <GridView
+    //             spacing={0.5}
+    //             itemDimension={((SCREEN_WIDTH - 60)/7)-1}
+    //             items={dateTimes}
+    //             style={styles.gridView}
+    //             renderItem={({ item, index }) => (
+    //                 <TouchableHighlight onPress={() => NavigationManager.navigate('FacilityBooking', {date: item.code, time: item.time})}>
+
+    //             <View style={[styles.itemContainer, { backgroundColor: "#000000"}]}>
+    //                 <Text style={styles.itemName}>{item.date}</Text>
+    //                 <Text style={styles.itemCode}>{item.time}</Text>
+    //             </View>
+    //             </TouchableHighlight>
+
+                
+    //             )}
+    //         />
+
+    //         </ScrollView>
+    //       </View>
+    //     </ScrollView>
+
+
+    //     <View style={styles.nextButton}>
+    //      <Button 
+    //           color='#8888'
+    //           onPress={() => NavigationManager.goBack()}
+    //           title = 'Go back'
+    //           /> 
+            
+    //     </View>
+    //   </View>
     );
   }
 }
 
 WeekView.propTypes = {
-  events: Events.propTypes.events,
+//   events: Events.propTypes.events,
   numberOfDays: PropTypes.oneOf([1, 3, 7]).isRequired,
   onSwipeNext: PropTypes.func,
   onSwipePrev: PropTypes.func,
   formatDateHeader: PropTypes.string,
   onEventPress: PropTypes.func,
   headerStyle: PropTypes.object,
-  selectedDate: PropTypes.instanceOf(Date).isRequired,
+  selectedDate: PropTypes.instanceOf(moment).isRequired,
   locale: PropTypes.string,
 };
 
@@ -237,11 +427,17 @@ const styles = StyleSheet.create({
     },
     scrollViewContent: {
       flexDirection: 'row',
+    //   position:'absolute',
     },
     header: {
       height: 50,
       justifyContent: 'center',
       alignItems: 'center',
+    //   position:'absolute',
+    //   top:0,
+    //   left:0,
+    //   bottom:0,
+    //   right:0
     },
     timeLabel: {
       flex: -1,
@@ -261,7 +457,6 @@ const styles = StyleSheet.create({
       timeRow: {
         // flex: 1,
         height: 40,
-        // flexDirection: 'column',
         width: (SCREEN_WIDTH - 60)/7,
         left: 0,
         right: 0,
@@ -275,6 +470,73 @@ const styles = StyleSheet.create({
         right: 0,
         left: 0,
       },
+
+
+      gridView: {
+        paddingTop: 0,
+        flex: 0,
+        height: ROW_HEIGHT * TIME_LABELS_COUNT, 
+        width: SCREEN_WIDTH - 60, 
+        // flexDirection:"column", 
+        // flexWrap:"wrap" 
+
+      },
+      itemContainer: {
+        justifyContent: 'flex-end',
+        borderRadius: 2,
+        padding: 0,
+        height: 40,
+        width: ((SCREEN_WIDTH - 60)/7)-1,
+      },
+      itemName: {
+        fontSize: 8,
+        color: '#fff',
+        // fontWeight: '600',
+      },
+      itemCode: {
+        // fontWeight: '600',
+        fontSize: 8,
+        color: '#fff',
+      },
+      backButton: {
+        position: 'absolute',
+        top: 0, 
+        left: 0, 
+        right: 0, 
+        bottom: 0, 
+      },
+      nextButton: {
+        position:'absolute',
+        alignSelf: 'flex-end',
+        top: 0, 
+        // left: 0, 
+        // right: 0, 
+        // bottom: 0, 
+        // margin: 40,
+
+      },
+
+      wrapper: {
+    },
+    slide1: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'transparent',
+    },
+    slide2: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#97CAE5',
+    },
+    text: {
+      color: '#fff',
+      fontSize: 30,
+      fontWeight: 'bold',
+    }, 
+
+     
   });
 
   module.export = WeekView; //module export statement

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Alert, View, Button, StyleSheet, TouchableOpacity, PanResponder, AsyncStorage, Image, Dimensions, TextInput, ScrollView,Platform } from 'react-native';
+import { Text, Alert, View, Button, StyleSheet, TouchableOpacity, PanResponder, AsyncStorage, Image, Dimensions, TextInput, ScrollView,Platform} from 'react-native';
 import moment from 'moment';
 import DatePicker from 'react-native-datepicker';
 import Picker from 'react-native-picker-select';
@@ -24,6 +24,8 @@ const data = [
     value: '08:00',
   },
 ];
+
+
 
 export default class FacilityBooking extends Component {
   constructor(props) {
@@ -52,8 +54,8 @@ export default class FacilityBooking extends Component {
       //     color: 'green',
       //   },
       // ],
-      startTime: undefined,
-      endTime: undefined,
+    //   startTime: undefined,
+    //   endTime: undefined,
       currentDate: new Date(),
       markedDate: moment(new Date()).format("YYYY-MM-DD"),
     };
@@ -72,6 +74,10 @@ export default class FacilityBooking extends Component {
     });
   }
 
+  static navigationOptions = {
+    title: 'FacilityBooking'
+   }
+
   
   static navigationOptions = ({ navigation }) => ({
         title: navigation.state.params.title,
@@ -82,25 +88,43 @@ export default class FacilityBooking extends Component {
       })
 
 
+
+//    afterStartTime = (startTime, data) => {
+//      if(data)
+//    }
+
+
+  momentStartTime(startTime) {
+    splitTime = startTime.split(":");
+    hour = splitTime[0];
+    minute = splitTime[1];
+    return moment({hours: hour, minutes: minute});
+  }
+
   render() {
+    const { params } = this.props.navigation.state;
+
     const startTimePlaceholder = {
-      label: 'Start Time',
+      label: params.time,
       value: null,
       color: '#9EA0A4',
     };
+
+
+
+
 
     const endTimePlaceholder = {
-      label: 'End Time',
+      label: this.momentStartTime(params.time).add(1, 'h').format("HH:mm").toString(),
       value: null,
       color: '#9EA0A4',
     };
 
-    const { params } = this.props.navigation.state;
     const today = this.state.currentDate;
-    console.log(params.date);
+    console.log(params.date + params.time);
 
     return (
-        
+        <ScrollView>
       <View style={styles.container}>
 
         <Image
@@ -118,9 +142,8 @@ export default class FacilityBooking extends Component {
 
         <View style={styles.smallContainer}>
 
-        {/* <Text style={styles.text}>Facility: {params.title}</Text> */}
+        <Text style={styles.text}>Facility: {params.title}</Text>
 
-        <Text style={styles.text}>Facility: Hard Court</Text>
 
         <View paddingVertical={5} />   
 
@@ -129,14 +152,14 @@ export default class FacilityBooking extends Component {
         <DatePicker
             style={{width: 130}}
             // date={this.state.date}
-            // date={params.date}
-            date = "01-07-2019"
+            date={params.date}
+            // date = "01-07-2019"
 
             mode="date"
             placeholder="Booking Date"
             format="DD-MM-YYYY"
-            minDate={moment(today).fromNow()}
-            maxDate={moment(today).add(3, 'months').fromNow()}
+            minDate={moment(today)}
+            maxDate={moment(today).add(3, 'months')}
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
             showIcon={false}
@@ -237,6 +260,7 @@ export default class FacilityBooking extends Component {
             }}
             />
       </View>
+      </ScrollView>
     );
   }
 }
@@ -307,6 +331,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: 'gray',
     // borderRadius: 4,
     color: 'black',
+    width:230,
     // paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
@@ -320,7 +345,8 @@ const pickerSelectStyles = StyleSheet.create({
     // borderRadius: 8,
     color: 'black',
     // paddingRight: 30, // to ensure the text is never behind the icon
-  },
+    width:230,
+  }
 });
 
 module.export = FacilityBooking; //module export statement

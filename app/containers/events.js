@@ -9,7 +9,7 @@ import {
 import { Card, Button,Text } from "native-base";
 import moment from 'moment';
 
-import Event from './event';
+// import Event from './event';
 import FacilityBooking from './facilityBooking';
 import NavigationManager from '../managers/navigationManager';
 
@@ -161,14 +161,14 @@ class Events extends Component {
               key={sectionIndex}
               style={styles.event}
             >
-              {eventsInSection.map(item => (
+              {/* {eventsInSection.map(item => (
                 <Event
                   key={item.data.id}
                   event={item.data}
                   style={item.style}
                   onPress={this.onEventPress}
                 />
-              ))}
+              ))} */}
             </View>
           ))}
         </View>
@@ -179,7 +179,7 @@ class Events extends Component {
 
 Events.propTypes = {
   numberOfDays: PropTypes.oneOf([1,3,7]).isRequired,
-  events: PropTypes.arrayOf(Event.propTypes.event),
+//   events: PropTypes.arrayOf(Event.propTypes.event),
   onEventPress: PropTypes.func,
   selectedDate: PropTypes.instanceOf(Date),
   times: PropTypes.arrayOf(PropTypes.string),
