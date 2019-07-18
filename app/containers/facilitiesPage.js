@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { View, Image, ScrollView, CardItem, Card, TouchableOpacity, Button, StyleSheet } from "react-native";
 import { Container, Thumbnail, Text } from "native-base";
-import AppHeader from "../components/header.js";
 import NavigationManager from "../managers/navigationManager";
 
 

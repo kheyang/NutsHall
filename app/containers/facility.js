@@ -137,7 +137,7 @@ import {
   TouchableHighlight,
   Alert
 } from 'react-native';
-import { Button, } from "native-base";
+import { Button, Toast, } from "native-base";
 import Header from './header';
 import NavigationManager from "../managers/navigationManager";
 import GridView from 'react-native-super-grid';
@@ -148,70 +148,9 @@ import { db } from '../config';
 
 let itemsRef = db.ref();
 
-
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const TIME_LABELS_COUNT = 16;
 const ROW_HEIGHT = 40;
-
-
-// const bookings = [
-//         { facility: 'HardCourt', 
-//            date: [
-//              { 
-//              startDate: moment(10-07-2019) ,  
-//                data: [
-//                  { 
-//                   startTime: "09:00",
-//                   details: [
-//                      {
-//                       name: 'Chong KY',
-//                       endTime: "12:00",
-//                       purpose: "for fun",
-//                       // color: 'blue',
-//                      },]
-//                  },
-//                  { startTime: "13:00",
-//                    details: [
-//                      {
-//                       name: 'CHONGCHONG',
-//                       endTime: "14:00",
-//                       purpose: "LOL",
-//                       // color: 'blue',
-//                      },
-//                     ]
-//                   }]}]
-//         },
-
-//         { facility: 'Meeting Room', 
-//            date: [
-//              { 
-//              startDate: moment(10-07-2019) ,  
-//                data: [
-//                  { 
-//                   startTime: "09:00",
-//                   details: [
-//                      {
-//                       name: 'Chong KY',
-//                       endTime: "12:00",
-//                       purpose: "for fun",
-//                       // color: 'blue',
-//                      },]
-//                  },
-//                  { startTime: "13:00",
-//                    details: [
-//                      {
-//                       name: 'CHONGCHONG',
-//                       endTime: "16:00",
-//                       purpose: "hurhur",
-//                       // color: 'blue',
-//                      },
-//                     ]
-//                   }]}]
-//           },
-
-//       ];
-    
-  
 
 
 export default class Facility extends Component {
@@ -219,7 +158,7 @@ export default class Facility extends Component {
   constructor(props) {
     super(props);
     this.state = {
-     currentMoment: props.selectedDate,
+     currentMoment: moment(new Date()),
      pages: ["2", "3", "4"],
      key: 1,
      facItems: []
@@ -227,30 +166,6 @@ export default class Facility extends Component {
     this.times = this.generateTimes();
   }
 
-
-  componentDidMount() {
-    itemsRef.on('value', snapshot => {
-      // let data = snapshot.child("HardCourt").child("10-07-2019").child("startTime").child("09:00").child("name").val();
-      // let items = Object.values(data)
-      // let data = snapshot.child("event").child("e0").child("date").val();
-      let name = snapshot.child("facilities").child("HardCourt").child("10-07-2019").child("startTime").child("09:00").child("name").val();
-
-
-      console.log("FIREBASEDATA" + name);
-
-      // this.setState({ items })
-    })
-  }
-
-  generateDates = (hours, minutes) => {
-    const date = new Date();
-    date.setHours(date.getHours() + hours);
-    if (minutes != null) {
-      date.setMinutes(0);
-    }
-    console.log(date);
-    return date;
-  };
 
   static navigationOptions = {
     title: 'Facility'
@@ -260,85 +175,18 @@ export default class Facility extends Component {
     title: navigation.state.params.title,
     image: navigation.state.params.image, 
     detail: navigation.state.params.detail,
-
   })
 
    
-
-
-//   render() {
-//     const events = [
-//       {
-//         id: 1,
-//         description: 'Chong KY',
-//         // startDate: new Date('28-06-2019').setHours('12', '00'),
-//         startDate: this.generateDates(0),
-//         endDate: this.generateDates(2),
-//         color: 'blue',
-//       },
-//       {
-//         id: 2,
-//         description: 'Event 2',
-//         startDate: this.generateDates(2),
-//         endDate: this.generateDates(4),
-//         color: 'red',
-//       },
-//       {
-//         id: 3,
-//         description: 'Event 3',
-//         startDate: this.generateDates(-5),
-//         endDate: this.generateDates(-3),
-//         color: 'green',
-//       },
-//     ];
-
-
-
-//     return (
-//       <View style={styles.container}>
-//         <WeekView
-//           events={events}
-//           selectedDate={this.state.selectedDate}
-//           numberOfDays={7}
-//           onEventPress={(event) => Alert.alert(event.id + '\n' + event.description + '\n' + event.startDate)}
-//           headerStyle={styles.headerStyle}
-//           formatDateHeader={"ddd[\n]" +"D"}
-//           locale="en"
-//         />
-//       </View>
-//     );
-//   }
-// }
-
-
-
-
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#FFF',
-//     paddingTop: 0,
-//   },
-//   headerStyle: {
-//     backgroundColor: '#000000',
-//   },
-// });
-
-
-
-
-
 
 renderItem(item, idx) {
   const { params } = this.props.navigation.state;
   const itemInt = parseInt(item)
   const style = itemInt % 2 == 0 ? styles.slide1 : styles.slide2
-  const  currentMoment = moment(this.state.currentMoment).add(1,'w');
-  const dates = this.prepareDates(currentMoment, numberOfDays);
-  const dateTimes = this.generateDateTimes(dates, this.times);
+  const currentMoment = moment(this.state.currentMoment).startOf('week');
+  const dates = this.prepareDates(currentMoment);
+  const dateTimes = this.generateDateTimes(dates, this.times, params);
   const {
-      numberOfDays,
       headerStyle,
       formatDateHeader,
     } = this.props;
@@ -351,14 +199,13 @@ renderItem(item, idx) {
           style={headerStyle}
           formatDate={formatDateHeader}
           selectedDate={currentMoment}
-          numberOfDays={numberOfDays}
         />
       </View>
 
    <ScrollView>
         <View style={styles.scrollViewContent}>
           <View style={styles.timeColumn}>
-            {this.times.map((time) => (
+            {this.times.map((time, idx) => (
               <View key={time} style={styles.timeLabel}>
                 <Text style={styles.timeText}>{time}</Text>
               </View>
@@ -372,9 +219,11 @@ renderItem(item, idx) {
               items={dateTimes}
               style={styles.gridView}
               renderItem={({ item, index }) => (
-                  <TouchableHighlight onPress={() => NavigationManager.navigate('FacilityBooking', {date: item.date, time: item.time, title: params.title, image: params.image, detail: params.detail})}>
+                  <TouchableHighlight onPress={() => 
+                  (item.endTime != undefined) ? Alert.alert("Booked by " + item.name) :
+                  NavigationManager.navigate('FacilityBooking', {date: item.date, time: item.time, title: params.title, image: params.image, detail: params.detail})}>
 
-              <View style={[styles.itemContainer, { backgroundColor: "#000000"}]}>
+              <View style={[styles.itemContainer, (item.endTime != undefined) ?  {backgroundColor: "#888888"} :  {backgroundColor:  "#000000"}]}>
                   <Text style={styles.itemName}>{item.date}</Text>
                   <Text style={styles.itemCode}>{item.time}</Text>
               </View>
@@ -401,8 +250,7 @@ onPageChanged(idx) {
     const newPages = this.state.pages.map(i => (parseInt(i)+1).toString())
     const newWeek = moment(currentMoment).add(1, 'w');
     this.setState({pages: newPages, key: ((this.state.key+1)%2), currentMoment: newWeek })
-  } else if (idx == 0) {
-      
+  } else if (idx == 0) {   
     const newPages = this.state.pages.map(i => (parseInt(i)-1).toString())
     const newWeek = moment(currentMoment).subtract(1, 'w');
     this.setState({pages: newPages, key: ((this.state.key+1)%2), currentMoment: newWeek  })
@@ -420,34 +268,80 @@ generateTimes = () => {
   return times;
 };
 
-prepareDates = (currentMoment, numberOfDays) => {
+prepareDates = (currentMoment) => {
   const dates = [];
   for (let i = 0; i < 7; i++) {
-      const date = moment(currentMoment).startOf('week').isoWeekday(1).add(i, 'd');
+      const date = moment(currentMoment).add(i, 'd');
   dates.push(date);
   }
   return dates;
 };
 
 
-generateDateTimes = (dates, times) => {
-  const dateTimes =[];
+// formatDate = (date) => {
+//   day = moment(date).date();
+//   month = moment(date).month();
+//   year = moment(date).year()
+//   return day + "-" + month + "-" + year;
+// }
+
+
+generateDateTimes = (dates, times, params) => {
+  const dateTimes = [];
+
+  itemsRef.child("facilities").child(params.title).once("value").then(snapshot => {
+  let count = -1;
   for(let i = 0; i < times.length; i++) {
-      for(let j = 0; j < dates.length; j++) {
-          dateTimes.push({time: times[i], date: dates[j].format("MMM D").toString()});
-     }
-  }
-  console.log(dateTimes);
-  return dateTimes;
+    let currTime = times[i];
+    for(let j = 0; j < dates.length; j++) {
+      count += 1;
+      let currDate = dates[j].format("MMM D").toString();
+
+      
+        console.log(snapshot.child(currDate).child(currTime).exists());
+        console.log(currTime + " " + currDate);
+
+        
+        if(snapshot.child(currDate).child(currTime).exists()) {
+          let name = snapshot.child(currDate).child(currTime).child("name").val();
+          let endTime = snapshot.child(currDate).child(currTime).child("endTime").val();
+          let purpose = snapshot.child(currDate).child(currTime).child("purpose").val();
+         
+          dateTimes[count] = {time: currTime, date: currDate, endTime: endTime, purpose: purpose, name: name};
+          console.log(count);
+          
+        } else { 
+          dateTimes[count] = {time: currTime, date: currDate};
+          console.log(count);
+        }
+        
+     
+      }
+    }
+
+    for(let k = 0; k < 112 ; k++) {
+      if(dateTimes[k].endTime != undefined) {
+        console.log(dateTimes[k].endTime);
+      let nextCount = k + 7;
+      let endingTime = parseInt(((dateTimes[k].endTime).split(":")[0]));
+      // let startOfNextHour =  parseInt(((start.split(":"))[0])) + 1;
+      let startOfNextHour =  parseInt((((dateTimes[nextCount].time).split(":"))[0]))
+      if(endingTime > startOfNextHour) {
+        dateTimes[nextCount]["endTime"] = dateTimes[k].endTime;
+        dateTimes[nextCount]["purpose"] = dateTimes[k]["purpose"];
+        dateTimes[nextCount]["name"] = dateTimes[k]["name"];
+      
+      }        
+    }
+    }
+
+  })
+
+    console.log(dateTimes);
+    return dateTimes;
 }
 
 
-bookedSlot(facility, startTime, bookings) {
-  for(let i =0; i < bookings.facility.startTime.length ; i++) {
-
-    
-  }
-}
 
 
 render() {
@@ -597,4 +491,3 @@ const styles = StyleSheet.create({
 
 
 module.export = Facility; //module export statement
-

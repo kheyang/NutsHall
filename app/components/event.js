@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Button } from 'react-native';
 import PropTypes from 'prop-types';
-import ViewPager from "@react-native-community/viewpager";
 import NavigationManager from "../managers/navigationManager";
+import Swiper from "react-native-swiper";
 
 export default class EventComponent extends Component {
   static propTypes = {
@@ -11,7 +11,7 @@ export default class EventComponent extends Component {
 
   render() {
     return (
-      <ViewPager style={styles.viewPager} initialPage={0}>
+      <Swiper style={styles.viewPager} initialPage={0}>
         {this.props.items.map((item, index) => {
 					return (
 						<View style={styles.pageStyle} key={index}>
@@ -40,7 +40,7 @@ export default class EventComponent extends Component {
 						</View>
 					)
 				})}
-      </ViewPager>
+      </Swiper>
     )
   }
 }

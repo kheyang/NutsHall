@@ -31,10 +31,9 @@
   },
 
     "facilities": {
-      "HardCourt": { 
-          "10-07-2019": {
-            "startTime": {
-              "09:00" : {
+      "Hard Court": { 
+          "jul 18": {
+              "9:00" : {
                 "name": "Chong KY",
                 "endTime": "12:00",
                 "purpose": "for fun"
@@ -44,14 +43,13 @@
                "endTime": "14:00",
                "purpose": "LOL"
               }
-            }
+            
           
         }
       }, 
       "Meeting Room": { 
-          "11-07-2019": {
-            "startTime": {
-              "09:00" : {
+          "Jul 19": {
+              "9:00" : {
                 "name": "Chong KY",
                 "endTime": "12:00",
                 "purpose": "for fun"
@@ -60,7 +58,7 @@
                "name": "CHONGCHONG",
                "endTime": "14:00",
                "purpose": "LOL"
-              }
+              
             }
           
         }
@@ -69,8 +67,6 @@
   }
 
   
-
-
 
 
 

@@ -6,9 +6,7 @@ import Announcements from "./containers/announcementPage";
 import AnnouncementDetails from './containers/announcementDetails';
 import Facilities from "./containers/facilitiesPage";
 import Facility from './containers/facility';
-import Events from './containers/events';
 import FacilityBooking from './containers/facilityBooking';
-import WeekView from './containers/weekView';
 import NavigationManager from "./managers/navigationManager";
 import Calendar from "./containers/calendar";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -122,19 +120,11 @@ export const FacilitiesStack = createStackNavigator({
     screen: Facilities,
     navigationOptions: stackNavOptions,
   }, 
-  'Events': { 
-    screen: Events, 
-    navigationOptions: stackNavOptions,
-
-    },
   'Facility': { 
     screen: Facility, 
     navigationOptions: stackNavOptions,
     },
-    'WeekView': { 
-      screen: WeekView, 
-      navigationOptions: stackNavOptions,
-      },
+    
     'FacilityBooking': { 
       screen: FacilityBooking, 
       navigationOptions: stackNavOptions,
