@@ -4,6 +4,14 @@ import moment from 'moment';
 import DatePicker from 'react-native-datepicker';
 import Picker from 'react-native-picker-select';
 import { Toast } from 'native-base';
+import NavigationManager from "../managers/navigationManager";
+
+
+import { db } from '../config';
+import { isNewExpression } from '@babel/types';
+
+
+let itemsRef = db.ref("facilities");
 
 
 const data = [
@@ -32,15 +40,15 @@ export default class FacilityBooking extends Component {
     super(props);
 
     this.inputRefs = {
-      firstTextInput: null,
+      textInput: null,
       startTime: null,
       endTime: null,
     };
 
     this.state = {
       date: '',
-      // startTime: '00:00',
-      // endTime: '00:00',
+      startTime: '00:00',
+      endTime: '00:00',
 
       // numbers: [
       //   {
@@ -58,9 +66,9 @@ export default class FacilityBooking extends Component {
     //   endTime: undefined,
       currentDate: new Date(),
       markedDate: moment(new Date()).format("YYYY-MM-DD"),
+      text: "",
+      pet: [],
     };
-
-    // this.navigationOptions = this.navigationOptions.bind(this);
   }
 
 //   componentWillMount() {
@@ -89,11 +97,6 @@ export default class FacilityBooking extends Component {
 
 
 
-//    afterStartTime = (startTime, data) => {
-//      if(data)
-//    }
-
-
   momentStartTime(startTime) {
     splitTime = startTime.split(":");
     hour = splitTime[0];
@@ -101,17 +104,46 @@ export default class FacilityBooking extends Component {
     return moment({hours: hour, minutes: minute});
   }
 
+  possibleEndTimes(startTime, params) {
+      const endTimings = [];
+      const start =  parseInt((startTime.split(":"))[0]) + 1;
+      itemsRef.child(params.title).child(params.date).once("value").then(snapshot => {
+          let abort = false;
+        console.log(snapshot.val());
+            for (let j = start; j <= 24 && abort === false; j++) {
+              if (snapshot.child(j + ":00").exists() === false) {
+                  let now = j + ":00";
+                    endTimings.push({
+                        label: now,
+                        value: now,
+                      });
+                } else {
+                    // endTimings.push(j + ":00");
+                    let now = j + ":00";
+                    endTimings.push({
+                        label: now,
+                        value: now,
+                      });
+                    abort = true;  
+                }                   
+            }
+        })  
+    //   console.log(endTimings);
+      return endTimings;
+  }
+
+
   render() {
     const { params } = this.props.navigation.state;
+    const text = this.state.text;
+    const { endTime } = this.state;
+
 
     const startTimePlaceholder = {
       label: params.time,
       value: null,
       color: '#9EA0A4',
     };
-
-
-
 
 
     const endTimePlaceholder = {
@@ -123,8 +155,17 @@ export default class FacilityBooking extends Component {
     const today = this.state.currentDate;
     console.log(params.date + params.time);
 
+    // const pet = this.possibleEndTimes(params.time, params);
+    // console.log(pet);
+    // console.log(data);
+
+    // const toDB = () => itemsRef.child(params.title).child(params.date).child(params.time).set(data);
+
+    const { pet } = this.state;
+
+
     return (
-        <ScrollView>
+    <ScrollView>
       <View style={styles.container}>
 
         <Image
@@ -176,10 +217,15 @@ export default class FacilityBooking extends Component {
         <Text style={styles.text}>Start Time</Text>
         <Picker
           placeholder={startTimePlaceholder}
-          items={data}
+          items={[{label: params.time, value: params.time}]}
           onValueChange={value => {
             this.setState({
               startTime: value,
+            });
+            
+            const pet = this.possibleEndTimes(params.time, params);
+            this.setState({
+                pet, 
             });
           }}
           // onUpArrow={() => {
@@ -200,7 +246,7 @@ export default class FacilityBooking extends Component {
         <Text style={styles.text}>End Time</Text>
         <Picker
           placeholder={endTimePlaceholder}
-          items={data}
+          items={pet}
           onValueChange={value => {
             this.setState({
               endTime: value,
@@ -210,7 +256,7 @@ export default class FacilityBooking extends Component {
             this.inputRefs.startTime.togglePicker();
           }}
           onDownArrow={() => {
-            this.inputRefs.firstTextInput.focus();
+            this.inputRefs.textInput.focus();
           }}
           style={pickerSelectStyles}
           value={this.state.endTime}
@@ -225,7 +271,7 @@ export default class FacilityBooking extends Component {
         <Text style={styles.text}>CCA and/or purpose of booking</Text>
         <TextInput
           ref={el => {
-            this.inputRefs.firstTextInput = el;
+            this.inputRefs.textInput = el;
           }}
           returnKeyType="next"
           enablesReturnKeyAutomatically
@@ -238,6 +284,8 @@ export default class FacilityBooking extends Component {
               : pickerSelectStyles.inputAndroid
           }
           blurOnSubmit={false}
+          onChangeText={(text) => this.setState({text})}
+          value={this.state.text}
         />
 
         <View paddingVertical={5} />
@@ -246,7 +294,11 @@ export default class FacilityBooking extends Component {
         <Button
             title="Book Now"
             color='#000000'
-            onPress={() => {Toast.show({text: "Booking successful!"})
+            onPress={() => {
+                Alert.alert("Booking successful!");
+                itemsRef.child(params.title).child(params.date).child(params.time).set({endTime: endTime , name: "OMG!!", purpose: text });
+                NavigationManager.goBack();
+                
                 // const { numbers } = this.state;
                 // const value = numbers.length + 1;
                 // numbers.push({

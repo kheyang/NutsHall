@@ -121,12 +121,6 @@
 //New
 
 import React, { Component } from 'react';
-// import {
-//   StyleSheet,
-//   View,
-//   Alert,
-// } from 'react-native';
-// import WeekView, { addLocale } from './weekView';
 import moment from 'moment';
 import {
   View,
