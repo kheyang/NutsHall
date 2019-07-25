@@ -8,7 +8,6 @@ import NavigationManager from "../managers/navigationManager";
 
 
 import { db } from '../config';
-import { isNewExpression } from '@babel/types';
 
 
 let itemsRef = db.ref("facilities");
@@ -135,33 +134,35 @@ export default class FacilityBooking extends Component {
 
   render() {
     const { params } = this.props.navigation.state;
+
     const text = this.state.text;
+    // const { pet } = this.state;
     const { endTime } = this.state;
 
 
     const startTimePlaceholder = {
       label: params.time,
-      value: null,
+      value: params.time,
       color: '#9EA0A4',
     };
 
 
     const endTimePlaceholder = {
       label: this.momentStartTime(params.time).add(1, 'h').format("HH:mm").toString(),
-      value: null,
+      value: this.momentStartTime(params.time).add(1, 'h').format("HH:mm").toString(),
       color: '#9EA0A4',
     };
 
     const today = this.state.currentDate;
     console.log(params.date + params.time);
 
-    // const pet = this.possibleEndTimes(params.time, params);
+    const pet = this.possibleEndTimes(params.time, params);
     // console.log(pet);
     // console.log(data);
 
     // const toDB = () => itemsRef.child(params.title).child(params.date).child(params.time).set(data);
 
-    const { pet } = this.state;
+    console.log(pet);
 
 
     return (
@@ -204,12 +205,8 @@ export default class FacilityBooking extends Component {
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
             showIcon={false}
-            // iconSource={require('../assets/images/calendar.png')}
-            // iconSource={{}}
             onDateChange={(date) => {this.setState({date: date});}}
-          />
-          {/* <Text style={styles.instructions}>date: {this.state.date}</Text> */}
-      
+          />      
       </View>
         <View paddingVertical={5} />   
 
@@ -221,11 +218,6 @@ export default class FacilityBooking extends Component {
           onValueChange={value => {
             this.setState({
               startTime: value,
-            });
-            
-            const pet = this.possibleEndTimes(params.time, params);
-            this.setState({
-                pet, 
             });
           }}
           // onUpArrow={() => {

@@ -148,7 +148,7 @@ const ROW_HEIGHT = 40;
 
 
 export default class Facility extends Component {
-  selectedDate = new Date()
+  selectedDate = new Date();
   constructor(props) {
     super(props);
     this.state = {
@@ -177,7 +177,10 @@ renderItem(item, idx) {
   const { params } = this.props.navigation.state;
   const itemInt = parseInt(item)
   const style = itemInt % 2 == 0 ? styles.slide1 : styles.slide2
-  const currentMoment = moment(this.state.currentMoment).startOf('week');
+  // const currentMoment = moment(this.state.currentMoment).startOf('week');
+  const currentMoment = idx == 0 ? moment(this.state.currentMoment).startOf('week').subtract(1,'w') 
+                      : idx == 1 ? moment(this.state.currentMoment).startOf('week') 
+                      : moment(this.state.currentMoment).startOf('week').add(1,'w'); 
   const dates = this.prepareDates(currentMoment);
   const dateTimes = this.generateDateTimes(dates, this.times, params);
   const {
@@ -187,7 +190,6 @@ renderItem(item, idx) {
   
   return (
     <View style={style} key={idx}>
-
       <View style={styles.header}>
         <Header
           style={headerStyle}
@@ -213,28 +215,69 @@ renderItem(item, idx) {
               items={dateTimes}
               style={styles.gridView}
               renderItem={({ item, index }) => (
+              // {
+              // if(((item.date).isBefore(moment(new Date()),'day') || 
+              //       ((item.date).isSame(moment(new Date()),'day') && ((item.time).split(":"))[0]) > moment(new Date()).format('H'))) {
+                    
+              //     <TouchableHighlight onPress={() =>  
+              //       Alert.alert("Date has already passed/time has passed! Move on~")}>
+              //     <View style={[styles.itemContainer,  backgroundColor= "#888888"]}>
+              //     <Text style={styles.itemName}>{(item.date).format("MMM D").toString()}</Text>
+              //     <Text style={styles.itemCode}>{item.time}</Text>
+              // </View>
+              // </TouchableHighlight>
+              // } else if(item.endTime != undefined) {
+              //   <TouchableHighlight onPress={() =>
+              //   Alert.alert("Booked by " + item.name)}>
+              //   <View style={[styles.itemContainer,  backgroundColor= "#888888"]}>
+              //   <Text style={styles.itemName}>{(item.date).format("MMM D").toString()}</Text>
+              //     <Text style={styles.itemCode}>{item.time}</Text>
+              // </View>
+              // </TouchableHighlight>
+              // } else {
+              //   <TouchableHighlight onPress={() => 
+              //   NavigationManager.navigate('FacilityBooking', {date: (item.date).format("MMM D").toString(), time: item.time, title: params.title, image: params.image, detail: params.detail})}>
+              //   <View style={[styles.itemContainer, backgroundColor=  "#000000"]}>
+              //   <Text style={styles.itemName}>{(item.date).format("MMM D").toString()}</Text>
+              //     <Text style={styles.itemCode}>{item.time}</Text>
+              // </View>
+              // </TouchableHighlight>
+              // }
+              
+                
                   <TouchableHighlight onPress={() => 
+                    (item.date).isBefore(moment(new Date()),'day') || 
+                    ((item.date).isSame(moment(new Date()),'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ?
+                    Alert.alert("Date has already passed/time has passed! Move on~") :
                   (item.endTime != undefined) ? Alert.alert("Booked by " + item.name) :
-                  NavigationManager.navigate('FacilityBooking', {date: item.date, time: item.time, title: params.title, image: params.image, detail: params.detail})}>
+                  NavigationManager.navigate('FacilityBooking', {date: (item.date).format("MMM D").toString(), time: item.time, title: params.title, image: params.image, detail: params.detail})}>
 
-              <View style={[styles.itemContainer, (item.endTime != undefined) ?  {backgroundColor: "#888888"} :  {backgroundColor:  "#000000"}]}>
-                  <Text style={styles.itemName}>{item.date}</Text>
+              <View style={[styles.itemContainer, (item.date).isBefore(moment(new Date()),'day') || 
+                                                  ((item.date).isSame(moment(new Date()),'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ||
+                                                  (item.endTime != undefined) ?  {backgroundColor: "#888888"} :  {backgroundColor:  "#000000"}]}>
+
+                  
+                  <Text style={styles.itemName}>{(item.date).format("MMM D").toString()}</Text>
                   <Text style={styles.itemCode}>{item.time}</Text>
               </View>
               </TouchableHighlight>
-
-              
               )}
+              // }
+              // }
           />
       {/* <Text style={styles.text}>{cache[item]}</Text> */}
     </View>
-
     </ScrollView>
     </View>
 
   )
 }
 
+// formatDate(date) {
+//   const arr = date.split(" ");
+//   const 
+//   const day = arr[1];
+// }
 
 
 onPageChanged(idx) {
@@ -289,37 +332,29 @@ generateDateTimes = (dates, times, params) => {
     let currTime = times[i];
     for(let j = 0; j < dates.length; j++) {
       count += 1;
+      let curr = dates[j];
       let currDate = dates[j].format("MMM D").toString();
 
-      
         console.log(snapshot.child(currDate).child(currTime).exists());
         console.log(currTime + " " + currDate);
-
-        
         if(snapshot.child(currDate).child(currTime).exists()) {
           let name = snapshot.child(currDate).child(currTime).child("name").val();
           let endTime = snapshot.child(currDate).child(currTime).child("endTime").val();
           let purpose = snapshot.child(currDate).child(currTime).child("purpose").val();
-         
-          dateTimes[count] = {time: currTime, date: currDate, endTime: endTime, purpose: purpose, name: name};
+          dateTimes[count] = {time: currTime, date: curr, endTime: endTime, purpose: purpose, name: name};
           console.log(count);
-          
         } else { 
-          dateTimes[count] = {time: currTime, date: currDate};
+          dateTimes[count] = {time: currTime, date: curr};
           console.log(count);
         }
-        
-     
       }
     }
-
     for(let k = 0; k < 112 ; k++) {
       if(dateTimes[k].endTime != undefined) {
-        console.log(dateTimes[k].endTime);
+        // console.log(dateTimes[k].endTime);
       let nextCount = k + 7;
       let endingTime = parseInt(((dateTimes[k].endTime).split(":")[0]));
-      // let startOfNextHour =  parseInt(((start.split(":"))[0])) + 1;
-      let startOfNextHour =  parseInt((((dateTimes[nextCount].time).split(":"))[0]))
+      let startOfNextHour =  parseInt(((dateTimes[nextCount].time.split(":"))[0]));
       if(endingTime > startOfNextHour) {
         dateTimes[nextCount]["endTime"] = dateTimes[k].endTime;
         dateTimes[nextCount]["purpose"] = dateTimes[k]["purpose"];

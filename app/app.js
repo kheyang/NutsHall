@@ -1,11 +1,13 @@
 import React, {Component} from "react";
 import {Platform, StyleSheet, ScrollView, Text, View, Button, Image, TouchableOpacity } from "react-native";
 import { Root } from "native-base";
-import { createAppContainer, createStackNavigator, createDrawerNavigator, SafeAreaView, DrawerItems} from "react-navigation";
+import { createAppContainer, createStackNavigator, createDrawerNavigator, createSwitchNavigator, SafeAreaView, DrawerItems} from "react-navigation";
 import Announcements from "./containers/announcementPage";
 import AnnouncementDetails from './containers/announcementDetails';
 import Facilities from "./containers/facilitiesPage";
 import Facility from './containers/facility';
+import Login from './containers/login';
+import Loading from './containers/loading';
 import FacilityBooking from './containers/facilityBooking';
 import NavigationManager from "./managers/navigationManager";
 import Calendar from "./containers/calendar";
@@ -198,7 +200,55 @@ const MyDrawerNavigator = createDrawerNavigator(
   },
 );
 
-const AppContainer = createAppContainer(MyDrawerNavigator);
+
+const DrawerStack = createStackNavigator({
+  drawerStack: { screen: MyDrawerNavigator }
+}, 
+)
+
+// login stack
+const LoginStack = createStackNavigator({
+  loginScreen: { screen: Login },
+  // loadingScreen: { screen: Loading },
+  // forgottenPasswordScreen: { screen: ForgottenPasswordScreen, navigationOptions: { title: 'Forgot Password' } }
+}, {
+  headerMode: 'none',
+  initialRouteName: 'loginScreen'
+ }
+)
+
+
+
+// Manifest of possible screens
+const PrimaryNav = createStackNavigator({
+  loginStack: { screen: LoginStack },
+  drawerStack: { screen: MyDrawerNavigator }
+}, {
+  // Default config for all screens
+  headerMode: 'none',
+  title: 'Main',
+  initialRouteName: 'loginStack'
+})
+
+
+// const InitialNavigator = createSwitchNavigator({
+//   Loading: Loading,
+//   App: PrimaryNav
+// });
+
+
+
+
+
+
+
+
+
+
+
+const AppContainer = createAppContainer(PrimaryNav);
+// const AppContainer = createAppContainer(MyDrawerNavigator);
+
 
 export default () => (
   <Root>
