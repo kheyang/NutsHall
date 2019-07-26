@@ -11,6 +11,7 @@ import Login from './containers/login';
 import FacilityBooking from './containers/facilityBooking';
 import NavigationManager from "./managers/navigationManager";
 import Calendar, {addEvent} from "./containers/calendar";
+import AddingEvent from './containers/addingEvent';
 import Icon from "react-native-vector-icons/FontAwesome";
 
 //Drawer navigator's toggle button
@@ -159,6 +160,21 @@ export const CalendarStack = createStackNavigator({
   //     headerTintColor: '#000000',
   //   }),
   }, 
+  'Adding Event': { 
+    screen: AddingEvent, 
+    navigationOptions: ({ navigation }) => ({
+        // title: 'Announcement Details',
+        headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+        headerTitleStyle: {
+          fontFamily: "Raleway-Medium",
+          fontWeight: 'normal'
+        },
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000000',
+      }),
+    },
 }, {
   initialRouteName: 'Calendar',
   headerMode: 'screen'

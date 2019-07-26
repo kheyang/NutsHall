@@ -125,7 +125,8 @@ import {
   Text,
   View,
   StyleSheet,
-  Button
+  Button,
+  TouchableOpacity
 } from 'react-native';
 import {Agenda} from 'react-native-calendars';
 import { CalendarStack } from '../app.js';
@@ -135,15 +136,19 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { NavigationDrawerStructure } from "../app";
 
 let itemsRef = db.ref('/event')
+let reminderRef = db.ref('/reminders')
+
+var selectedDate = new Date().toISOString().slice(0,10)
 
 export default class Calendar extends Component {
-
+  
   constructor(props) {
     super(props);
     this.state = {
       items: {},
       events: [],
-      selectedDate: new Date()
+      // selectedDate: new Date().dateString
+      reminder: [],
     };
     this.loadItems = this.loadItems.bind(this)
   }
@@ -165,8 +170,8 @@ export default class Calendar extends Component {
       name='plus'
       color = 'black'
       backgroundColor='transparent'
-      
-      onPress = {() => this.addEvent()}
+      // onPress = {() => this.addEvent()}
+      onPress = {() => NavigationManager.navigate('Adding Event', {date: selectedDate})}
     >
     </Icon.Button>,
     headerTitleStyle: {
@@ -186,15 +191,22 @@ export default class Calendar extends Component {
       // let updatedEvents = this.state.events
       // updatedEvents.push(items)
       this.setState({ events: items })
+    })
+    reminderRef.on('value', snapshot => {
+      let data = snapshot.val()
+      let items = Object.values(data)
+      // let updatedEvents = this.state.events
+      // updatedEvents.push(items)
+      this.setState({ reminder: items })
       // console.log(data)
       // console.log(items)
     })
   }
-  
-  static addEvent() {
-    console.log('helllooooo')
-    console.log(this.state.selectedDate)
-  }
+
+  // static addEvent() {
+  //   console.log('helllooooo')
+  //   console.log(selectedDate)
+  // }
 
   render() {
     return (
@@ -202,6 +214,7 @@ export default class Calendar extends Component {
         items={this.state.items}
         loadItemsForMonth={this.loadItems.bind(this)}
         renderItem={this.renderItem.bind(this)}
+        renderReminder={this.renderReminder.bind(this)}
         renderEmptyDate={this.renderEmptyDate.bind(this)}
         rowHasChanged={this.rowHasChanged.bind(this)}
         // addEvent={this.addEvent.bind(this)}
@@ -209,9 +222,10 @@ export default class Calendar extends Component {
         futureScrollRange={12}
         onDayPress = {(day)=>{
           console.log(day.dateString)
-          this.setState({ selectedDate: day.dateString })
+          // this.setState({ selectedDate: day.dateString })
+          selectedDate = day.dateString
           setTimeout(() => {
-            console.log(this.state.selectedDate)
+            console.log(selectedDate)
           },1)
         }}
       />
@@ -233,6 +247,14 @@ export default class Calendar extends Component {
             height: 50
           })
         }
+        for (let i = 0; i < this.state.reminder.length ; i++) {
+          this.state.items[this.state.reminder[i].date] = []
+          this.state.items[this.state.reminder[i].date].push({
+            name: this.state.reminder[i].title,
+            time: this.state.reminder[i].time,
+            height: 50
+          })
+        }
       }
       const newItems = {};
       Object.keys(this.state.items).forEach(key => {newItems[key] = this.state.items[key];});
@@ -245,9 +267,32 @@ export default class Calendar extends Component {
 
   renderItem(item) {
     return (
-      <View style={[styles.item, {height: item.height}]}><Text>{item.name}</Text></View>
+      <View style={[styles.item, {height: item.height}]}>
+        {/* <TouchableOpacity 
+          onLongPress = {()=> {
+            Alert.alert(
+              'Delete Reminder',
+              'Do you sure you want to delete the reminder?',
+              [
+                {text: 'Yes', onPress: ()=>{reminderRef + }}
+              ]
+
+
+            )
+          }}
+        > */}
+
+          <Text>{item.name}</Text>
+        {/* </TouchableOpacity> */}
+      
+      </View>
     );
-    
+  }
+
+  renderReminder(item) {
+    return (
+      <View style={[styles.item, {height: item.height}]}><Text>{item.time}\n{item.name}</Text></View>
+    );
   }
 
   renderEmptyDate() {
