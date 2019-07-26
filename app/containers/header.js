@@ -109,6 +109,8 @@ const styles = StyleSheet.create({
     },
     headerText: {
       color: '#fff',
+      textAlign:"center",
+      justifyContent:"center"
     },
   });
 

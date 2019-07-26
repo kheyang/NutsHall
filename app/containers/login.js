@@ -11,86 +11,104 @@ export default class Login extends React.Component {
   this.state = { 
       email: '', 
       password: '', 
-      errorMessage: null,
-      isLoading: true };
+      error: '',
   }
+}
 
 
-//   SignUp = (email, password) => {
+// Login = (email, password) => {
 //     try {
-//       firebase
-//           .auth()
-//           .createUserWithEmailAndPassword(email, password)
-//           .then(
-//               user => { 
-//                  console.log(user);
-//            }
-//            );
+//         firebase
+//             .auth()
+//             .signInWithEmailAndPassword(email, password)
+//             .then((user) => {
+//                 this.setState({
+//                     loading: false
+//                 });            
+//             console.log(JSON.stringify(user))
+//             // AsyncStorage.setItem('userData', JSON.stringify(user));
+//             NavigationManager.navigate('drawerStack')
+//             //  res => {
+//             //  console.log(res.user.email);
+//     //   }
+//             user = firebase.auth().currentUser;
+//             user.updateProfile({
+//                 displayName: (user.email).split('@')[0]
+//             })
+//     });
 //     } catch (error) {
-//             this.setState({ errorMessage: error.message })
-//             // console.log(error.toString(error));
-//             Alert.alert(error.toString(error));
-//           }
-//         };
+//         // this.setState({ errorMessage: error.message })
+//         // console.log(error.toString(error));
+//         this.setState({
+//             loading: false,
+//             errorMessage: error.message
+//           });
+//         alert(error.toString(error.message));
+//       }
+//     };
 
-performTimeConsumingTask = async() => {
-    return new Promise((resolve) =>
-      setTimeout(
-        () => { resolve('result') },
-        2000
-      )
-    );
-  }
 
-  async componentDidMount() {
-    // Preload data from an external API
-    // Preload data using AsyncStorage
-    const data = await this.performTimeConsumingTask();
 
-    if (data !== null) {
-      this.setState({ isLoading: false });
+    onButtonPress() {
+      this.setState({ error: '', loading: true })
+      const { email, password } = this.state;
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(this.onLoginSuccess.bind(this))
+            .catch((error) => {
+              let errorMessage = error.message;  
+                this.onLoginFailure.bind(this)(errorMessage)
+              }
+            );}
+  
+
+    onLoginSuccess() {
+      this.setState({
+        email: '', password: '', error: '', loading: false
+      });
+      this.props.navigation.dispatch(
+        NavigationActions.reset({
+         index: 0,
+         actions: [NavigationActions.navigate({ routeName: "drawerStack" })]
+        })
+       );
+      // NavigationManager.navigate('drawerStack')
+
     }
-  }
+  
+    onLoginFailure(errorMessage) {
+      this.setState({ error: errorMessage, loading: false });
+    }
 
 
-Login = (email, password) => {
-    try {
-        firebase
-            .auth()
-            .signInWithEmailAndPassword(email, password)
-            .then((user) => {
-                this.setState({
-                    loading: false
-                });            
-            console.log(JSON.stringify(user))
-            AsyncStorage.setItem('userData', JSON.stringify(user));
-            NavigationManager.navigate('loadingScreen')
-            //  res => {
-            //  console.log(res.user.email);
-    //   }
-            user = firebase.auth().currentUser;
-            user.updateProfile({
-                displayName: (user.email).split('@')[0]
-            })
-    });
-    } catch (error) {
-        // this.setState({ errorMessage: error.message })
-        // console.log(error.toString(error));
-        this.setState({
-            loading: false,
-            errorMessage: error.message
-          });
-        alert(error.toString(error.message));
+
+    renderButton() {
+      if (this.state.loading) {
+        return(
+            <View style={styles.spinnerStyle}>
+               <ActivityIndicator size={"small"} color={'black'}/>
+            </View>
+        )
       }
-    };
-
-
+      return (
+        // <Button
+        //   title="Sign in"
+        //   onPress={this.onButtonPress.bind(this)} 
+        //   />
+          <TouchableOpacity style={styles.buttonContainer}
+        onPress={
+          this.onButtonPress.bind(this)}
+        // this.setState({ error: '', loading: true })
+        // this.Login(this.state.email, this.state.password)}}
+        >
+            <Text style={styles.buttonText}> Login </Text>
+        </TouchableOpacity>
+      );
+    }
+  
+  
 
 
   render() {
-    if (this.state.isLoading) {
-        return <Loading />;
-      }
     return (
     <SafeAreaView style={styles.container}>
     <KeyboardAvoidingView behavior='padding' style={styles.container}>
@@ -137,12 +155,13 @@ Login = (email, password) => {
           ref={"pw"}
         />
         
-        <TouchableOpacity style={styles.buttonContainer}
-        onPress={() => this.Login(this.state.email, this.state.password)}
-        >
-            <Text style={styles.buttonText}> Login </Text>
-        </TouchableOpacity>
+        
 
+        {this.renderButton()}
+
+        <Text style={styles.errorTextStyle}>
+          {this.state.error}
+        </Text>
 
         {/* <Button title="LOGIN" onPress={() => this.Login(this.state.email, this.state.password)} />
         <Button title="SignUp" onPress={() => this.SignUp(this.state.email, this.state.password)} />
@@ -160,7 +179,6 @@ Login = (email, password) => {
       </KeyboardAvoidingView>
       </SafeAreaView>
     )
-    
   }
 }
 const styles = StyleSheet.create({
@@ -213,5 +231,17 @@ const styles = StyleSheet.create({
     color: "#000000",
     fontFamily: "Raleway-Regular",
     fontSize: 15
-  }
+  },
+  errorTextStyle: {
+    fontSize: 14,
+    alignSelf: 'center',
+    color: 'red',
+    fontFamily: "Raleway-Regular"
+  },
+  spinnerStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
 })
