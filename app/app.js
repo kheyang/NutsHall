@@ -56,7 +56,7 @@ const drawerContentComponent = props => (
           alignSelf: "center",
           marginTop:  40,
           marginBottom: 20         
-              }}
+        }}
         resizeMode="contain"
       />
       <DrawerItems {...props} />

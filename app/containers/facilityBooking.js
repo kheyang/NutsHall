@@ -101,13 +101,14 @@ export default class FacilityBooking extends Component {
 
     return (
         
-      <View style={styles.container}>
+      <ScrollView>
+        <View style={styles.container}>
 
-        <Image
+        {/* <Image
           resizeMode="cover"
           source={params.image}
           style={styles.image} 
-        />
+        /> */}
 
         <View style={styles.textContainer}> 
           <Text style={styles.headerText}>
@@ -236,7 +237,8 @@ export default class FacilityBooking extends Component {
                 // });
             }}
             />
-      </View>
+            </View>
+      </ScrollView>
     );
   }
 }
@@ -272,8 +274,8 @@ const styles = StyleSheet.create({
     // backgroundColor: 'transparent',
   },
   textContainer: {
-    position: 'absolute', 
-    height: 100,
+    // position: 'absolute', 
+    height: 50,
     top: 0, 
     left: 0, 
     right: 0, 

@@ -196,7 +196,7 @@ export default class Calendar extends Component {
       this.setState({
         items: newItems
       });
-    }, 10);
+    }, 1000);
     // console.log(`Load Items for ${day.year}-${day.month}-${day.day}`);
   }
 
@@ -225,6 +225,7 @@ export default class Calendar extends Component {
 
   addEvent(day) {
     console.log('hellooo')
+    this.state.items[`${day.year}-${day.month}-${day.day}`] = []
     this.state.items[`${day.year}-${day.month}-${day.day}`].push({
       name: 'Added',
       height: 50
