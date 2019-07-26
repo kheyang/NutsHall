@@ -1,19 +1,20 @@
 import React, {Component} from "react";
 import {Platform, StyleSheet, ScrollView, Text, View, Button, Image, TouchableOpacity } from "react-native";
 import { Root } from "native-base";
-import { createAppContainer, createStackNavigator, createDrawerNavigator, SafeAreaView, DrawerItems} from "react-navigation";
+import { createAppContainer, createStackNavigator, createDrawerNavigator, createSwitchNavigator, SafeAreaView, DrawerItems} from "react-navigation";
 import Announcements from "./containers/announcementPage";
 import AnnouncementDetails from './containers/announcementDetails';
 import Facilities from "./containers/facilitiesPage";
 import Facility from './containers/facility';
-import Events from './containers/events';
+import Login from './containers/login';
+// import Loading from './containers/loading';
 import FacilityBooking from './containers/facilityBooking';
 import NavigationManager from "./managers/navigationManager";
-import Calendar from "./containers/calendar";
+import Calendar, {addEvent} from "./containers/calendar";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 //Drawer navigator's toggle button
-class NavigationDrawerStructure extends Component {
+export class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
     this.props.navigationProps.toggleDrawer();
   };
@@ -121,15 +122,11 @@ export const FacilitiesStack = createStackNavigator({
     screen: Facilities,
     navigationOptions: stackNavOptions,
   }, 
-  'Events': { 
-    screen: Events, 
-    navigationOptions: stackNavOptions,
-
-    },
   'Facility': { 
     screen: Facility, 
     navigationOptions: stackNavOptions,
     },
+    
     'FacilityBooking': { 
       screen: FacilityBooking, 
       navigationOptions: stackNavOptions,
@@ -142,28 +139,29 @@ export const FacilitiesStack = createStackNavigator({
 export const CalendarStack = createStackNavigator({
   Calendar: { 
     screen: Calendar,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Calendar',
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerRight:  <Icon.Button
-                      name='plus'
-                      color = 'black'
-                      backgroundColor='transparent'
-                      onPress = {Calendar.addEvent}
-                    >
-                    </Icon.Button>,
-      headerTitleStyle: {
-        fontFamily: "Raleway-Medium",
-        fontWeight: 'normal'
-      },
-      headerStyle: {
-        backgroundColor: '#fff',
-      },
-      headerTintColor: '#000000',
-    }),
+  //   navigationOptions: ({ navigation }) => ({
+  //     title: 'Calendar',
+  //     headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+  //     headerRight:  <Icon.Button
+  //     name='plus'
+  //     color = 'black'
+  //     backgroundColor='transparent'
+  //     onPress = {() => Calendar.addEvent(Calendar.state.date)}
+  //   >
+  //   </Icon.Button>,
+  //     headerTitleStyle: {
+  //       fontFamily: "Raleway-Medium",
+  //       fontWeight: 'normal'
+  //     },
+  //     headerStyle: {
+  //       backgroundColor: '#fff',
+  //     },
+  //     headerTintColor: '#000000',
+  //   }),
   }, 
 }, {
   initialRouteName: 'Calendar',
+  headerMode: 'screen'
 })
 
 //Slide in DrawerNavigation
@@ -203,7 +201,55 @@ const MyDrawerNavigator = createDrawerNavigator(
   },
 );
 
-const AppContainer = createAppContainer(MyDrawerNavigator);
+
+const DrawerStack = createStackNavigator({
+  drawerStack: { screen: MyDrawerNavigator }
+}, 
+)
+
+// login stack
+const LoginStack = createStackNavigator({
+  loginScreen: { screen: Login },
+  // loadingScreen: { screen: Loading },
+  // forgottenPasswordScreen: { screen: ForgottenPasswordScreen, navigationOptions: { title: 'Forgot Password' } }
+}, {
+  headerMode: 'none',
+  initialRouteName: 'loginScreen'
+ }
+)
+
+
+
+// Manifest of possible screens
+const PrimaryNav = createStackNavigator({
+  loginStack: { screen: LoginStack },
+  drawerStack: { screen: MyDrawerNavigator }
+}, {
+  // Default config for all screens
+  headerMode: 'none',
+  title: 'Main',
+  initialRouteName: 'drawerStack'
+})
+
+
+// const InitialNavigator = createSwitchNavigator({
+//   Loading: Loading,
+//   App: PrimaryNav
+// });
+
+
+
+
+
+
+
+
+
+
+
+const AppContainer = createAppContainer(PrimaryNav);
+// const AppContainer = createAppContainer(MyDrawerNavigator);
+
 
 export default () => (
   <Root>

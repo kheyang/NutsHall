@@ -3,77 +3,41 @@ import PropTypes from 'prop-types';
 import { Text, View, StyleSheet } from 'react-native';
 import moment from 'moment';
 
-// import { getFormattedDate, getCurrentMonth } from '../utils';
 
-// import styles from './Header.styles';
-
-const getFormattedDate = (date, format) => {
-    return moment(date).format(format);
-  };
-  
-  const setLocale = (locale) => {
-    moment.locale(locale);
-  };
-  
-  const addLocale = (locale, obj) => {
-    moment.locale(locale, obj);
-  };
-  
-  const getCurrentMonth = (date) => {
-    return moment(date).format('MMM Y');
-  };
-
-const getColumns = (numberOfDays, selectedDate) => {
+const getColumns = (selectedDate) => {
   const columns = [];
-  let initial = 0;
-  if (numberOfDays === 7) {
-    initial = 1;
-    initial -= moment().isoWeekday();
-  }
-  for (let i = initial; i < (numberOfDays + initial); i += 1) {
+  for (let i = 0; i < 7; i++) {
     let date = moment(selectedDate);
     date = date.add(i, 'd');
-    columns.push(date.toDate());
+    columns.push(date);
+    console.log('HEADERDATE' + date.toString());
   }
   return columns;
 };
 
-const getFontSizeHeader = (numberOfDays) => {
-  if (numberOfDays > 1) {
-    return 12;
-  }
-
-  return 16;
-};
-
-const getDayTextStyles = (numberOfDays) => {
-  const fontSize = numberOfDays === 7 ? 12 : 14;
-  return {
-    fontSize,
-  };
-};
 
 const Column = ({
-  column, numberOfDays, format,
-}) => {
-  return (
-    <View style={styles.column}>
-      <Text style={[styles.text, getDayTextStyles(numberOfDays)]}>
-        {getFormattedDate(column, format)}
-      </Text>
-    </View>
-  );
-};
+    column, format,
+  }) => {
+    return (
+      <View style={styles.headerColumn}>
+        <Text style={[styles.headerText, 12]}>
+          {moment(column).format("ddd" + "[\n]" +"D")}
+        </Text>
+      </View>
+    );
+  };
 
-const Columns = ({ columns, numberOfDays, format }) => {
+  
+
+const Columns = ({ columns, format }) => {
   return (
-    <View style={styles.columns}>
+    <View style={styles.headerColumns}>
       {columns.map((column) => {
         return (
           <Column
             key={column}
             column={column}
-            numberOfDays={numberOfDays}
             format={format}
           />
         );
@@ -82,60 +46,60 @@ const Columns = ({ columns, numberOfDays, format }) => {
   );
 };
 
-const Title = ({ numberOfDays, selectedDate }) => { // eslint-disable-line react/prop-types
+const Title = ({ selectedDate }) => { // eslint-disable-line react/prop-types
   return (
-    <View style={styles.title}>
+    <View style={styles.headerTitle}>
       <Text
-        style={[styles.text, { fontSize: getFontSizeHeader(numberOfDays) }]}
+        style={[styles.headerText, { fontSize: 12 }]}
       >
-        {getCurrentMonth(selectedDate)}
+        {moment(selectedDate).format('MMM Y')}
       </Text>
     </View>
   );
 };
 
 const WeekViewHeader = ({
-  numberOfDays, selectedDate, formatDate, style,
+  selectedDate, formatDate, style,
 }) => {
-  const columns = getColumns(numberOfDays, selectedDate);
+  const getCol = getColumns(selectedDate);
   return (
-    <View style={[styles.container, style]}>
-      <Title numberOfDays={numberOfDays} selectedDate={selectedDate} />
-      {columns && <Columns format={formatDate} columns={columns} numberOfDays={numberOfDays} />}
+    <View style={[styles.headerContainer, style]}>
+      <Title selectedDate={selectedDate} />
+      {getCol && <Columns format={formatDate} columns={getCol} />}
     </View>
   );
 };
 
 WeekViewHeader.propTypes = {
-  numberOfDays: PropTypes.oneOf([1, 3, 7]).isRequired,
-  selectedDate: PropTypes.instanceOf(Date).isRequired,
+  selectedDate: PropTypes.instanceOf(moment).isRequired,
   formatDate: PropTypes.string,
   style: PropTypes.object,
 };
 
 WeekViewHeader.defaultProps = {
-  formatDate: 'D',
+  formatDate: "ddd[\n]" +"D"
 };
 
 
 
 const styles = StyleSheet.create({
-    container: {
+    headerContainer: {
       flexDirection: 'row',
       flex: 1,
       justifyContent: 'space-between',
     },
-    title: {
+    headerTitle: {
       justifyContent: 'center',
       alignItems: 'center',
       width: 60,
       fontFamily: "Raleway-Regular",
     },
-    columns: {
+    headerColumns: {
       flex: 1,
       flexDirection: 'row',
+      justifyContent: 'center',
     },
-    column: {
+    headerColumn: {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
@@ -143,7 +107,7 @@ const styles = StyleSheet.create({
       borderTopWidth: 1,
       borderLeftWidth: 1,
     },
-    text: {
+    headerText: {
       color: '#fff',
     },
   });

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Button } from 'react-native';
 import PropTypes from 'prop-types';
-import ViewPager from "@react-native-community/viewpager";
 import NavigationManager from "../managers/navigationManager";
+import Swiper from "react-native-swiper";
 
 export default class EventComponent extends Component {
   static propTypes = {
@@ -10,8 +10,11 @@ export default class EventComponent extends Component {
 	}
 
   render() {
-    return (
-      <ViewPager style={styles.viewPager} initialPage={0}>
+    return ( 
+      <Swiper style={{}} autoplay={true} key={this.props.items.length}
+        dot={<View style={{backgroundColor: 'rgba(0,0,0,.2)', width: 5, height: 5, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3}}/>}
+        activeDot={<View style={{backgroundColor: '#000', width: 8, height: 8, borderRadius: 4,marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3}} />}
+      >
         {this.props.items.map((item, index) => {
 					return (
 						<View style={styles.pageStyle} key={index}>
@@ -20,8 +23,10 @@ export default class EventComponent extends Component {
 									source={{uri : item.url}}
 									style={styles.poster}
 									resizeMode='contain'
+                  key={index}
 								/>
 							</View>
+              <View paddingVertical={5} />   
 							<View style={styles.eventTitleContainer}>
 								<Text style={styles.eventTitle}>
 										{item.name}
@@ -31,6 +36,7 @@ export default class EventComponent extends Component {
 								<Text style={styles.description}>{item.description}</Text>
 							</View>
 							<View style={styles.buttonContainer}>
+              <View paddingVertical={5} />   
 								<Button
 									color='green'
 									onPress={() => NavigationManager.navigate('Announcement Details', { title: item.name, eventPoster: item.url, eventDetails: item.details })}
@@ -40,7 +46,7 @@ export default class EventComponent extends Component {
 						</View>
 					)
 				})}
-      </ViewPager>
+      </Swiper>
     )
   }
 }
@@ -53,44 +59,46 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Raleway-Regular",
   },
-  viewPager: {
-    flex: 1
-  },
+  // viewPager: {
+  //   flex: 1
+  // },
   pageStyle: {
     flexDirection:'column', 
     alignItems: 'center',
   },
   posterContainer: {
-    flex:5,
+    // flex:5,
 		justifyContent: 'center',
 		width: 300, //line 36 resize mode 'contain' will prevent the image from overflowing
-		height: 150
+		height: 300
   },
   poster: {
-    flex: 1,
-    marginTop: 20,
+    // flex: 1,
+    // marginTop: 20,
+    width: 300,
+		height: 300
   },
   eventTitleContainer: {
-    flex: 0.5,
-    marginTop: 20,
+    // flex: 0.5,
+    // marginTop: 20,
   },
   eventTitle: {
     fontSize: 20,
     fontWeight: 'bold',
   },
   descriptionContainer: {
-    flex:3, 
+    // flex:3, 
     maxWidth: 300,
     justifyContent: 'center' 
   },
   description: {
-    marginBottom: 20, 
-    marginTop: 10,
+    // marginBottom: 20, 
+    // marginTop: 10,
     textAlign: 'center',
   },
   buttonContainer: {
-    flex:1, 
+    // flex:1, 
     maxWidth: 150,
-    marginBottom: 40,
+    // marginBottom: 40,
   }
 });

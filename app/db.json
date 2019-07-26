@@ -28,6 +28,45 @@
       "description" : "Date: 28 June 2019\nTime: 8:00pm - 10:00pm\nVenue: Conference Room",
       "details" : "\nDon't know what to do when there are casualties🧟‍♂? Wanna help your friend when he/she gets injured👩🏻‍⚕? Fret not! cuz Safety Night is here! This year, Dr Patrick Tan from UHC will be coming down to share about Basic First Aid tips!\n\nDate: 28th March (Thursday)\nTime: 8pm\nVenue: Conference Room (Upper Lounge)\n\nFree door gift (I think is a 16GB thumbdrive) and free food🍕🍕🍕🥤 are waiting for you!\nSign up now at https://tinyurl.com/safetynight19!\nSee you this Thursday, be there or be square!"
     }
-	}
-}
+  },
+
+    "facilities": {
+      "Hard Court": { 
+          "jul 18": {
+              "9:00" : {
+                "name": "Chong KY",
+                "endTime": "12:00",
+                "purpose": "for fun"
+              },
+              "13:00": {
+               "name": "CHONGCHONG",
+               "endTime": "14:00",
+               "purpose": "LOL"
+              }
+            
+          
+        }
+      }, 
+      "Meeting Room": { 
+          "Jul 19": {
+              "9:00" : {
+                "name": "Chong KY",
+                "endTime": "12:00",
+                "purpose": "for fun"
+              },
+              "13:00": {
+               "name": "CHONGCHONG",
+               "endTime": "14:00",
+               "purpose": "LOL"
+              
+            }
+          
+        }
+      }
+    }
+  }
+
   
+
+
+

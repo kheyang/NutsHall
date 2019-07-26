@@ -124,12 +124,15 @@ import React, { Component } from 'react';
 import {
   Text,
   View,
-  StyleSheet
+  StyleSheet,
+  Button
 } from 'react-native';
 import {Agenda} from 'react-native-calendars';
+import { CalendarStack } from '../app.js';
 import NavigationManager from "../managers/navigationManager";
-import { eventAnnouncement } from "./announcementPage";
-import {db} from "../config"
+import {db} from "../config";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { NavigationDrawerStructure } from "../app";
 
 let itemsRef = db.ref('/event')
 
@@ -139,25 +142,58 @@ export default class Calendar extends Component {
     super(props);
     this.state = {
       items: {},
-      events: []
+      events: [],
+      selectedDate: new Date()
     };
     this.loadItems = this.loadItems.bind(this)
   }
 
-  static navigationOptions = {
-    title: 'Calendar'
-  }
+  // static navigationOptions = {
+  //   drawerLabel: 'Calendar',
+  // }
+
+  static navigationOptions = (navigation) => ({
+    drawerLabel: 'Calendar',
+    title: 'Calendar',
+    // headerStyle: {
+    //   backgroundColor: navigationOptions.headerTintColor
+    // } , 
+    // title: 'Calendar',
+    headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+    headerRight: 
+    <Icon.Button
+      name='plus'
+      color = 'black'
+      backgroundColor='transparent'
+      
+      onPress = {() => this.addEvent()}
+    >
+    </Icon.Button>,
+    headerTitleStyle: {
+      fontFamily: "Raleway-Medium",
+      fontWeight: 'normal'
+    },
+    headerStyle: {
+      backgroundColor: '#fff',
+    },
+    headerTintColor: '#000000',
+  })
 
   componentDidMount() {
     itemsRef.on('value', snapshot => {
       let data = snapshot.val()
-      let items = Object.values(data) // []
+      let items = Object.values(data)
       // let updatedEvents = this.state.events
       // updatedEvents.push(items)
       this.setState({ events: items })
       // console.log(data)
       // console.log(items)
     })
+  }
+  
+  static addEvent() {
+    console.log('helllooooo')
+    console.log(this.state.selectedDate)
   }
 
   render() {
@@ -168,9 +204,16 @@ export default class Calendar extends Component {
         renderItem={this.renderItem.bind(this)}
         renderEmptyDate={this.renderEmptyDate.bind(this)}
         rowHasChanged={this.rowHasChanged.bind(this)}
-        addEvent={this.addEvent.bind(this)}
+        // addEvent={this.addEvent.bind(this)}
         pastScrollRange={12}
         futureScrollRange={12}
+        onDayPress = {(day)=>{
+          console.log(day.dateString)
+          this.setState({ selectedDate: day.dateString })
+          setTimeout(() => {
+            console.log(this.state.selectedDate)
+          },1)
+        }}
       />
     );
   }
@@ -223,25 +266,33 @@ export default class Calendar extends Component {
     return date.toISOString().split('T')[0];
   }
 
-  addEvent(day) {
-    console.log('hellooo')
-    this.state.items[`${day.year}-${day.month}-${day.day}`] = []
-    this.state.items[`${day.year}-${day.month}-${day.day}`].push({
-      name: 'Added',
-      height: 50
-    })
-  }
+  // addEvent() {
+  //   console.log('helllooooo')
+  //   console.log(this.state.selectedDate)
+  // }
 
-  static navigationOptions = {
-    drawerLabel: 'Calendar',
-  }
+  // addEvent() {
+  //   // console.log('1231')
+  //   // // this.state.items[`${day.year}-${day.month}-${day.day}`] = []
+  //   // // this.state.items[`${day.year}-${day.month}-${day.day}`].push({
+  //   // //   name: 'Added',
+  //   // //   height: 50
+  //   // // })
+  //   // console.log(day)
+  //   return (
+  //     console.log('f')
+  //   )
+  // }
 }
 
-// export function addEvent(day) {
-//   this.state.items[day].push({
-//     name: 'Added',
-//     height: 50
-//   })
+// function addEvent(day) {
+//   console.log('hellooo')
+//   // Calendar.items[`${Calendar.day.year}-${Calendar.day.month}-${Calendar.day.day}`] = []
+//   // Calendar.items[`${Calendar.day.year}-${Calendar.day.month}-${Calendar.day.day}`].push({
+//   //   name: 'Added',
+//   //   height: 50
+//   // })
+//   console.log(day)
 // }
 
 const styles = StyleSheet.create({
@@ -260,4 +311,5 @@ const styles = StyleSheet.create({
   }
 });
 
-module.export = Calendar; //module export statement
+// module.export = Calendar; //module export statement
+// module.export.Calendar.addEvent = addEvent;
