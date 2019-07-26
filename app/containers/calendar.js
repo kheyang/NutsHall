@@ -124,41 +124,89 @@ import React, { Component } from 'react';
 import {
   Text,
   View,
-  StyleSheet
+  StyleSheet,
+  Button,
+  TouchableOpacity
 } from 'react-native';
 import {Agenda} from 'react-native-calendars';
+import { CalendarStack } from '../app.js';
 import NavigationManager from "../managers/navigationManager";
-import { eventAnnouncement } from "./announcementPage";
-import {db} from "../config"
+import {db} from "../config";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { NavigationDrawerStructure } from "../app";
 
 let itemsRef = db.ref('/event')
+let reminderRef = db.ref('/reminders')
+
+var selectedDate = new Date().toISOString().slice(0,10)
 
 export default class Calendar extends Component {
-
+  
   constructor(props) {
     super(props);
     this.state = {
       items: {},
-      events: []
+      events: [],
+      // selectedDate: new Date().dateString
+      reminder: [],
     };
     this.loadItems = this.loadItems.bind(this)
   }
 
-  static navigationOptions = {
-    title: 'Calendar'
-  }
+  // static navigationOptions = {
+  //   drawerLabel: 'Calendar',
+  // }
+
+  static navigationOptions = (navigation) => ({
+    drawerLabel: 'Calendar',
+    title: 'Calendar',
+    // headerStyle: {
+    //   backgroundColor: navigationOptions.headerTintColor
+    // } , 
+    // title: 'Calendar',
+    headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+    headerRight: 
+    <Icon.Button
+      name='plus'
+      color = 'black'
+      backgroundColor='transparent'
+      // onPress = {() => this.addEvent()}
+      onPress = {() => NavigationManager.navigate('Adding Event', {date: selectedDate})}
+    >
+    </Icon.Button>,
+    headerTitleStyle: {
+      fontFamily: "Raleway-Medium",
+      fontWeight: 'normal'
+    },
+    headerStyle: {
+      backgroundColor: '#fff',
+    },
+    headerTintColor: '#000000',
+  })
 
   componentDidMount() {
     itemsRef.on('value', snapshot => {
       let data = snapshot.val()
-      let items = Object.values(data) // []
+      let items = Object.values(data)
       // let updatedEvents = this.state.events
       // updatedEvents.push(items)
       this.setState({ events: items })
+    })
+    reminderRef.on('value', snapshot => {
+      let data = snapshot.val()
+      let items = Object.values(data)
+      // let updatedEvents = this.state.events
+      // updatedEvents.push(items)
+      this.setState({ reminder: items })
       // console.log(data)
       // console.log(items)
     })
   }
+
+  // static addEvent() {
+  //   console.log('helllooooo')
+  //   console.log(selectedDate)
+  // }
 
   render() {
     return (
@@ -166,11 +214,20 @@ export default class Calendar extends Component {
         items={this.state.items}
         loadItemsForMonth={this.loadItems.bind(this)}
         renderItem={this.renderItem.bind(this)}
+        renderReminder={this.renderReminder.bind(this)}
         renderEmptyDate={this.renderEmptyDate.bind(this)}
         rowHasChanged={this.rowHasChanged.bind(this)}
-        addEvent={this.addEvent.bind(this)}
+        // addEvent={this.addEvent.bind(this)}
         pastScrollRange={12}
         futureScrollRange={12}
+        onDayPress = {(day)=>{
+          console.log(day.dateString)
+          // this.setState({ selectedDate: day.dateString })
+          selectedDate = day.dateString
+          setTimeout(() => {
+            console.log(selectedDate)
+          },1)
+        }}
       />
     );
   }
@@ -190,21 +247,52 @@ export default class Calendar extends Component {
             height: 50
           })
         }
+        for (let i = 0; i < this.state.reminder.length ; i++) {
+          this.state.items[this.state.reminder[i].date] = []
+          this.state.items[this.state.reminder[i].date].push({
+            name: this.state.reminder[i].title,
+            time: this.state.reminder[i].time,
+            height: 50
+          })
+        }
       }
       const newItems = {};
       Object.keys(this.state.items).forEach(key => {newItems[key] = this.state.items[key];});
       this.setState({
         items: newItems
       });
-    }, 10);
+    }, 1000);
     // console.log(`Load Items for ${day.year}-${day.month}-${day.day}`);
   }
 
   renderItem(item) {
     return (
-      <View style={[styles.item, {height: item.height}]}><Text>{item.name}</Text></View>
+      <View style={[styles.item, {height: item.height}]}>
+        {/* <TouchableOpacity 
+          onLongPress = {()=> {
+            Alert.alert(
+              'Delete Reminder',
+              'Do you sure you want to delete the reminder?',
+              [
+                {text: 'Yes', onPress: ()=>{reminderRef + }}
+              ]
+
+
+            )
+          }}
+        > */}
+
+          <Text>{item.name}</Text>
+        {/* </TouchableOpacity> */}
+      
+      </View>
     );
-    
+  }
+
+  renderReminder(item) {
+    return (
+      <View style={[styles.item, {height: item.height}]}><Text>{item.time}\n{item.name}</Text></View>
+    );
   }
 
   renderEmptyDate() {
@@ -223,24 +311,33 @@ export default class Calendar extends Component {
     return date.toISOString().split('T')[0];
   }
 
-  addEvent(day) {
-    console.log('hellooo')
-    this.state.items[`${day.year}-${day.month}-${day.day}`].push({
-      name: 'Added',
-      height: 50
-    })
-  }
+  // addEvent() {
+  //   console.log('helllooooo')
+  //   console.log(this.state.selectedDate)
+  // }
 
-  static navigationOptions = {
-    drawerLabel: 'Calendar',
-  }
+  // addEvent() {
+  //   // console.log('1231')
+  //   // // this.state.items[`${day.year}-${day.month}-${day.day}`] = []
+  //   // // this.state.items[`${day.year}-${day.month}-${day.day}`].push({
+  //   // //   name: 'Added',
+  //   // //   height: 50
+  //   // // })
+  //   // console.log(day)
+  //   return (
+  //     console.log('f')
+  //   )
+  // }
 }
 
-// export function addEvent(day) {
-//   this.state.items[day].push({
-//     name: 'Added',
-//     height: 50
-//   })
+// function addEvent(day) {
+//   console.log('hellooo')
+//   // Calendar.items[`${Calendar.day.year}-${Calendar.day.month}-${Calendar.day.day}`] = []
+//   // Calendar.items[`${Calendar.day.year}-${Calendar.day.month}-${Calendar.day.day}`].push({
+//   //   name: 'Added',
+//   //   height: 50
+//   // })
+//   console.log(day)
 // }
 
 const styles = StyleSheet.create({
@@ -259,4 +356,5 @@ const styles = StyleSheet.create({
   }
 });
 
-module.export = Calendar; //module export statement
+// module.export = Calendar; //module export statement
+// module.export.Calendar.addEvent = addEvent;

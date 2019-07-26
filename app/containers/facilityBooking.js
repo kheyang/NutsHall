@@ -47,16 +47,16 @@ componentDidMount() {
 
   static navigationOptions = {
     title: 'FacilityBooking'
-   }
+  }
 
-  
+
   static navigationOptions = ({ navigation }) => ({
-        title: navigation.state.params.title,
-        image: navigation.state.params.image, 
-        detail: navigation.state.params.detail,
-        time: navigation.state.params.time,
-        date: navigation.state.params.date,
-      })
+    title: navigation.state.params.title,
+    image: navigation.state.params.image,
+    detail: navigation.state.params.detail,
+    time: navigation.state.params.time,
+    date: navigation.state.params.date,
+  })
 
 
 
@@ -64,7 +64,7 @@ componentDidMount() {
     splitTime = startTime.split(":");
     hour = splitTime[0];
     minute = splitTime[1];
-    return moment({hours: hour, minutes: minute});
+    return moment({ hours: hour, minutes: minute });
   }
 
   possibleEndTimes(startTime, params) {
@@ -503,12 +503,12 @@ const styles = StyleSheet.create({
     // backgroundColor: 'transparent',
   },
   textContainer: {
-    position: 'absolute', 
-    height: 100,
-    top: 0, 
-    left: 0, 
-    right: 0, 
-    bottom: 0, 
+    // position: 'absolute', 
+    height: 50,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
   },

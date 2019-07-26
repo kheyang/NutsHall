@@ -11,7 +11,8 @@ import SignUp from './containers/signup';
 import Loading from './containers/loading';
 import FacilityBooking from './containers/facilityBooking';
 import NavigationManager from "./managers/navigationManager";
-import Calendar from "./containers/calendar";
+import Calendar, {addEvent} from "./containers/calendar";
+import AddingEvent from './containers/addingEvent';
 import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from 'firebase';
 // import { createStore } from 'redux';
@@ -57,7 +58,7 @@ import firebase from 'firebase';
 // };
 
 //Drawer navigator's toggle button
-class NavigationDrawerStructure extends Component {
+export class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
     this.props.navigationProps.toggleDrawer();
   };
@@ -101,7 +102,7 @@ const drawerContentComponent = props => (
           alignSelf: "center",
           marginTop:  40,
           marginBottom: 20         
-              }}
+        }}
         resizeMode="contain"
       />
 
@@ -209,28 +210,44 @@ export const FacilitiesStack = createStackNavigator({
 export const CalendarStack = createStackNavigator({
   Calendar: { 
     screen: Calendar,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Calendar',
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerRight:  <Icon.Button
-                      name='plus'
-                      color = 'black'
-                      backgroundColor='transparent'
-                      onPress = {Calendar.addEvent}
-                    >
-                    </Icon.Button>,
-      headerTitleStyle: {
-        fontFamily: "Raleway-Medium",
-        fontWeight: 'normal'
-      },
-      headerStyle: {
-        backgroundColor: '#fff',
-      },
-      headerTintColor: '#000000',
-    }),
+  //   navigationOptions: ({ navigation }) => ({
+  //     title: 'Calendar',
+  //     headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+  //     headerRight:  <Icon.Button
+  //     name='plus'
+  //     color = 'black'
+  //     backgroundColor='transparent'
+  //     onPress = {() => Calendar.addEvent(Calendar.state.date)}
+  //   >
+  //   </Icon.Button>,
+  //     headerTitleStyle: {
+  //       fontFamily: "Raleway-Medium",
+  //       fontWeight: 'normal'
+  //     },
+  //     headerStyle: {
+  //       backgroundColor: '#fff',
+  //     },
+  //     headerTintColor: '#000000',
+  //   }),
   }, 
+  'Adding Event': { 
+    screen: AddingEvent, 
+    navigationOptions: ({ navigation }) => ({
+        // title: 'Announcement Details',
+        headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+        headerTitleStyle: {
+          fontFamily: "Raleway-Medium",
+          fontWeight: 'normal'
+        },
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000000',
+      }),
+    },
 }, {
   initialRouteName: 'Calendar',
+  headerMode: 'screen'
 })
 
 //Slide in DrawerNavigation
