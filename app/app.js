@@ -140,9 +140,8 @@ export const FacilitiesStack = createStackNavigator({
 export const CalendarStack = createStackNavigator({
   Calendar: { 
     screen: Calendar,
-  //   navigationOptions: ({ navigation }) => ({
-  //     title: 'Calendar',
-  //     headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
   //     headerRight:  <Icon.Button
   //     name='plus'
   //     color = 'black'
@@ -158,7 +157,7 @@ export const CalendarStack = createStackNavigator({
   //       backgroundColor: '#fff',
   //     },
   //     headerTintColor: '#000000',
-  //   }),
+    }),
   }, 
   'Adding Event': { 
     screen: AddingEvent, 
