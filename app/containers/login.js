@@ -1,7 +1,8 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View, Button, Alert, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Image, Keyboard, SafeAreaView, AsyncStorage, ActivityIndicator, Item, Label } from 'react-native'
+import { StyleSheet, Text, TextInput, View, Button, Alert, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Image, Keyboard, SafeAreaView, AsyncStorage, ActivityIndicator, Item, Label, BackHandler } from 'react-native'
 import NavigationManager from "../managers/navigationManager";
 import firebase from 'firebase';
+import {NavigationActions, StackActions} from 'react-navigation';
 // import Loading from './loading';
 
 
@@ -13,8 +14,30 @@ export default class Login extends React.Component {
       password: '', 
       error: '',
   }
+  this.handleBackButton= this.handleBackButton.bind(this);
+
 }
 
+componentDidMount() {
+  BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+}
+
+componentWillUnmount() {
+  BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+}
+
+handleBackButton() {
+  Alert.alert(
+    ' Exit',
+    ' Do you want to exit?',
+    [
+      { text: 'Yes', onPress: () => BackHandler.exitApp() },
+      { text: 'No', onPress: () => console.log('NO Pressed') }
+    ],
+    { cancelable: false },
+  );
+  return true;
+}
 
 // Login = (email, password) => {
 //     try {
@@ -66,8 +89,9 @@ export default class Login extends React.Component {
         email: '', password: '', error: '', loading: false
       });
       this.props.navigation.dispatch(
-        NavigationActions.reset({
+        StackActions.reset({
          index: 0,
+         key:null,
          actions: [NavigationActions.navigate({ routeName: "drawerStack" })]
         })
        );

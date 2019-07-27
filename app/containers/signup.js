@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, TextInput, View, Button, Alert, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Image, Keyboard, SafeAreaView, AsyncStorage, ActivityIndicator, Item, Label } from 'react-native'
 import NavigationManager from "../managers/navigationManager";
+import {NavigationActions, StackActions} from "react-navigation";
 import firebase from 'firebase';
 import Login from './login';
 
