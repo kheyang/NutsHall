@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, TextInput, View, Button, Alert, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Image, Keyboard, SafeAreaView, AsyncStorage, ActivityIndicator, Item, Label, BackHandler } from 'react-native'
 import NavigationManager from "../managers/navigationManager";
 import firebase from 'firebase';
-import {NavigationActions, StackActions} from 'react-navigation';
+import { NavigationActions, StackActions} from "react-navigation";
 // import Loading from './loading';
 
 
