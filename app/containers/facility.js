@@ -203,13 +203,21 @@ export default class Facility extends Component {
               items={dateTimes}
               style={styles.gridView}
               renderItem={({ item, index }) => (
+<<<<<<< HEAD
                 <TouchableHighlight onPress={() =>
                   (item.date).isBefore(moment(new Date()), 'day') ||
                     ((item.date).isSame(moment(new Date()), 'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ?
+=======
+               
+                  <TouchableHighlight onPress={() => 
+                    (item.date).isBefore(moment(new Date()),'day') || 
+                    ((item.date).isSame(moment(new Date()),'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ?
+>>>>>>> 30a960b2d20c70fc285eb347bd0f88c518630e6b
                     Alert.alert("Date has already passed/time has passed! Move on~") :
                     (item.endTime != undefined) ? Alert.alert("Booked by " + item.name) :
                       NavigationManager.navigate('FacilityBooking', { date: (item.date).format("MMM D").toString(), time: item.time, title: params.title, image: params.image, detail: params.detail })}>
 
+<<<<<<< HEAD
                   {/* NavigationManager.navigate('FacilityBooking', {date: (item.date).format("MMM D").toString(), time: item.time, title: params.title, image: params.image, detail: params.detail, onNavigateBack: this.handleOnNavigateBack})}> */}
 
                   <View style={[styles.itemContainer, (item.date).isBefore(moment(new Date()), 'day') ||
@@ -218,6 +226,11 @@ export default class Facility extends Component {
                     <Text style={styles.itemName}>{(item.date).format("MMM D").toString()}</Text>
                     <Text style={styles.itemCode}>{item.time}</Text>
                   </View>
+=======
+              <View style={[styles.itemContainer, (item.date).isBefore(moment(new Date()),'day') || 
+                                                  ((item.date).isSame(moment(new Date()),'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ||
+                                                  (item.endTime != undefined) ?  {backgroundColor: "#888888"} :  {backgroundColor:  "#000000"}]}>
+>>>>>>> 30a960b2d20c70fc285eb347bd0f88c518630e6b
 
                   
                 </TouchableHighlight>
@@ -357,6 +370,7 @@ const styles = StyleSheet.create({
     width: 60,
   },
   rowContainer: {
+<<<<<<< HEAD
     paddingTop: 16,
   },
   timeRow: {
@@ -407,6 +421,73 @@ const styles = StyleSheet.create({
   },
 
   wrapper: {
+=======
+      paddingTop: 16,
+    },
+    timeRow: {
+      // flex: 1,
+      height: 40,
+      width: (SCREEN_WIDTH - 60)/7,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      top: 0,
+    },
+    timeLabelLine: {
+      // height: 1,
+      // backgroundColor: GREY_COLOR,
+      position: 'absolute',
+      right: 0,
+      left: 0,
+    },
+
+
+    gridView: {
+      paddingTop: 0,
+      flex: 0,
+      height: ROW_HEIGHT * TIME_LABELS_COUNT, 
+      width: SCREEN_WIDTH - 60, 
+      // flexDirection:"column", 
+      // flexWrap:"wrap" 
+
+    },
+    itemContainer: {
+      justifyContent: 'flex-end',
+      borderRadius: 2,
+      padding: 0,
+      height: 40,
+      width: ((SCREEN_WIDTH - 60)/7),
+    },
+    itemName: {
+      fontSize: 8,
+      color: '#fff',
+      // fontWeight: '600',
+    },
+    itemCode: {
+      // fontWeight: '600',
+      fontSize: 8,
+      color: '#fff',
+    },
+    backButton: {
+      position: 'absolute',
+      top: 0, 
+      left: 0, 
+      right: 0, 
+      bottom: 0, 
+    },
+    nextButton: {
+      position:'absolute',
+      alignSelf: 'flex-end',
+      top: 0, 
+      // left: 0, 
+      // right: 0, 
+      // bottom: 0, 
+      // margin: 40,
+
+    },
+
+    wrapper: {
+>>>>>>> 30a960b2d20c70fc285eb347bd0f88c518630e6b
   },
   slide1: {
     flex: 1,
