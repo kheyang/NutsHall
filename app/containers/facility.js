@@ -170,6 +170,7 @@ export default class Facility extends Component {
     title: navigation.state.params.title,
     image: navigation.state.params.image, 
     detail: navigation.state.params.detail,
+    headerRight: 
   })
 
 
@@ -322,7 +323,6 @@ prepareDates = (currentMoment) => {
 
 generateDateTimes = (dates, times, params) => {
   const dateTimes = [];
-
   itemsRef.child("facilities").child(params.title).once("value").then(snapshot => {
   let count = -1;
   for(let i = 0; i < times.length; i++) {

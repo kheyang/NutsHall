@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import {Platform, StyleSheet, ScrollView, Text, View, Button, Image, TouchableOpacity } from "react-native";
+import {Platform, StyleSheet, ScrollView, Text, View, Button, Image, TouchableOpacity, SafeAreaView, Alert } from "react-native";
 import { Root } from "native-base";
-import { createAppContainer, createStackNavigator, createDrawerNavigator, createSwitchNavigator, SafeAreaView, DrawerItems} from "react-navigation";
+import { createAppContainer, createStackNavigator, createDrawerNavigator, createSwitchNavigator, DrawerItems, NavigationActions, StackActions} from "react-navigation";
 import Announcements from "./containers/announcementPage";
 import AnnouncementDetails from './containers/announcementDetails';
 import Facilities from "./containers/facilitiesPage";
@@ -16,6 +16,7 @@ import AddingEvent from './containers/addingEvent';
 import EditingEvent from './containers/editingEvent';
 import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from 'firebase';
+import drawerComponent from './containers/drawerComponent';
 // import { createStore } from 'redux';
 // import { Provider, Connect } from "react-redux";
 
@@ -116,25 +117,40 @@ const drawerContentComponent = props => (
   <TouchableOpacity
       onPress={() => { 
         firebase.auth().signOut().then(()=> {
-          Alert.alert("Logged out");
+          // user = firebase.auth().currentUser;
+
+        // props.navigation.dispatch(
+        // StackActions.reset({
+        //   index: 0,
+        //   key: null,
+        //   actions: [NavigationActions.navigate({ routeName: "primaryNav" })]
+
+        // })
+        // )
+
+        // )
+
+        props.navigation.replace('loginStack');
+        Alert.alert("Logged out");
+
         }, (error) => {
           console.error('Sign out error', error)
           }
         )
-        this.props.navigation.dispatch(
-        NavigationActions.reset({
-          index: 0,
-          key: null,
-          actions: [NavigationActions.navigate({ routeName: "loginScreen" })]
-        }))
-      }
+
+       
+        
+
+    }
     }>
-    <Text fontColor="black" fontFamily='Raleway-Bold' fontSize={16}>Logout </Text>
+    <Text fontColor="black" fontFamily='Raleway-Bold' fontSize={18}>Logout </Text>
 
     </TouchableOpacity>
     </View>
     </View>
-);
+)
+
+
 
 //Drawer Navigator's content options
 const drawerContentOptions = {
@@ -150,7 +166,7 @@ const drawerContentOptions = {
 }
 
 //Announcement StackNavigation
-export const AnnouncementStack = createStackNavigator({
+const AnnouncementStack = createStackNavigator({
   Announcements: { 
     screen: Announcements,
     navigationOptions: ({ navigation }) => ({
@@ -186,7 +202,7 @@ export const AnnouncementStack = createStackNavigator({
 })
 
 //Facilities StackNavigation
-export const FacilitiesStack = createStackNavigator({
+const FacilitiesStack = createStackNavigator({
   Facilities: { 
     screen: Facilities,
     navigationOptions: stackNavOptions,
@@ -205,7 +221,7 @@ export const FacilitiesStack = createStackNavigator({
 })
 
 //Calendar StackNavigation
-export const CalendarStack = createStackNavigator({
+const CalendarStack = createStackNavigator({
   Calendar: { 
     screen: Calendar,
     navigationOptions: ({ navigation }) => ({
@@ -319,6 +335,8 @@ const LoginStack = createStackNavigator({
 )
 
 
+
+// let user = firebase.auth().currentUser;
 
 // Manifest of possible screens
 const PrimaryNav = createStackNavigator({
