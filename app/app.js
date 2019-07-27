@@ -6,6 +6,7 @@ import Announcements from "./containers/announcementPage";
 import AnnouncementDetails from './containers/announcementDetails';
 import Facilities from "./containers/facilitiesPage";
 import Facility from './containers/facility';
+import UserBookings from './containers/userBookings';
 import Login from './containers/login';
 import SignUp from './containers/signup';
 // import Loading from './containers/loading';
@@ -207,6 +208,10 @@ const FacilitiesStack = createStackNavigator({
     screen: Facilities,
     navigationOptions: stackNavOptions,
   }, 
+  'UserBookings': { 
+    screen: UserBookings, 
+    navigationOptions: stackNavOptions,
+    },
   'Facility': { 
     screen: Facility, 
     navigationOptions: stackNavOptions,

@@ -170,7 +170,6 @@ export default class Facility extends Component {
     title: navigation.state.params.title,
     image: navigation.state.params.image, 
     detail: navigation.state.params.detail,
-    headerRight: 
   })
 
 
@@ -218,44 +217,13 @@ renderItem(item, idx) {
               items={dateTimes}
               style={styles.gridView}
               renderItem={({ item, index }) => (
-              // {
-              // if(((item.date).isBefore(moment(new Date()),'day') || 
-              //       ((item.date).isSame(moment(new Date()),'day') && ((item.time).split(":"))[0]) > moment(new Date()).format('H'))) {
-                    
-              //     <TouchableHighlight onPress={() =>  
-              //       Alert.alert("Date has already passed/time has passed! Move on~")}>
-              //     <View style={[styles.itemContainer,  backgroundColor= "#888888"]}>
-              //     <Text style={styles.itemName}>{(item.date).format("MMM D").toString()}</Text>
-              //     <Text style={styles.itemCode}>{item.time}</Text>
-              // </View>
-              // </TouchableHighlight>
-              // } else if(item.endTime != undefined) {
-              //   <TouchableHighlight onPress={() =>
-              //   Alert.alert("Booked by " + item.name)}>
-              //   <View style={[styles.itemContainer,  backgroundColor= "#888888"]}>
-              //   <Text style={styles.itemName}>{(item.date).format("MMM D").toString()}</Text>
-              //     <Text style={styles.itemCode}>{item.time}</Text>
-              // </View>
-              // </TouchableHighlight>
-              // } else {
-              //   <TouchableHighlight onPress={() => 
-              //   NavigationManager.navigate('FacilityBooking', {date: (item.date).format("MMM D").toString(), time: item.time, title: params.title, image: params.image, detail: params.detail})}>
-              //   <View style={[styles.itemContainer, backgroundColor=  "#000000"]}>
-              //   <Text style={styles.itemName}>{(item.date).format("MMM D").toString()}</Text>
-              //     <Text style={styles.itemCode}>{item.time}</Text>
-              // </View>
-              // </TouchableHighlight>
-              // }
-              
-                
+               
                   <TouchableHighlight onPress={() => 
                     (item.date).isBefore(moment(new Date()),'day') || 
                     ((item.date).isSame(moment(new Date()),'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ?
                     Alert.alert("Date has already passed/time has passed! Move on~") :
                   (item.endTime != undefined) ? Alert.alert("Booked by " + item.name) :
                   NavigationManager.navigate('FacilityBooking', {date: (item.date).format("MMM D").toString(), time: item.time, title: params.title, image: params.image, detail: params.detail })}>
-
-                  {/* NavigationManager.navigate('FacilityBooking', {date: (item.date).format("MMM D").toString(), time: item.time, title: params.title, image: params.image, detail: params.detail, onNavigateBack: this.handleOnNavigateBack})}> */}
 
               <View style={[styles.itemContainer, (item.date).isBefore(moment(new Date()),'day') || 
                                                   ((item.date).isSame(moment(new Date()),'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ||
@@ -450,7 +418,7 @@ const styles = StyleSheet.create({
       borderRadius: 2,
       padding: 0,
       height: 40,
-      width: ((SCREEN_WIDTH - 60)/7)-1,
+      width: ((SCREEN_WIDTH - 60)/7),
     },
     itemName: {
       fontSize: 8,

@@ -92,7 +92,15 @@ export default class FacilitiesPage extends Component {
 
 
  static navigationOptions = {
-  title: 'Facilities'
+  title: 'Facilities',
+  headerRight: 
+  <View>
+  <TouchableOpacity
+    onPress={()=> NavigationManager.navigate('UserBookings')}
+  >
+    <Text fontFamily="Raleway-Bold" fontSize={7}> Bookings </Text>
+  </TouchableOpacity>
+  </View>
  }
 
 

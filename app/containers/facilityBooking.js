@@ -44,12 +44,6 @@ componentDidMount() {
    }, 1000)
 
 }
-
-  static navigationOptions = {
-    title: 'FacilityBooking'
-  }
-
-
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.title,
     image: navigation.state.params.image,
@@ -76,18 +70,9 @@ componentDidMount() {
             for (let j = start; j <= 24 && abort === false; j++) {
               if (snapshot.child(j + ":00").exists() === false) {
                   let now = j + ":00";
-                    // endTimings.push({
-                    //     label: now,
-                    //     value: now,
-                    //   });
                     endTimings.push(now);
                 } else {
-                    // endTimings.push(j + ":00");
                     let now = j + ":00";
-                    // endTimings.push({
-                    //     label: now,
-                    //     value: now,
-                    //   });
                     endTimings.push(now);
                     abort = true;  
                 }                   
@@ -449,7 +434,7 @@ renderSchedule = () => {
                 
             }}
             >
-              <Text style={styles.buttonText}> Book Now</Text> 
+              <Text style={styles.buttonText}>Book Now</Text> 
             </TouchableOpacity>
             </View>
       </View>
