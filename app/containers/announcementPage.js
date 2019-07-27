@@ -1,16 +1,22 @@
 import React, { Component } from "react";
 import { db } from '../config';
 import EventComponent from '../components/event.js'
+import firebase from 'firebase';
+
 
 let itemsRef = db.ref('/event')
 
 export default class AnnouncementPage extends Component {
 
   state = {
-    items: []
+    items: [],
+    // currentUser: null
   };
 
   componentDidMount() {
+    // const { currentUser } = firebase.auth();
+    // this.setState({ currentUser });
+
     itemsRef.on('value', snapshot => {
       let data = snapshot.val()
       let items = Object.values(data)
@@ -19,6 +25,7 @@ export default class AnnouncementPage extends Component {
   }
 
   render() {
+    // const { currentUser } = this.state;
     return (
       <EventComponent items = {this.state.items} />
     );

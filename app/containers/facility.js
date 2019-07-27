@@ -129,7 +129,8 @@ import {
   Text,
   StyleSheet,
   TouchableHighlight,
-  Alert
+  Alert,
+  RefreshControl,
 } from 'react-native';
 import { Button, Toast, } from "native-base";
 import Header from './header';
@@ -155,15 +156,15 @@ export default class Facility extends Component {
      currentMoment: moment(new Date()),
      pages: ["2", "3", "4"],
      key: 1,
-     facItems: []
+     facItems: [],
     }
     this.times = this.generateTimes();
   }
 
 
-  static navigationOptions = {
-    title: 'Facility'
-   }
+  // static navigationOptions = {
+  //   title: 'Facility'
+  //  }
 
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.title,
@@ -171,13 +172,12 @@ export default class Facility extends Component {
     detail: navigation.state.params.detail,
   })
 
-   
+
 
 renderItem(item, idx) {
   const { params } = this.props.navigation.state;
   const itemInt = parseInt(item)
   const style = itemInt % 2 == 0 ? styles.slide1 : styles.slide2
-  // const currentMoment = moment(this.state.currentMoment).startOf('week');
   const currentMoment = idx == 0 ? moment(this.state.currentMoment).startOf('week').subtract(1,'w') 
                       : idx == 1 ? moment(this.state.currentMoment).startOf('week') 
                       : moment(this.state.currentMoment).startOf('week').add(1,'w'); 
@@ -190,6 +190,7 @@ renderItem(item, idx) {
   
   return (
     <View style={style} key={idx}>
+
       <View style={styles.header}>
         <Header
           style={headerStyle}
@@ -210,6 +211,7 @@ renderItem(item, idx) {
 
 
       <GridView
+            
               spacing={0.5}
               itemDimension={((SCREEN_WIDTH - 60)/7)-1}
               items={dateTimes}
@@ -250,7 +252,9 @@ renderItem(item, idx) {
                     ((item.date).isSame(moment(new Date()),'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ?
                     Alert.alert("Date has already passed/time has passed! Move on~") :
                   (item.endTime != undefined) ? Alert.alert("Booked by " + item.name) :
-                  NavigationManager.navigate('FacilityBooking', {date: (item.date).format("MMM D").toString(), time: item.time, title: params.title, image: params.image, detail: params.detail})}>
+                  NavigationManager.navigate('FacilityBooking', {date: (item.date).format("MMM D").toString(), time: item.time, title: params.title, image: params.image, detail: params.detail })}>
+
+                  {/* NavigationManager.navigate('FacilityBooking', {date: (item.date).format("MMM D").toString(), time: item.time, title: params.title, image: params.image, detail: params.detail, onNavigateBack: this.handleOnNavigateBack})}> */}
 
               <View style={[styles.itemContainer, (item.date).isBefore(moment(new Date()),'day') || 
                                                   ((item.date).isSame(moment(new Date()),'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ||
@@ -272,13 +276,6 @@ renderItem(item, idx) {
 
   )
 }
-
-// formatDate(date) {
-//   const arr = date.split(" ");
-//   const 
-//   const day = arr[1];
-// }
-
 
 onPageChanged(idx) {
     console.log("CHANGING PAGE" +idx);
@@ -363,20 +360,15 @@ generateDateTimes = (dates, times, params) => {
       }        
     }
     }
-
   })
-
     console.log(dateTimes);
     return dateTimes;
 }
 
 
-
-
 render() {
-  return (
-      
-      <Swiper
+  return (      
+    <Swiper
       index={1}
       key={this.state.key}
       style={styles.wrapper}

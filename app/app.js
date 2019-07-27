@@ -7,12 +7,55 @@ import AnnouncementDetails from './containers/announcementDetails';
 import Facilities from "./containers/facilitiesPage";
 import Facility from './containers/facility';
 import Login from './containers/login';
-// import Loading from './containers/loading';
+import SignUp from './containers/signup';
+import Loading from './containers/loading';
 import FacilityBooking from './containers/facilityBooking';
 import NavigationManager from "./managers/navigationManager";
 import Calendar, {addEvent} from "./containers/calendar";
 import AddingEvent from './containers/addingEvent';
 import Icon from "react-native-vector-icons/FontAwesome";
+import firebase from 'firebase';
+// import { createStore } from 'redux';
+// import { Provider, Connect } from "react-redux";
+
+
+
+// function reducer(state, action) {
+//   console.log('reducer', state, action);
+//   switch(action.type) {
+//     case 'INCREMENT':
+//       return {
+//         count: state.count + 1
+//       };
+//     case 'DECREMENT':
+//       return {
+//         count: state.count - 1
+//       };
+//     case 'RESET':
+//       return {
+//         count: 0
+//       };
+//     default:
+//       return state;
+//   }
+// }
+
+// const store = createStore(reducer);
+// store.dispatch({ type: "INCREMENT" });
+
+// function mapStateToProps(state) {
+//   return {
+//     count: state.count
+//   };
+// }
+
+// increment = () => {
+//   this.props.dispatch({ type: "INCREMENT" });
+// };
+
+// decrement = () => {
+//   this.props.dispatch({ type: "DECREMENT" });
+// };
 
 //Drawer navigator's toggle button
 export class NavigationDrawerStructure extends Component {
@@ -48,6 +91,7 @@ const stackNavOptions =  ({ navigation }) => ({
 
 //Drawer Navigator's content component
 const drawerContentComponent = props => (
+  <View paddingTop={20} flex={1}>
   <ScrollView>
     <SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
       <Image 
@@ -61,14 +105,43 @@ const drawerContentComponent = props => (
         }}
         resizeMode="contain"
       />
+
       <DrawerItems {...props} />
+      
     </SafeAreaView>
   </ScrollView>
+
+<View padding={20}>
+  <TouchableOpacity 
+      
+      onPress={() => { 
+        firebase.auth().signOut().then(()=> {
+          Alert.alert("Logged out");
+        }, (error) => {
+          console.error('Sign out error', error)
+          }
+        )
+        this.props.navigation.dispatch(
+        NavigationActions.reset({
+          index: 0,
+          key: null,
+          actions: [NavigationActions.navigate({ routeName: "loginScreen" })]
+        }))
+
+    }
+
+    }>
+    <Text fontColor="black" fontFamily='Raleway-Bold' fontSize={16}>Logout </Text>
+
+    </TouchableOpacity>
+    </View>
+    </View>
 );
 
 //Drawer Navigator's content options
 const drawerContentOptions = {
   activeTintColor: '#006400',
+  activeBackgroundColor:"transparent",
   labelStyle: {
     fontFamily: 'Raleway-Bold',
     fontWeight: 'normal',
@@ -76,9 +149,6 @@ const drawerContentOptions = {
   itemsContainerStyle: {
     marginVertical: 10,
   },
-  iconContainerStyle: {
-    opacity: 1
-  }
 }
 
 //Announcement StackNavigation
@@ -204,7 +274,9 @@ const MyDrawerNavigator = createDrawerNavigator(
 
   { 
     contentComponent: drawerContentComponent,
-    contentOptions:  drawerContentOptions,
+    contentOptions: drawerContentOptions,
+    initialRouteName: 'AnnouncementStack', 
+    drawerWidth:250,
     navigationOptions: ({ navigation }) => ({
       title: 'Facilities',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
@@ -217,7 +289,7 @@ const MyDrawerNavigator = createDrawerNavigator(
 );
 
 
-const DrawerStack = createStackNavigator({
+const drawerStack = createStackNavigator({
   drawerStack: { screen: MyDrawerNavigator }
 }, 
 )
@@ -225,11 +297,12 @@ const DrawerStack = createStackNavigator({
 // login stack
 const LoginStack = createStackNavigator({
   loginScreen: { screen: Login },
+  signUpScreen : {screen: SignUp }
   // loadingScreen: { screen: Loading },
   // forgottenPasswordScreen: { screen: ForgottenPasswordScreen, navigationOptions: { title: 'Forgot Password' } }
 }, {
   headerMode: 'none',
-  initialRouteName: 'loginScreen'
+  initialRouteName: 'signUpScreen'
  }
 )
 
@@ -237,13 +310,12 @@ const LoginStack = createStackNavigator({
 
 // Manifest of possible screens
 const PrimaryNav = createStackNavigator({
-  loginStack: { screen: LoginStack },
+  // loginStack: { screen: LoginStack },
   drawerStack: { screen: MyDrawerNavigator }
 }, {
-  // Default config for all screens
   headerMode: 'none',
   title: 'Main',
-  initialRouteName: 'drawerStack'
+  // initialRouteName: 'loginStack'
 })
 
 
@@ -251,15 +323,6 @@ const PrimaryNav = createStackNavigator({
 //   Loading: Loading,
 //   App: PrimaryNav
 // });
-
-
-
-
-
-
-
-
-
 
 
 const AppContainer = createAppContainer(PrimaryNav);
@@ -275,6 +338,20 @@ export default () => (
     />
   </Root>
 );
+
+// export default () => connect(mapStateToProps)(
+//   <Root>
+//     <Provider store={store}>
+
+//     <AppContainer
+//       ref={navigatorRef => {
+//         NavigationManager.setTopLevelNavigator(navigatorRef);
+//       }}
+//     />
+//       </Provider>
+//   </Root>
+// );
+
 
 const styles = StyleSheet.create({
   container: {
