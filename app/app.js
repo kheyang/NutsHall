@@ -8,11 +8,12 @@ import Facilities from "./containers/facilitiesPage";
 import Facility from './containers/facility';
 import Login from './containers/login';
 import SignUp from './containers/signup';
-import Loading from './containers/loading';
+// import Loading from './containers/loading';
 import FacilityBooking from './containers/facilityBooking';
 import NavigationManager from "./managers/navigationManager";
 import Calendar, {addEvent} from "./containers/calendar";
 import AddingEvent from './containers/addingEvent';
+import EditingEvent from './containers/editingEvent';
 import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from 'firebase';
 import drawerComponent from './containers/drawerComponent';
@@ -113,8 +114,7 @@ const drawerContentComponent = props => (
   </ScrollView>
 
 <View padding={20}>
-  <TouchableOpacity 
-      
+  <TouchableOpacity
       onPress={() => { 
         firebase.auth().signOut().then(()=> {
           // user = firebase.auth().currentUser;
@@ -224,9 +224,8 @@ const FacilitiesStack = createStackNavigator({
 const CalendarStack = createStackNavigator({
   Calendar: { 
     screen: Calendar,
-  //   navigationOptions: ({ navigation }) => ({
-  //     title: 'Calendar',
-  //     headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
   //     headerRight:  <Icon.Button
   //     name='plus'
   //     color = 'black'
@@ -242,7 +241,7 @@ const CalendarStack = createStackNavigator({
   //       backgroundColor: '#fff',
   //     },
   //     headerTintColor: '#000000',
-  //   }),
+    }),
   }, 
   'Adding Event': { 
     screen: AddingEvent, 
@@ -259,6 +258,20 @@ const CalendarStack = createStackNavigator({
         headerTintColor: '#000000',
       }),
     },
+    'Editing Event': { 
+      screen: EditingEvent, 
+      navigationOptions: ({ navigation }) => ({
+          headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+          headerTitleStyle: {
+            fontFamily: "Raleway-Medium",
+            fontWeight: 'normal'
+          },
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTintColor: '#000000',
+        }),
+      },
 }, {
   initialRouteName: 'Calendar',
   headerMode: 'screen'
