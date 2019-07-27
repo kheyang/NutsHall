@@ -126,7 +126,7 @@ export default class Calendar extends Component {
       this.setState({
         items: newItems
       });
-    }, 1000);
+    }, 10);
   }
 
   renderItem(item) {
@@ -147,6 +147,17 @@ export default class Calendar extends Component {
             style={{
               flex: 1,
             }}
+            onPress = {() => 
+              NavigationManager.navigate(
+                'Editing Event', 
+                {
+                  serial: item.serialNumber, 
+                  date: item.date,
+                  title: item.name,
+                  time: item.time
+                }
+              )
+            }
             onLongPress = {() => {
               Alert.alert(
                 'Delete Reminder',

@@ -8,11 +8,12 @@ import Facilities from "./containers/facilitiesPage";
 import Facility from './containers/facility';
 import Login from './containers/login';
 import SignUp from './containers/signup';
-import Loading from './containers/loading';
+// import Loading from './containers/loading';
 import FacilityBooking from './containers/facilityBooking';
 import NavigationManager from "./managers/navigationManager";
 import Calendar, {addEvent} from "./containers/calendar";
 import AddingEvent from './containers/addingEvent';
+import EditingEvent from './containers/editingEvent';
 import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from 'firebase';
 // import { createStore } from 'redux';
@@ -112,8 +113,7 @@ const drawerContentComponent = props => (
   </ScrollView>
 
 <View padding={20}>
-  <TouchableOpacity 
-      
+  <TouchableOpacity
       onPress={() => { 
         firebase.auth().signOut().then(()=> {
           Alert.alert("Logged out");
@@ -127,9 +127,7 @@ const drawerContentComponent = props => (
           key: null,
           actions: [NavigationActions.navigate({ routeName: "loginScreen" })]
         }))
-
-    }
-
+      }
     }>
     <Text fontColor="black" fontFamily='Raleway-Bold' fontSize={16}>Logout </Text>
 
@@ -244,6 +242,20 @@ export const CalendarStack = createStackNavigator({
         headerTintColor: '#000000',
       }),
     },
+    'Editing Event': { 
+      screen: EditingEvent, 
+      navigationOptions: ({ navigation }) => ({
+          headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+          headerTitleStyle: {
+            fontFamily: "Raleway-Medium",
+            fontWeight: 'normal'
+          },
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTintColor: '#000000',
+        }),
+      },
 }, {
   initialRouteName: 'Calendar',
   headerMode: 'screen'
