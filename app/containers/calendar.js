@@ -13,9 +13,12 @@ import NavigationManager from "../managers/navigationManager";
 import {db} from "../config";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { NavigationDrawerStructure } from "../app";
+import firebase from 'firebase';
 
+// let user = firebase.auth().currentUser;
+// let userID = firebase.auth().currentUser.uid
 let itemsRef = db.ref('/event')
-let reminderRef = db.ref('/reminders')
+let reminderRef = db.ref('/user')
 
 var selectedDate = new Date().toISOString().slice(0,10)
 
@@ -62,7 +65,7 @@ export default class Calendar extends Component {
       this.setState({ events: items })
       // console.log('Events loaded')
     })
-    reminderRef.on('value', snapshot => {
+    reminderRef.child(firebase.auth().currentUser.uid).child('reminders').on('value', snapshot => {
       let data = snapshot.val()
       let items = Object.values(data)
       // let updatedEvents = this.state.events
@@ -164,7 +167,7 @@ export default class Calendar extends Component {
                 'Do you sure you want to delete the reminder?',
                 [
                   {text: 'Yes, delete it.', onPress: () => {
-                      db.ref('reminders/' + item.serialNumber).remove()
+                      db.ref('user/'+ firebase.auth().currentUser.uid + '/reminders/' + item.serialNumber).remove()
                       this.state.items[item.date] = []
                     },
                   },

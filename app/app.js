@@ -16,7 +16,7 @@ import AddingEvent from './containers/addingEvent';
 import EditingEvent from './containers/editingEvent';
 import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from 'firebase';
-import drawerComponent from './containers/drawerComponent';
+// import drawerComponent from './containers/drawerComponent';
 // import { createStore } from 'redux';
 // import { Provider, Connect } from "react-redux";
 

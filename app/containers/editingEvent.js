@@ -17,7 +17,7 @@ import firebase from 'firebase';
 // }
 
 let editReminder = (updatedTitle, updatedTime, serialNumber) => {
-	db.ref('reminders/').child(serialNumber).update({
+	db.ref('user/'+ firebase.auth().currentUser.uid + '/reminders/').child(serialNumber).update({
 		'time': updatedTime,
 		'title': updatedTitle
 	})

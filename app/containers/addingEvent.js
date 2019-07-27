@@ -4,16 +4,17 @@ import NavigationManager from "../managers/navigationManager";
 import {db} from '../config';
 import firebase from 'firebase';
 
-const user = firebase.auth().currentUser;
+// let user = firebase.auth().currentUser;
 
 let addReminder = (eventTitle, eventTime, eventDate) => {
+	let user = firebase.auth().currentUser;
 	// db.ref('/reminders').push({
 	// 	title: eventTitle,
 	// 	time: eventTime,
 	// 	date: eventDate
 	// })
-	db.ref('/reminders').child(new Date().valueOf()).set({title: eventTitle, time: eventTime, date: eventDate, serial: new Date().valueOf()})
-	// db.ref('/user').child(user.uid).child('reminders').child(new Date().valueOf()).set({title: eventTitle, time: eventTime, date: eventDate, serial: new Date().valueOf()})
+	// db.ref('/reminders').child(new Date().valueOf()).set({title: eventTitle, time: eventTime, date: eventDate, serial: new Date().valueOf()})
+	db.ref('/user').child(user.uid).child('reminders').child(new Date().valueOf()).set({title: eventTitle, time: eventTime, date: eventDate, serial: new Date().valueOf()})
 }
 
 // let addReminder = (eventTitle) => {
