@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, TextInput, View, Button, Alert, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Image, Keyboard, SafeAreaView, AsyncStorage, ActivityIndicator, Item, Label } from 'react-native'
 import NavigationManager from "../managers/navigationManager";
 import firebase from 'firebase';
+import { NavigationActions, StackActions} from "react-navigation";
 // import Loading from './loading';
 
 
@@ -66,7 +67,7 @@ export default class Login extends React.Component {
         email: '', password: '', error: '', loading: false
       });
       this.props.navigation.dispatch(
-        NavigationActions.reset({
+        StackActions.reset({
          index: 0,
          actions: [NavigationActions.navigate({ routeName: "drawerStack" })]
         })

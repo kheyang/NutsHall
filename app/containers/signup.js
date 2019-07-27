@@ -3,9 +3,17 @@ import { StyleSheet, Text, TextInput, View, Button, Alert, TouchableOpacity, Key
 import NavigationManager from "../managers/navigationManager";
 import firebase from 'firebase';
 import Login from './login';
+import {db} from '../config'
+
+
+let addUser = ( key ) => {
+	db.ref('/user').child(key).set({key: key})
+}
 
 export default class SignUp extends React.Component {
   state = { email: '', password: '', name: '', error: '' }
+
+
 
 
 onButtonPress() {
@@ -17,8 +25,10 @@ onButtonPress() {
       firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then((user) => { 
                   user = firebase.auth().currentUser;
+                  addUser(user.uid)
                   user.updateProfile({
                     displayName: name
+                    
                  })})
                 .then(this.onLoginSuccess.bind(this))
         

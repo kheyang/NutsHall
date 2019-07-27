@@ -322,12 +322,12 @@ const LoginStack = createStackNavigator({
 
 // Manifest of possible screens
 const PrimaryNav = createStackNavigator({
-  // loginStack: { screen: LoginStack },
+  loginStack: { screen: LoginStack },
   drawerStack: { screen: MyDrawerNavigator }
 }, {
   headerMode: 'none',
   title: 'Main',
-  // initialRouteName: 'loginStack'
+  initialRouteName: 'loginStack'
 })
 
 

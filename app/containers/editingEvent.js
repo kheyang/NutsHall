@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView, Button, TextInput, Alert } from 'react-native'
 import NavigationManager from "../managers/navigationManager";
-import {db} from '../config'
+import {db} from '../config';
+import firebase from 'firebase';
 
 // let addReminder = (eventTitle, eventTime, eventDate) => {
 // 	db.ref('/reminders').child(new Date().valueOf()).set({title: eventTitle, time: eventTime, date: eventDate, serial: new Date().valueOf()})
