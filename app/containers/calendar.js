@@ -1,24 +1,13 @@
 import React, { Component } from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  Button,
-  TouchableOpacity,
-  Alert
-} from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import {Agenda} from 'react-native-calendars';
-import { CalendarStack } from '../app.js';
 import NavigationManager from "../managers/navigationManager";
 import {db} from "../config";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { NavigationDrawerStructure } from "../app";
 import firebase from 'firebase';
 import {YellowBox} from 'react-native';
 
 
-// let user = firebase.auth().currentUser;
-// let userID = firebase.auth().currentUser.uid
 let itemsRef = db.ref('/event')
 let reminderRef = db.ref('/user')
 
@@ -42,7 +31,6 @@ export default class Calendar extends Component {
   static navigationOptions = (navigation) => ({
     drawerLabel: 'Calendar',
     title: 'Calendar',
-    // headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
     headerRight: 
     <Icon.Button
       name='plus'
@@ -68,7 +56,6 @@ export default class Calendar extends Component {
       // let updatedEvents = this.state.events
       // updatedEvents.push(items)
       this.setState({ events: items })
-      // console.log('Events loaded')
     })
     reminderRef.child(firebase.auth().currentUser.uid).child('reminders').on('value', snapshot => {
       let data = snapshot.val()
@@ -76,58 +63,80 @@ export default class Calendar extends Component {
       // let updatedEvents = this.state.events
       // updatedEvents.push(items)
       this.setState({ reminder: items })
-      console.log(this.state.reminder)
+      // console.log(this.state.reminder)
     })
   }
 
   render() {
     return (
-      <Agenda 
+      <Agenda
         items={this.state.items}
         loadItemsForMonth={this.loadItems.bind(this)}
         renderItem={this.renderItem.bind(this)}
-        // renderReminder={this.renderReminder.bind(this)}
         renderEmptyDate={this.renderEmptyDate.bind(this)}
         rowHasChanged={this.rowHasChanged.bind(this)}
         pastScrollRange={12}
         futureScrollRange={12}
         onDayPress = {(day)=>{
-          console.log(day.dateString)
+          // console.log(day.dateString)
           selectedDate = day.dateString
-          setTimeout(() => {
-            console.log(selectedDate)
-          },1)
+          // setTimeout(() => {
+          //   console.log(selectedDate)
+          // },1)
         }}
       />
     );
   }
   
-
   loadItems(day) {
     setTimeout(() => {
-      for (let i = -15; i < 850; i++) {
+      for (let i = -15; i < 100; i++) {
         const time = day.timestamp + i * 24 * 60 * 60 * 1000;
         const strTime = this.timeToString(time);
         if (!this.state.items[strTime]) {
           this.state.items[strTime] = [];
         }
-        for (let i = 0; i < this.state.events.length ; i++) {
-          this.state.items[this.state.events[i].date] = []
-          this.state.items[this.state.events[i].date].push({
-            name: this.state.events[i].name,
+        for (let j = 0; j < this.state.events.length ; j++) {
+          this.state.items[this.state.events[j].date] = []
+          this.state.items[this.state.events[j].date].push({
+            name: this.state.events[j].name,
             height: 50
           })
         }
-        for (let i = 0; i < this.state.reminder.length ; i++) {
-          this.state.items[this.state.reminder[i].date] = []
-          this.state.items[this.state.reminder[i].date].push({
-            name: this.state.reminder[i].title,
-            date: this.state.reminder[i].date,
-            time: this.state.reminder[i].time,
-            serialNumber: this.state.reminder[i].serial,
+        for (let k = 0; k < this.state.reminder.length ; k++) {
+            this.state.items[this.state.reminder[k].date] = []
+        }
+
+        for (let k = 0; k < this.state.reminder.length ; k++) {
+          this.state.items[this.state.reminder[k].date].push({
+            name: this.state.reminder[k].title,
+            date: this.state.reminder[k].date,
+            time: this.state.reminder[k].time,
+            serialNumber: this.state.reminder[k].serial,
             height: 50
           })
+          // console.log(this.state.items[this.state.reminder[k].date])
         }
+        
+        // for (let i = 0; i < this.state.reminder.length ; i++) {
+        //   this.state.items[this.state.reminder[i].date[0]] = []
+        //   for ( let j = 0; j < this.state.reminder[i].date[j]; j++ ) {
+        //     this.state.items[this.state.reminder[i].date[0]].push({
+        //       name: this.state.reminder[i].title,
+        //       date: this.state.reminder[i].date,
+        //       time: this.state.reminder[i].time,
+        //       serialNumber: this.state.reminder[i].serial,
+        //       height: 50
+        //     })
+        //   }
+        //   this.state.items[this.state.reminder[i].date].push({
+        //     name: this.state.reminder[i].title,
+        //     date: this.state.reminder[i].date,
+        //     time: this.state.reminder[i].time,
+        //     serialNumber: this.state.reminder[i].serial,
+        //     height: 50
+        //   })
+        // }
       }
       const newItems = {};
       Object.keys(this.state.items).forEach(key => {newItems[key] = this.state.items[key];});
@@ -140,92 +149,209 @@ export default class Calendar extends Component {
   renderItem(item) {
     if (item.serialNumber === undefined) {
       return (
-        console.log(item.name),
-        <View style={[styles.item, {height: item.height}]}>
+        // console.log(item.name),
+        <View style={[styles.item]}>
           <Text>
             { item.name }
           </Text>
         </View>
         );
     } else {
-      return (
-        console.log(item.serialNumber),
-        <View style={[styles.item, {height: item.height}]}>
-          <TouchableOpacity 
-            style={{
-              flex: 1,
-            }}
-            onPress = {() => 
-              NavigationManager.navigate(
-                'Editing Event', 
-                {
-                  serial: item.serialNumber, 
-                  date: item.date,
-                  title: item.name,
-                  time: item.time
+      if (item.length > 1) {
+        for (let i = 0; i < item.length; i++) {
+          return (
+            // console.log(item[i].serialNumber),
+            <View style={[styles.item]}>
+              <TouchableOpacity 
+                style={{
+                  flex: 1, 
+                }}
+                onPress = {() => 
+                  NavigationManager.navigate(
+                    'Editing Event', 
+                    {
+                      serial: item[i].serialNumber, 
+                      date: item[i].date,
+                      title: item[i].name,
+                      time: item[i].time
+                    }
+                  )
                 }
-              )
-            }
-            onLongPress = {() => {
-              Alert.alert(
-                'Delete Reminder',
-                'Do you sure you want to delete the reminder?',
-                [
-                  {text: 'Yes, delete it.', onPress: () => {
-                      db.ref('user/'+ firebase.auth().currentUser.uid + '/reminders/' + item.serialNumber).remove()
-                      this.state.items[item.date] = []
-                    },
-                  },
-                  {text:'No, keep it.', onPress: () => console.log('Remains')}
-                ],
+                onLongPress = {() => {
+                  Alert.alert(
+                    'Delete Reminder',
+                    'Do you sure you want to delete the reminder?',
+                    [
+                      {text: 'Yes, delete it.', onPress: () => {
+                          db.ref('user/'+ firebase.auth().currentUser.uid + '/reminders/' + item[i].serialNumber).remove()
+
+                          // this.state.items[item.date] = []
+                          let arr = this.state.items
+                          arr[item[i].date].splice[arr[item[i].date].indexOf(item[i].serialNumber)]
+                          // let newItem = this.state.items
+                          // newItem[]
+                          // console.log(dum)
+                          // console.log(arr[item[i].date])
+                          Alert.alert('Reminder has been deleted.')
+                        },
+                      },
+                      {text:'No, keep it.', onPress: () => console.log('Remains')}
+                    ],
+                    )
+                }}
+              >
+    
+              <Text style={{color: 'black'}}>
+                { item[i].time }
+              </Text>
+              <Text>
+                { item[i].name }
+              </Text>
+    
+              </TouchableOpacity>
+            </View>
+            );
+        }
+      } else {
+        return (
+          // console.log(item.serialNumber),
+          <View style={styles.item}>
+            <TouchableOpacity 
+              style={{
+                flex: 1,
+              }}
+              onPress = {() => 
+                NavigationManager.navigate(
+                  'Editing Event', 
+                  {
+                    serial: item.serialNumber, 
+                    date: item.date,
+                    title: item.name,
+                    time: item.time
+                  }
                 )
-            }}
-          >
+              }
+              onLongPress = {() => {
+                Alert.alert(
+                  'Delete Reminder',
+                  'Do you sure you want to delete the reminder?',
+                  [
+                    {text: 'Yes, delete it.', onPress: () => {
+                        db.ref('user/'+ firebase.auth().currentUser.uid + '/reminders/' + item.serialNumber).remove()
+                        this.state.items[item.date] = []
+                        Alert.alert('Reminder has been deleted.')
+                      },
+                    },
+                    {text:'No, keep it.', onPress: () => console.log('Remains')}
+                  ],
+                  )
+              }}
+            >
+  
+            <Text style={{color: 'black'}}>
+              { item.time }
+            </Text>
+            <Text>
+              { item.name }
+            </Text>
+  
+            </TouchableOpacity>
+          </View>
+          );
+      }
+      // for (let i = 0; i < item.length; i++) {
+      //   return (
+      //     console.log(item[i].serialNumber),
+      //     <View style={[styles.item, {height: item[i].height}]}>
+      //       <TouchableOpacity 
+      //         style={{
+      //           flex: 1,
+      //         }}
+      //         onPress = {() => 
+      //           NavigationManager.navigate(
+      //             'Editing Event', 
+      //             {
+      //               serial: item[i].serialNumber, 
+      //               date: item[i].date,
+      //               title: item[i].name,
+      //               time: item[i].time
+      //             }
+      //           )
+      //         }
+      //         onLongPress = {() => {
+      //           Alert.alert(
+      //             'Delete Reminder',
+      //             'Do you sure you want to delete the reminder?',
+      //             [
+      //               {text: 'Yes, delete it.', onPress: () => {
+      //                   db.ref('user/'+ firebase.auth().currentUser.uid + '/reminders/' + item[i].serialNumber).remove()
+      //                   // this.state.items[item.date] = []
+      //                 },
+      //               },
+      //               {text:'No, keep it.', onPress: () => console.log('Remains')}
+      //             ],
+      //             )
+      //         }}
+      //       >
+  
+      //       <Text style={{color: 'black'}}>
+      //         { item[i].time }
+      //       </Text>
+      //       <Text>
+      //         { item[i].name }
+      //       </Text>
+  
+      //       </TouchableOpacity>
+      //     </View>
+      //     );
+      // }
+      // return (
 
-          <Text style={{color: 'black'}}>
-            { item.time }
-          </Text>
-          <Text>
-            { item.name }
-          </Text>
+      //   console.log(item[0].serialNumber),
+      //   <View style={[styles.item, {height: item[0].height}]}>
+      //     <TouchableOpacity 
+      //       style={{
+      //         flex: 1,
+      //       }}
+      //       onPress = {() => 
+      //         NavigationManager.navigate(
+      //           'Editing Event', 
+      //           {
+      //             serial: item.serialNumber, 
+      //             date: item.date,
+      //             title: item.name,
+      //             time: item.time
+      //           }
+      //         )
+      //       }
+      //       onLongPress = {() => {
+      //         Alert.alert(
+      //           'Delete Reminder',
+      //           'Do you sure you want to delete the reminder?',
+      //           [
+      //             {text: 'Yes, delete it.', onPress: () => {
+      //                 db.ref('user/'+ firebase.auth().currentUser.uid + '/reminders/' + item.serialNumber).remove()
+      //                 this.state.items[item.date] = []
+      //               },
+      //             },
+      //             {text:'No, keep it.', onPress: () => console.log('Remains')}
+      //           ],
+      //           )
+      //       }}
+      //     >
 
-          </TouchableOpacity>
-        </View>
-        );
+      //     <Text style={{color: 'black'}}>
+      //       { item.time }
+      //     </Text>
+      //     <Text>
+      //       { item.name }
+      //     </Text>
+
+      //     </TouchableOpacity>
+      //   </View>
+      //   );
     }
-
-    // return (
-    //   <View style={[styles.item, {height: item.height}]}>
-    //     {/* <TouchableOpacity 
-    //       onLongPress = {()=> {
-    //         Alert.alert(
-    //           'Delete Reminder',
-    //           'Do you sure you want to delete the reminder?',
-    //           [
-    //             {text: 'Yes', onPress: ()=>{reminderRef + }}
-    //           ]
-
-
-    //         )
-    //       }}
-    //     > */}
-
-    //       <Text>{item.name}</Text>
-    //     {/* </TouchableOpacity> */}
-      
-    //   </View>
-    // );
   }
-
-  // renderReminder(item) {
-  //   return (
-  //   <View style={[styles.item, {height: item.height}]}>
-  //     <Text>
-  //       { item.time }
-  //     </Text>
-  //   </View>
-  //   );
-  // }
 
   renderEmptyDate() {
     return (
@@ -234,7 +360,7 @@ export default class Calendar extends Component {
   }
 
   rowHasChanged(r1, r2) {
-    console.log(`row Changed`);
+    // console.log(`row Changed`);
     return r1.name !== r2.name;
   }
 
@@ -252,6 +378,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginRight: 10,
     marginTop: 17,
+    height: 50,
   },
   emptyDate: {
     height: 15,
@@ -259,6 +386,3 @@ const styles = StyleSheet.create({
     paddingTop: 30
   }
 });
-
-// module.export = Calendar; //module export statement
-// module.export.Calendar.addEvent = addEvent;

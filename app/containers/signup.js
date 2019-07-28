@@ -88,7 +88,7 @@ onLoginFailure(errorMessage) {
       <TouchableOpacity style={styles.smallButtonContainer}
       onPress={() => NavigationManager.navigate('loginScreen')}
       >
-          <Text style={styles.buttonText}> Already have an account?</Text>
+          <Text style={styles.buttonText}> Already have an account? Login here! </Text>
       </TouchableOpacity>
 </View>
     );
@@ -104,14 +104,17 @@ render() {
      
      <View flexGrow={1}>
       <View style={styles.logoContainer}>
-      
-        <Text style={styles.mainTitle}>NutsHall</Text>
+      <Image
+          source = {require("../assets/images/signIn/signInPage.png")}
+          style = {{width:300, height:100, padding: 20, resizeMode:'contain'}}
+        />
+        {/* <Text style={styles.mainTitle}>NutsHall</Text>
             {this.state.errorMessage &&
             <Text style={{ color: 'red' }}>
                 {this.state.errorMessage}
             </Text>}
         
-        <Text style={styles.title}>Hall in a Nutshell</Text>
+        <Text style={styles.title}>Hall in a Nutshell</Text> */}
       </View>
 
 
