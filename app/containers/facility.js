@@ -1,125 +1,3 @@
-// import React, { Component } from 'react';
-// import { Alert, View, Button, StyleSheet, TouchableOpacity, PanResponder, AsyncStorage, Image, Dimensions, TextInput, ScrollView,Platform } from 'react-native';
-// import moment from 'moment';
-// import DatePicker from 'react-native-datepicker';
-// import Picker from 'react-native-picker-select';
-// import NavigationManager from "../managers/navigationManager";
-
-// import WeekView, { addLocale } from 'react-native-week-view';
-
-
-// export default class Facility extends Component {
-//   constructor(props) {
-//     super(props);
-//     selectedDate = new Date();
-
-
-
-//     this.state = {
-
-
-//     };
-//   }
-
-//   generateDates = (hours, minutes) => {
-//     const date = new Date();
-//     date.setHours(date.getHours() + hours);
-//     if (minutes != null) {
-//       date.setMinutes(0);
-//     }
-//     return date;
-//   };
-
-//   render() {
-//     const events = [
-//       {
-//         id: 1,
-//         description: 'Event 1',
-//         startDate: this.generateDates(0),
-//         endDate: this.generateDates(2),
-//         color: 'blue',
-//       },
-//       {
-//         id: 2,
-//         description: 'Event 2',
-//         startDate: this.generateDates(1),
-//         endDate: this.generateDates(4),
-//         color: 'red',
-//       },
-//       {
-//         id: 3,
-//         description: 'Event 3',
-//         startDate: this.generateDates(-5),
-//         endDate: this.generateDates(-3),
-//         color: 'green',
-//       },
-//     ];
-
-//     return (
-//       <View style={styles.container}>
-//         <WeekView
-//           events={events}
-//           selectedDate={this.selectedDate}
-//           numberOfDays={5}
-//           onEventPress={(event) => Alert.alert('eventId:' + event.id)}
-//           headerStyle={styles.headerStyle}
-//           formatDateHeader="MMM D"
-//           locale="fr"
-//         />
-//       </View>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#FFF',
-//     paddingTop: 22,
-//   },
-//   headerStyle: {
-//     backgroundColor: '#000000',
-//   },
-// });
-
-// //     const { params } = this.props.navigation.state;
-// //     const today = this.state.currentDate;
-
-// //     return (
-// //       <View style={styles.container}>
-
-
-// //         <Button
-// //           title="TO BOOKING PAGE"
-// //           color='#000000'
-// //           onPress={() => NavigationManager.navigate('FacilityBooking', { title: params.title, image: params.image, detail: params.detail} )}
-
-// //           // onPress={() => {
-// //             // const { numbers } = this.state;
-// //             // const value = numbers.length + 1;
-// //             // numbers.push({
-// //             //   label: `${value}`,
-// //             //   value,
-// //             //   color: 'dodgerblue',
-// //             // });
-// //             // this.setState({
-// //             //   numbers,
-// //             // });
-// //           // }}
-// //         />
-// //         </View>
-// //     );
-// //   }
-// // }
-
-
-
-// module.export = Facility; //module export statement
-
-
-
-//New
-
 import React, { Component } from 'react';
 import moment from 'moment';
 import {
@@ -137,7 +15,10 @@ import Header from './header';
 import NavigationManager from "../managers/navigationManager";
 import GridView from 'react-native-super-grid';
 import Swiper from 'react-native-swiper';
+import firebase from 'firebase';
 import { db } from '../config';
+import {YellowBox} from 'react-native';
+
 
 let itemsRef = db.ref();
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -155,6 +36,8 @@ export default class Facility extends Component {
       facItems: [],
     }
     this.times = this.generateTimes();
+    console.disableYellowBox = true;
+
   }
 
   static navigationOptions = ({ navigation }) => ({
@@ -163,15 +46,11 @@ export default class Facility extends Component {
     detail: navigation.state.params.detail,
   })
 
-  // renderItem(item, idx) {
-  renderItem(idx) {
+  renderItem(item, idx) {
     const { params } = this.props.navigation.state;
-    // const itemInt = parseInt(item)
-    // const style = itemInt % 2 == 0 ? styles.slide1 : styles.slide2
     const currentMoment = idx == 0 ? moment(this.state.currentMoment).startOf('week').subtract(1,'w') 
                         : idx == 1 ? moment(this.state.currentMoment).startOf('week') 
                         : moment(this.state.currentMoment).startOf('week').add(1,'w'); 
-    // const currentMoment = moment(this.state.currentMoment).startOf('week')
     const dates = this.prepareDates(currentMoment);
     const dateTimes = this.generateDateTimes(dates, this.times, params);
     const {
@@ -197,40 +76,47 @@ export default class Facility extends Component {
                 </View>
               ))}
             </View>
+            <View style={{backgroundColor: '#000000'}}>
             <GridView
               spacing={0.5}
               itemDimension={((SCREEN_WIDTH - 60) / 7) - 1}
               items={dateTimes}
               style={styles.gridView}
               renderItem={({ item, index }) => (
-<<<<<<< HEAD
-                <TouchableHighlight onPress={() =>
+                <TouchableHighlight 
+                onPress={() =>
                   (item.date).isBefore(moment(new Date()), 'day') ||
                     ((item.date).isSame(moment(new Date()), 'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ?
-=======
-               
-                  <TouchableHighlight onPress={() => 
-                    (item.date).isBefore(moment(new Date()),'day') || 
-                    ((item.date).isSame(moment(new Date()),'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ?
->>>>>>> 30a960b2d20c70fc285eb347bd0f88c518630e6b
                     Alert.alert("Date has already passed/time has passed! Move on~") :
-                    (item.endTime != undefined) ? Alert.alert("Booked by " + item.name) :
+                    (item.endTime != undefined && item.uid == firebase.auth().currentUser.uid) ? 
+                    Alert.alert(
+                      'Delete Booking',
+                      'Do you sure you want to delete this booking?',
+                      [
+                        {text: 'Yes, delete it.', onPress: () => {
+                            db.ref('facilities/' + params.title + "/"+ ((item.date).format("MMM D").toString()) + "/" + item.time).remove()
+                            setTimeout(()=> {
+                              this.props.navigation.popToTop();
+                              NavigationManager.navigate("Announcements")}, 1000);
+                          },
+                        },
+                        {text:'No, keep it.', onPress: () => console.log('Remains')}
+                      ],
+                      )
+                      : (item.endTime != undefined) ?
+                    Alert.alert("Booked by " + item.name) :
                       NavigationManager.navigate('FacilityBooking', { date: (item.date).format("MMM D").toString(), time: item.time, title: params.title, image: params.image, detail: params.detail })}>
 
-<<<<<<< HEAD
-                  {/* NavigationManager.navigate('FacilityBooking', {date: (item.date).format("MMM D").toString(), time: item.time, title: params.title, image: params.image, detail: params.detail, onNavigateBack: this.handleOnNavigateBack})}> */}
+                  
 
                   <View style={[styles.itemContainer, (item.date).isBefore(moment(new Date()), 'day') ||
                     ((item.date).isSame(moment(new Date()), 'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ||
-                    (item.endTime != undefined) ? { backgroundColor: "#888888" } : { backgroundColor: "#000000" }]}>
+                    (item.endTime != undefined && item.uid != firebase.auth().currentUser.uid) ? { backgroundColor: "#888888" } 
+                    :(item.endTime != undefined) ? { backgroundColor: "#006400" } :
+                     { backgroundColor: "#FFF" }]}>
                     <Text style={styles.itemName}>{(item.date).format("MMM D").toString()}</Text>
                     <Text style={styles.itemCode}>{item.time}</Text>
                   </View>
-=======
-              <View style={[styles.itemContainer, (item.date).isBefore(moment(new Date()),'day') || 
-                                                  ((item.date).isSame(moment(new Date()),'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ||
-                                                  (item.endTime != undefined) ?  {backgroundColor: "#888888"} :  {backgroundColor:  "#000000"}]}>
->>>>>>> 30a960b2d20c70fc285eb347bd0f88c518630e6b
 
                   
                 </TouchableHighlight>
@@ -238,6 +124,7 @@ export default class Facility extends Component {
             // }
             // }
             />
+            </View>
             {/* <Text style={styles.text}>{cache[item]}</Text> */}
           </View>
         </ScrollView>
@@ -302,7 +189,8 @@ export default class Facility extends Component {
             let name = snapshot.child(currDate).child(currTime).child("name").val();
             let endTime = snapshot.child(currDate).child(currTime).child("endTime").val();
             let purpose = snapshot.child(currDate).child(currTime).child("purpose").val();
-            dateTimes[count] = { time: currTime, date: curr, endTime: endTime, purpose: purpose, name: name };
+            let userUid = snapshot.child(currDate).child(currTime).child("uid").val();
+            dateTimes[count] = { time: currTime, date: curr, endTime: endTime, purpose: purpose, name: name, uid: userUid };
             console.log(count);
           } else {
             dateTimes[count] = { time: currTime, date: curr };
@@ -320,6 +208,9 @@ export default class Facility extends Component {
             dateTimes[nextCount]["endTime"] = dateTimes[k].endTime;
             dateTimes[nextCount]["purpose"] = dateTimes[k]["purpose"];
             dateTimes[nextCount]["name"] = dateTimes[k]["name"];
+            dateTimes[nextCount]["uid"] = dateTimes[k]["uid"];
+
+            
           }
         }
       }
@@ -333,12 +224,11 @@ export default class Facility extends Component {
       <Swiper
         index={1}
         key={this.state.key}
-        style={styles.wrapper}
         loop={false}
         showsPagination={false}
         onIndexChanged={(index) => this.onPageChanged(index)}>
         {/* {this.state.pages.map((item, idx) => this.renderItem(item, idx))} */}
-        {this.state.pages.map((idx) => this.renderItem(idx))}
+        {this.state.pages.map((item, idx) => this.renderItem(item, idx))}
       </Swiper>
     )
   }
@@ -370,7 +260,6 @@ const styles = StyleSheet.create({
     width: 60,
   },
   rowContainer: {
-<<<<<<< HEAD
     paddingTop: 16,
   },
   timeRow: {
@@ -401,11 +290,11 @@ const styles = StyleSheet.create({
   },
   itemName: {
     fontSize: 8,
-    color: '#fff',
+    color: '#000000',
   },
   itemCode: {
     fontSize: 8,
-    color: '#fff',
+    color: '#000000',
   },
   backButton: {
     position: 'absolute',
@@ -418,88 +307,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'flex-end',
     top: 0,
-  },
-
-  wrapper: {
-=======
-      paddingTop: 16,
-    },
-    timeRow: {
-      // flex: 1,
-      height: 40,
-      width: (SCREEN_WIDTH - 60)/7,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      top: 0,
-    },
-    timeLabelLine: {
-      // height: 1,
-      // backgroundColor: GREY_COLOR,
-      position: 'absolute',
-      right: 0,
-      left: 0,
-    },
-
-
-    gridView: {
-      paddingTop: 0,
-      flex: 0,
-      height: ROW_HEIGHT * TIME_LABELS_COUNT, 
-      width: SCREEN_WIDTH - 60, 
-      // flexDirection:"column", 
-      // flexWrap:"wrap" 
-
-    },
-    itemContainer: {
-      justifyContent: 'flex-end',
-      borderRadius: 2,
-      padding: 0,
-      height: 40,
-      width: ((SCREEN_WIDTH - 60)/7),
-    },
-    itemName: {
-      fontSize: 8,
-      color: '#fff',
-      // fontWeight: '600',
-    },
-    itemCode: {
-      // fontWeight: '600',
-      fontSize: 8,
-      color: '#fff',
-    },
-    backButton: {
-      position: 'absolute',
-      top: 0, 
-      left: 0, 
-      right: 0, 
-      bottom: 0, 
-    },
-    nextButton: {
-      position:'absolute',
-      alignSelf: 'flex-end',
-      top: 0, 
-      // left: 0, 
-      // right: 0, 
-      // bottom: 0, 
-      // margin: 40,
-
-    },
-
-    wrapper: {
->>>>>>> 30a960b2d20c70fc285eb347bd0f88c518630e6b
-  },
-  slide1: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-  },
-  slide2: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
   },
   text: {
     color: '#000000',

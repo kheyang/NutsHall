@@ -11,6 +11,7 @@ import firebase from 'firebase';
 import { db } from '../config';
 
 let itemsRef = db.ref("facilities");
+let userRef = db.ref("user");
 
 
 export default class FacilityBooking extends Component {
@@ -421,15 +422,26 @@ renderSchedule = () => {
         <TouchableOpacity
         style={styles.button}
             onPress={() => {
-              if (this.state.text != '') {
+              const bookingAvail = itemsRef.child(params.title).once("value").then(snapshot => {
+                if(snapshot.child(params.date).child(params.time).exists() == false) {
+                  return true;
+                } else {
+                  return false;
+                }
+              })
+
+              if (this.state.text != '' && bookingAvail) {
                 Alert.alert("Booking successful!");
-                itemsRef.child(params.title).child(params.date).child(params.time).set({endTime: endTime , name: name, purpose: text });              
+                itemsRef.child(params.title).child(params.date).child(params.time).set({endTime: endTime , name: name, purpose: text, uid: firebase.auth().currentUser.uid });   
+                // userRef.child(firebase.auth().currentUser.uid).child("booking").child(params.title).child(params.date).child(params.time).set({ end: endTime, purpose: text });
                 setTimeout(()=> {
                   this.props.navigation.popToTop();
                   NavigationManager.navigate("Announcements")}, 1000);
               
-            } else {
+            } else if (this.state.text == '') {
               Alert.alert('Please enter CCA/purpose of booking');
+            } else {
+              Alert.alert('Already booked!');
             }
                 
             }}

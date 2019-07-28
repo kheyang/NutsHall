@@ -335,7 +335,7 @@ const LoginStack = createStackNavigator({
   // forgottenPasswordScreen: { screen: ForgottenPasswordScreen, navigationOptions: { title: 'Forgot Password' } }
 }, {
   headerMode: 'none',
-  initialRouteName: 'signUpScreen'
+  initialRouteName: 'loginScreen'
  }
 )
 

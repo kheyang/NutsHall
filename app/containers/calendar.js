@@ -14,6 +14,8 @@ import {db} from "../config";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { NavigationDrawerStructure } from "../app";
 import firebase from 'firebase';
+import {YellowBox} from 'react-native';
+
 
 // let user = firebase.auth().currentUser;
 // let userID = firebase.auth().currentUser.uid
@@ -32,6 +34,9 @@ export default class Calendar extends Component {
       reminder: [],
     };
     this.loadItems = this.loadItems.bind(this)
+    console.disableYellowBox = true;
+
+    
   }
 
   static navigationOptions = (navigation) => ({

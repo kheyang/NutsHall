@@ -118,6 +118,8 @@ handleBackButton() {
         //   title="Sign in"
         //   onPress={this.onButtonPress.bind(this)} 
         //   />
+
+        <View>
           <TouchableOpacity style={styles.buttonContainer}
         onPress={
           this.onButtonPress.bind(this)}
@@ -126,6 +128,15 @@ handleBackButton() {
         >
             <Text style={styles.buttonText}> Login </Text>
         </TouchableOpacity>
+
+         <View padding={2}/>
+
+        <TouchableOpacity style={styles.smallButtonContainer}
+        onPress={() => NavigationManager.navigate('signUpScreen')}
+        >
+            <Text style={styles.buttonText}> No account? </Text>
+        </TouchableOpacity>
+        </View>
       );
     }
   
@@ -250,6 +261,10 @@ const styles = StyleSheet.create({
       backgroundColor: "#888888",
       paddingVertical: 10,
   },
+  smallButtonContainer: {
+    backgroundColor: "transparent",
+    paddingVertical: 10,
+},
   buttonText :{
     textAlign: "center",
     color: "#000000",

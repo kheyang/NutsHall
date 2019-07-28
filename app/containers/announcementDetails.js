@@ -49,12 +49,12 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
   },
   posterContainer: {
-    height: 300,
-    width: 250
+    height: 500,
+    width: 450
   },
   poster: {
     flex:1, 
-    maxWidth:300,
+    maxWidth:400,
   },
   detailsContainer: {
     marginLeft: 40, 

@@ -85,10 +85,10 @@ onLoginFailure(errorMessage) {
 
       <View padding={2}/>
 
-      <TouchableOpacity style={styles.buttonContainer}
+      <TouchableOpacity style={styles.smallButtonContainer}
       onPress={() => NavigationManager.navigate('loginScreen')}
       >
-          <Text style={styles.buttonText}> Already have an account? Login </Text>
+          <Text style={styles.buttonText}> Already have an account?</Text>
       </TouchableOpacity>
 </View>
     );
@@ -253,6 +253,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#888888",
         paddingVertical: 10,
     },
+    smallButtonContainer: {
+      backgroundColor: "transparent",
+      paddingVertical: 10,
+  },
     buttonText :{
       textAlign: "center",
       color: "#000000",
