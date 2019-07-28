@@ -15,6 +15,7 @@ import NavigationManager from "./managers/navigationManager";
 import Calendar, {addEvent} from "./containers/calendar";
 import AddingEvent from './containers/addingEvent';
 import EditingEvent from './containers/editingEvent';
+import Admin from "./containers/adminPanel";
 import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from 'firebase';
 // import drawerComponent from './containers/drawerComponent';
@@ -138,10 +139,6 @@ const drawerContentComponent = props => (
           console.error('Sign out error', error)
           }
         )
-
-       
-        
-
     }
     }>
     <Text fontColor="black" fontFamily='Raleway-Bold' fontSize={18}>Logout </Text>
@@ -165,6 +162,8 @@ const drawerContentOptions = {
     marginVertical: 10,
   },
 }
+
+
 
 //Announcement StackNavigation
 const AnnouncementStack = createStackNavigator({
@@ -231,21 +230,6 @@ const CalendarStack = createStackNavigator({
     screen: Calendar,
     navigationOptions: ({ navigation }) => ({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-  //     headerRight:  <Icon.Button
-  //     name='plus'
-  //     color = 'black'
-  //     backgroundColor='transparent'
-  //     onPress = {() => Calendar.addEvent(Calendar.state.date)}
-  //   >
-  //   </Icon.Button>,
-  //     headerTitleStyle: {
-  //       fontFamily: "Raleway-Medium",
-  //       fontWeight: 'normal'
-  //     },
-  //     headerStyle: {
-  //       backgroundColor: '#fff',
-  //     },
-  //     headerTintColor: '#000000',
     }),
   }, 
   'Adding Event': { 
@@ -282,6 +266,18 @@ const CalendarStack = createStackNavigator({
   headerMode: 'screen'
 })
 
+// const AdminStack = createStackNavigator({
+//   Admin: { 
+//     screen: Admin,
+//     navigationOptions: ({ navigation }) => ({
+//       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+//     }),
+//   }, 
+// }, {
+//   initialRouteName: 'Admin',
+//   headerMode: 'screen'
+// })
+
 //Slide in DrawerNavigation
 const MyDrawerNavigator = createDrawerNavigator(
   {
@@ -303,6 +299,12 @@ const MyDrawerNavigator = createDrawerNavigator(
         drawerLabel: "Calendar"
       }
     },
+    // AdminStack: {
+    //   screen: AdminStack,
+    //   navigationOptions: {
+    //     drawerLabel: "Admin Panel"
+    //   }
+    // }
   },
 
   { 

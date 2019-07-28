@@ -4,18 +4,6 @@ import NavigationManager from "../managers/navigationManager";
 import {db} from '../config';
 import firebase from 'firebase';
 
-// let addReminder = (eventTitle, eventTime, eventDate) => {
-// 	db.ref('/reminders').child(new Date().valueOf()).set({title: eventTitle, time: eventTime, date: eventDate, serial: new Date().valueOf()})
-// }
-
-// let addReminder = (eventTitle) => {
-// 	db.ref('/reminders').push({
-// 		title: eventTitle,
-// 		time: eventTime,
-// 		date: eventDate
-// 	})
-// }
-
 let editReminder = (updatedTitle, updatedTime, serialNumber) => {
 	db.ref('user/'+ firebase.auth().currentUser.uid + '/reminders/').child(serialNumber).update({
 		'time': updatedTime,
@@ -41,11 +29,6 @@ export default class EditingEvent extends Component {
 			eventDate: ''
     };
   }
-
-  // static navigationOptions = ({ navigation }) => ({
-	// 	title: "Set Reminder: " + navigation.state.params.date, 
-	// 	selectedDate: navigation.state.params.date
-	// })
 	
 	handleTitleChange = e => {
 		this.setState({
@@ -103,7 +86,7 @@ export default class EditingEvent extends Component {
 							setTimeout(() => {
 								this.handleSubmit()
 							},1)
-							Alert.alert('Reminder '+ params.serial + ' has been updated successfully!')
+							Alert.alert('Reminder has been updated successfully!')
 							NavigationManager.goBack()
 						}
 					}

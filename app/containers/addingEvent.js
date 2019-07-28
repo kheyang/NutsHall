@@ -38,12 +38,7 @@ export default class AddingEvent extends Component {
 			eventTime: '',
 			eventDate: ''
     };
-  }
-
-  // static navigationOptions = ({ navigation }) => ({
-	// 	title: "Set Reminder: " + navigation.state.params.date, 
-	// 	selectedDate: navigation.state.params.date
-	// })
+	}
 	
 	handleTitleChange = e => {
 		this.setState({
@@ -59,8 +54,6 @@ export default class AddingEvent extends Component {
 
 	handleSubmit = () => {
 		addReminder(this.state.eventTitle, this.state.eventTime, this.state.eventDate)
-		// addReminder(this.state.eventTitle)
-		// AlertIOS.alert('Reminder added successfully!')
 	}
 
   render () {

@@ -58,7 +58,7 @@ export default class Calendar extends Component {
       // let updatedEvents = this.state.events
       // updatedEvents.push(items)
       this.setState({ reminder: items })
-      console.log(this.state.reminder)
+      // console.log(this.state.reminder)
     })
   }
 
@@ -73,7 +73,7 @@ export default class Calendar extends Component {
         pastScrollRange={12}
         futureScrollRange={12}
         onDayPress = {(day)=>{
-          console.log(day.dateString)
+          // console.log(day.dateString)
           selectedDate = day.dateString
           // setTimeout(() => {
           //   console.log(selectedDate)
@@ -85,7 +85,7 @@ export default class Calendar extends Component {
   
   loadItems(day) {
     setTimeout(() => {
-      for (let i = -15; i < 850; i++) {
+      for (let i = -15; i < 100; i++) {
         const time = day.timestamp + i * 24 * 60 * 60 * 1000;
         const strTime = this.timeToString(time);
         if (!this.state.items[strTime]) {
@@ -144,7 +144,7 @@ export default class Calendar extends Component {
   renderItem(item) {
     if (item.serialNumber === undefined) {
       return (
-        console.log(item.name),
+        // console.log(item.name),
         <View style={[styles.item]}>
           <Text>
             { item.name }
@@ -155,11 +155,11 @@ export default class Calendar extends Component {
       if (item.length > 1) {
         for (let i = 0; i < item.length; i++) {
           return (
-            console.log(item[i].serialNumber),
+            // console.log(item[i].serialNumber),
             <View style={[styles.item]}>
               <TouchableOpacity 
                 style={{
-                  flex: 1,
+                  flex: 1, 
                 }}
                 onPress = {() => 
                   NavigationManager.navigate(
@@ -179,8 +179,15 @@ export default class Calendar extends Component {
                     [
                       {text: 'Yes, delete it.', onPress: () => {
                           db.ref('user/'+ firebase.auth().currentUser.uid + '/reminders/' + item[i].serialNumber).remove()
-                          this.state.items[item.date] = []
-                          
+
+                          // this.state.items[item.date] = []
+                          let arr = this.state.items
+                          arr[item[i].date].splice[arr[item[i].date].indexOf(item[i].serialNumber)]
+                          // let newItem = this.state.items
+                          // newItem[]
+                          // console.log(dum)
+                          // console.log(arr[item[i].date])
+                          Alert.alert('Reminder has been deleted.')
                         },
                       },
                       {text:'No, keep it.', onPress: () => console.log('Remains')}
@@ -202,7 +209,7 @@ export default class Calendar extends Component {
         }
       } else {
         return (
-          console.log(item.serialNumber),
+          // console.log(item.serialNumber),
           <View style={styles.item}>
             <TouchableOpacity 
               style={{
@@ -226,7 +233,8 @@ export default class Calendar extends Component {
                   [
                     {text: 'Yes, delete it.', onPress: () => {
                         db.ref('user/'+ firebase.auth().currentUser.uid + '/reminders/' + item.serialNumber).remove()
-                        // this.state.items[item.date] = []
+                        this.state.items[item.date] = []
+                        Alert.alert('Reminder has been deleted.')
                       },
                     },
                     {text:'No, keep it.', onPress: () => console.log('Remains')}
@@ -347,7 +355,7 @@ export default class Calendar extends Component {
   }
 
   rowHasChanged(r1, r2) {
-    console.log(`row Changed`);
+    // console.log(`row Changed`);
     return r1.name !== r2.name;
   }
 
