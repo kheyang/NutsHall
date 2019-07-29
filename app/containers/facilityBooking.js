@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Alert, View, Button, StyleSheet, TouchableOpacity, PanResponder, AsyncStorage, Image, Dimensions, TextInput, ScrollView,Platform, Picker} from 'react-native';
+import { Text, Alert, View, Button, StyleSheet, TouchableOpacity, ToastAndroid, AsyncStorage, Image, Dimensions, TextInput, ScrollView,Platform, Picker} from 'react-native';
 import moment from 'moment';
 import DatePicker from 'react-native-datepicker';
 import RNPicker from 'react-native-picker-select';
@@ -83,207 +83,12 @@ componentDidMount() {
       return endTimings;
   }
 
-
-  // render() {
-  //   const { params } = this.props.navigation.state;
-
-  //   const text = this.state.text;
-  //   // const { pet } = this.state;
-  //   const { endTime } = this.state;
-
-
-  //   const startTimePlaceholder = {
-  //     label: params.time,
-  //     value: params.time,
-  //     color: '#9EA0A4',
-  //   };
-
-
-  //   const endTimePlaceholder = {
-  //     label: this.momentStartTime(params.time).add(1, 'h').format("HH:mm").toString(),
-  //     value: this.momentStartTime(params.time).add(1, 'h').format("HH:mm").toString(),
-  //     color: '#9EA0A4',
-  //   };
-
-  //   const today = this.state.currentDate;
-  //   console.log(params.date + params.time);
-
-  //   const pet = this.possibleEndTimes(params.time, params);
-  //   // console.log(pet);
-  //   // console.log(data);
-
-  //   // const toDB = () => itemsRef.child(params.title).child(params.date).child(params.time).set(data);
-
-  //   console.log(pet);
-
-
-  //   return (
-  //   <ScrollView>
-  //     <View style={styles.container}>
-
-  //       <Image
-  //         resizeMode="cover"
-  //         source={params.image}
-  //         style={styles.image} 
-  //       />
-
-  //       <View style={styles.textContainer}> 
-  //         <Text style={styles.headerText}>
-  //           Booking 
-  //           {/* {params.title} */}
-  //         </Text>
-  //       </View>
-
-  //       <View style={styles.smallContainer}>
-
-  //       <Text style={styles.text}>Facility: {params.title}</Text>
-
-
-  //       <View paddingVertical={5} />   
-
-  //       <View style={styles.rowContainer}>
-  //       <Text style={styles.text}>Date selected: </Text>
-  //       <DatePicker
-  //           style={{width: 130}}
-  //           // date={this.state.date}
-  //           date={params.date}
-  //           // date = "01-07-2019"
-
-  //           mode="date"
-  //           placeholder="Booking Date"
-  //           format="DD-MM-YYYY"
-  //           minDate={moment(today)}
-  //           maxDate={moment(today).add(3, 'months')}
-  //           confirmBtnText="Confirm"
-  //           cancelBtnText="Cancel"
-  //           showIcon={false}
-  //           onDateChange={(date) => {this.setState({date: date});}}
-  //         />      
-  //     </View>
-  //       <View paddingVertical={5} />   
-
-
-  //       <Text style={styles.text}>Start Time</Text>
-  //       <Picker
-  //         placeholder={startTimePlaceholder}
-  //         items={[{label: params.time, value: params.time}]}
-  //         onValueChange={value => {
-  //           this.setState({
-  //             startTime: value,
-  //           });
-  //         }}
-  //         // onUpArrow={() => {
-  //         //   this.inputRefs.firstTextInput.focus();
-  //         // }}
-  //         onDownArrow={() => {
-  //           this.inputRefs.endTime.togglePicker();
-  //         }}
-  //         style={pickerSelectStyles}
-  //         value={this.state.startTime}
-  //         ref={el => {
-  //           this.inputRefs.startTime = el;
-  //         }}
-  //       />
-
-  //       <View paddingVertical={5} />
-
-  //       <Text style={styles.text}>End Time</Text>
-  //       <Picker
-  //         placeholder={endTimePlaceholder}
-  //         items={pet}
-  //         onValueChange={value => {
-  //           this.setState({
-  //             endTime: value,
-  //           });
-  //         }}
-  //         onUpArrow={() => {
-  //           this.inputRefs.startTime.togglePicker();
-  //         }}
-  //         onDownArrow={() => {
-  //           this.inputRefs.textInput.focus();
-  //         }}
-  //         style={pickerSelectStyles}
-  //         value={this.state.endTime}
-  //         ref={el => {
-  //           this.inputRefs.endTime= el;
-  //         }}
-  //       />
-
-  //       <View paddingVertical={5} />   
-
-
-  //       <Text style={styles.text}>CCA and/or purpose of booking</Text>
-  //       <TextInput
-  //         ref={el => {
-  //           this.inputRefs.textInput = el;
-  //         }}
-  //         returnKeyType="next"
-  //         enablesReturnKeyAutomatically
-  //         onSubmitEditing={() => {
-  //           this.inputRefs.startTime.togglePicker();
-  //         }}
-  //         style={
-  //           Platform.OS === 'ios'
-  //             ? pickerSelectStyles.inputIOS
-  //             : pickerSelectStyles.inputAndroid
-  //         }
-  //         blurOnSubmit={false}
-  //         onChangeText={(text) => this.setState({text})}
-  //         value={this.state.text}
-  //       />
-
-  //       <View paddingVertical={5} />
-
-  //       </View>
-  //       <Button
-  //           title="Book Now"
-  //           color='#000000'
-  //           onPress={() => {
-  //               Alert.alert("Booking successful!");
-  //               itemsRef.child(params.title).child(params.date).child(params.time).set({endTime: endTime , name: "OMG!!", purpose: text });
-  //               NavigationManager.goBack();
-                
-  //               // const { numbers } = this.state;
-  //               // const value = numbers.length + 1;
-  //               // numbers.push({
-  //               //   label: `${value}`,
-  //               //   value,
-  //               //   color: 'dodgerblue',
-  //               // });
-  //               // this.setState({
-  //               //   numbers,
-  //               // });
-  //           }}
-  //           />
-  //     </View>
-  //     </ScrollView>
-  //   );
-  // }
-
-  CheckTextInput = () => {
-    //Handler for the Submit onPress
-    
-  };
-
 renderSchedule = () => {
     const { params } = this.props.navigation.state;
     const text = this.state.text;
     const { endTime } = this.state;
-
     const user = firebase.auth().currentUser;
     const name = user.displayName;
-    // const startTimePlaceholder = {
-    //   label: params.time,
-    //   value: params.time,
-    //   color: '#9EA0A4',
-    // };
-    // const endTimePlaceholder = {
-    //   label: this.momentStartTime(params.time).add(1, 'h').format("HH:mm").toString(),
-    //   value: this.momentStartTime(params.time).add(1, 'h').format("HH:mm").toString(),
-    //   color: '#9EA0A4',
-    // };
-    // const today = this.state.currentDate;
-    // console.log(params.date + params.time);
 
     let pet = this.state.pet.map( (time, i) => {
       return <Picker.Item key={i} value={time.toString()} label={time.toString()} />
@@ -360,27 +165,6 @@ renderSchedule = () => {
         <View paddingVertical={5} />
 
         <Text style={styles.text}>End Time</Text>
-        {/* <RNPicker
-          placeholder={endTimePlaceholder}
-          items={pet}
-          onValueChange={value => {
-            this.setState({
-              endTime: value,
-            });
-          }}
-          onUpArrow={() => {
-            this.inputRefs.startTime.togglePicker();
-          }}
-          onDownArrow={() => {
-            this.inputRefs.textInput.focus();
-          }}
-          style={pickerSelectStyles}
-          value={this.state.endTime}
-          ref={el => {
-            this.inputRefs.endTime= el;
-          }}
-        /> */}
-
         <View style={styles.rowContainer}>
 
             <Picker
@@ -392,7 +176,7 @@ renderSchedule = () => {
               {pet}
 
             </Picker>
-</View>
+        </View>
         <View paddingVertical={5}/>   
 
 
@@ -403,9 +187,6 @@ renderSchedule = () => {
           }}
           returnKeyType="go"
           enablesReturnKeyAutomatically
-          // onSubmitEditing={() => {
-          //   this.inputRefs.startTime.togglePicker();
-          // }}
           style={
             Platform.OS === 'ios'
               ? pickerSelectStyles.inputIOS
@@ -431,12 +212,18 @@ renderSchedule = () => {
               })
 
               if (this.state.text != '' && bookingAvail) {
-                Alert.alert("Booking successful!");
+                ToastAndroid.showWithGravity(
+                  "Booking successful!",
+                  ToastAndroid.SHORT,
+                  ToastAndroid.CENTER,
+                )
                 itemsRef.child(params.title).child(params.date).child(params.time).set({endTime: endTime , name: name, purpose: text, uid: firebase.auth().currentUser.uid });   
-                // userRef.child(firebase.auth().currentUser.uid).child("booking").child(params.title).child(params.date).child(params.time).set({ end: endTime, purpose: text });
                 setTimeout(()=> {
-                  this.props.navigation.popToTop();
-                  NavigationManager.navigate("Announcements")}, 1000);
+                  // this.props.navigation.popToTop();
+                  this.props.navigation.pop(2);
+
+                  // NavigationManager.navigate("Facilities")
+                }, 1000);
               
             } else if (this.state.text == '') {
               Alert.alert('Please enter CCA/purpose of booking');
@@ -488,6 +275,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'normal',
     textAlign: 'center',
+    textAlignVertical: 'center'
+
   },
   image: {
     width: "100%",
@@ -500,12 +289,12 @@ const styles = StyleSheet.create({
     // backgroundColor: 'transparent',
   },
   textContainer: {
-    // position: 'absolute', 
-    height: 50,
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    height: 100,
+    position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
   },

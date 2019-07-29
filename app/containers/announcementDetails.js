@@ -46,11 +46,12 @@ const styles = StyleSheet.create({
   container: {
     flexDirection:"column", 
     alignItems:'center', 
-    justifyContent:'space-between',
+    justifyContent:'center',
   },
   posterContainer: {
+    // justifyContent: 'center',
     height: 500,
-    width: 450
+    width: 400
   },
   poster: {
     flex:1, 

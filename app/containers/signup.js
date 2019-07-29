@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View, Button, Alert, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Image, Keyboard, SafeAreaView, AsyncStorage, ActivityIndicator, Item, Label } from 'react-native'
+import { StyleSheet, Text, TextInput, View, Button, Alert, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Image, Keyboard, SafeAreaView, AsyncStorage, ActivityIndicator, ToastAndroid } from 'react-native'
 import NavigationManager from "../managers/navigationManager";
 import {NavigationActions, StackActions} from "react-navigation";
 import firebase from 'firebase';
@@ -50,14 +50,19 @@ onLoginSuccess() {
   this.setState({
     email: '', password: '', name: '', error: '', loading: false
   });
-  Alert.alert("Account created!");
+  ToastAndroid.showWithGravity(
+    "Account created! Please verify your account via the link sent to your email.",
+    ToastAndroid.LONG,
+    ToastAndroid.CENTER,
+  )
+  // Alert.alert("Account created!");
   // this.props.navigation.dispatch(
   //   NavigationActions.reset({
   //    index: 0,
   //    actions: [NavigationActions.navigate({ routeName: "drawerStack" })]
   //   })
   //  );
-  // NavigationManager.navigate('drawerStack')
+  NavigationManager.navigate('loginScreen')
 
 }
 
@@ -108,13 +113,6 @@ render() {
           source = {require("../assets/images/signIn/signInPage.png")}
           style = {{width:300, height:100, padding: 20, resizeMode:'contain'}}
         />
-        {/* <Text style={styles.mainTitle}>NutsHall</Text>
-            {this.state.errorMessage &&
-            <Text style={{ color: 'red' }}>
-                {this.state.errorMessage}
-            </Text>}
-        
-        <Text style={styles.title}>Hall in a Nutshell</Text> */}
       </View>
 
 
@@ -160,15 +158,12 @@ render() {
           ref={"pw"}
         />
         
-
-
        
         {this.renderButton()}
 
         <Text style={styles.errorTextStyle}>
           {this.state.error}
         </Text>
-
 
         </View>
       
@@ -177,38 +172,6 @@ render() {
       </KeyboardAvoidingView>
       </SafeAreaView>
     )
-
-
-
-
-    //   <View style={styles.container}>
-    //     <Text>Sign Up</Text>
-    //     {this.state.errorMessage &&
-    //       <Text style={{ color: 'red' }}>
-    //         {this.state.errorMessage}
-    //       </Text>}
-    //     <TextInput
-    //       placeholder="Email"
-    //       autoCapitalize="none"
-    //       style={styles.textInput}
-    //       onChangeText={email => this.setState({ email })}
-    //       value={this.state.email}
-    //     />
-    //     <TextInput
-    //       secureTextEntry
-    //       placeholder="Password"
-    //       autoCapitalize="none"
-    //       style={styles.textInput}
-    //       onChangeText={password => this.setState({ password })}
-    //       value={this.state.password}
-    //     />
-    //     <Button title="Sign Up" onPress={this.handleSignUp} />
-    //     <Button
-    //       title="Already have an account? Login"
-    //       onPress={() => this.props.navigation.navigate('Login')}
-    //     />
-    //   </View>
-    // )
   }
 }
 const styles = StyleSheet.create({

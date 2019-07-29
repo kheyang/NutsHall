@@ -36,60 +36,6 @@ export default class FacilitiesPage extends Component {
       //state property here
     };
   }
-  /*
-    React LifeCycle Methods: 
-    e.g. componentWillMount(),
-         componentDidMount
-         
-    additional JS functions 
-    -> to change the state of component,
-    -> call API to pass and receive data from backend
-    -> any other functions etc.
-  */
-//  render() {
-//   let rows = [];
-
-//   for (let idx in facilities) {
-//     rows.push(
-//       <CardItem key={idx}>
-//         <TouchableOpacity
-//           style={{ flexDirection: "row", justifyContent: "space-evenly" }}
-//           onPress={() =>
-//             NavigationManager.navigate("Facility", {
-//               title: facilities[idx]
-//             })
-//           }
-//         >
-//           {/* <View style={{ flexDirection: "column" }}>
-//             <Thumbnail square large source={groceryData[idx]["image"]} />
-//           </View> */}
-//           <View style={[{ paddingLeft: "20%" }]}>
-//             <Text>{facilities[idx]['name']}</Text>
-
-//             {/* <Text style={{ paddingTop: 15 }}>
-//               S$ {facilities[idx]["name"].toFixed(2)}
-//             </Text> */}
-//           </View>
-//         </TouchableOpacity>
-//       </CardItem>
-//     );
-//   }
-
-//   return (
-//     <Container>
-//       <ScrollView>
-//         <Card>
-//           <CardItem>
-//             <Text>{rows.length} Results</Text>
-//           </CardItem>
-//           {rows}
-//         </Card>
-//       </ScrollView>
-//     </Container>
-//   );
-// }
-// }
-
 
  static navigationOptions = {
   title: 'Facilities',
@@ -118,7 +64,7 @@ export default class FacilitiesPage extends Component {
         source={facility.image}
         style={{
           width: "100%",
-          height: 150,
+          height: 200,
           opacity: 0.6,
           borderWidth: 1,
           borderColor: '#000000',

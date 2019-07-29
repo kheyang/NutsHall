@@ -56,49 +56,38 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: "Raleway-Regular",
   },
-  // viewPager: {
-  //   flex: 1
-  // },
   pageStyle: {
     flexDirection:'column', 
     alignItems: 'center',
   },
   posterContainer: {
-    // flex:5,
 		justifyContent: 'center',
-		width: 300, //line 36 resize mode 'contain' will prevent the image from overflowing
-		height: 300
+		width: 400,
+		height: 400
   },
   poster: {
-    // flex: 1,
-    // marginTop: 20,
-    width: 300,
-		height: 300
+    width: 400,
+		height: 400
   },
   eventTitleContainer: {
-    // flex: 0.5,
-    // marginTop: 20,
+
   },
   eventTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
+    fontFamily: "Raleway-Regular",
   },
   descriptionContainer: {
-    // flex:3, 
-    maxWidth: 300,
+    maxWidth: 400,
     justifyContent: 'center' 
   },
   description: {
-    // marginBottom: 20, 
-    // marginTop: 10,
     textAlign: 'center',
   },
   buttonContainer: {
-    // flex:1, 
     maxWidth: 150,
-    // marginBottom: 40,
   }
 });

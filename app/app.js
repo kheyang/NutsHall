@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Platform, StyleSheet, ScrollView, Text, View, Button, Image, TouchableOpacity, SafeAreaView, Alert } from "react-native";
+import {Platform, StyleSheet, ScrollView, Text, View, Button, Image, TouchableOpacity, SafeAreaView, Alert, ToastAndroid } from "react-native";
 import { Root } from "native-base";
 import { createAppContainer, createStackNavigator, createDrawerNavigator, createSwitchNavigator, DrawerItems, NavigationActions, StackActions} from "react-navigation";
 import Announcements from "./containers/announcementPage";
@@ -8,7 +8,6 @@ import Facilities from "./containers/facilitiesPage";
 import Facility from './containers/facility';
 import Login from './containers/login';
 import SignUp from './containers/signup';
-// import Loading from './containers/loading';
 import FacilityBooking from './containers/facilityBooking';
 import NavigationManager from "./managers/navigationManager";
 import Calendar, {addEvent} from "./containers/calendar";
@@ -17,48 +16,7 @@ import EditingEvent from './containers/editingEvent';
 import Admin from "./containers/adminPanel";
 import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from 'firebase';
-// import drawerComponent from './containers/drawerComponent';
-// import { createStore } from 'redux';
-// import { Provider, Connect } from "react-redux";
 
-
-
-// function reducer(state, action) {
-//   console.log('reducer', state, action);
-//   switch(action.type) {
-//     case 'INCREMENT':
-//       return {
-//         count: state.count + 1
-//       };
-//     case 'DECREMENT':
-//       return {
-//         count: state.count - 1
-//       };
-//     case 'RESET':
-//       return {
-//         count: 0
-//       };
-//     default:
-//       return state;
-//   }
-// }
-
-// const store = createStore(reducer);
-// store.dispatch({ type: "INCREMENT" });
-
-// function mapStateToProps(state) {
-//   return {
-//     count: state.count
-//   };
-// }
-
-// increment = () => {
-//   this.props.dispatch({ type: "INCREMENT" });
-// };
-
-// decrement = () => {
-//   this.props.dispatch({ type: "DECREMENT" });
-// };
 
 //Drawer navigator's toggle button
 export class NavigationDrawerStructure extends Component {
@@ -132,7 +90,11 @@ const drawerContentComponent = props => (
         // )
 
         props.navigation.replace('loginStack');
-        Alert.alert("Logged out");
+        ToastAndroid.showWithGravity(
+          "Logged out!",
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        )
 
         }, (error) => {
           console.error('Sign out error', error)
@@ -329,8 +291,6 @@ const drawerStack = createStackNavigator({
 const LoginStack = createStackNavigator({
   loginScreen: { screen: Login },
   signUpScreen : {screen: SignUp }
-  // loadingScreen: { screen: Loading },
-  // forgottenPasswordScreen: { screen: ForgottenPasswordScreen, navigationOptions: { title: 'Forgot Password' } }
 }, {
   headerMode: 'none',
   initialRouteName: 'loginScreen'
