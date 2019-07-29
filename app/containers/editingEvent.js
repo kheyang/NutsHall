@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, ScrollView, Button, TextInput, Alert } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Button, TextInput, Alert, ToastAndroid } from 'react-native'
 import NavigationManager from "../managers/navigationManager";
 import {db} from '../config';
 import firebase from 'firebase';
@@ -85,8 +85,12 @@ export default class EditingEvent extends Component {
 							this.setState({eventDate: params.date})
 							setTimeout(() => {
 								this.handleSubmit()
-							},1)
-							Alert.alert('Reminder has been updated successfully!')
+							},100)
+							ToastAndroid.showWithGravity(
+								'Reminder has been updated successfully!',
+								ToastAndroid.SHORT,
+								ToastAndroid.CENTER,
+							  )
 							NavigationManager.goBack()
 						}
 					}
@@ -94,7 +98,7 @@ export default class EditingEvent extends Component {
 					<Button
             color='grey'
             onPress={() => NavigationManager.goBack()}
-            title = 'Go back'
+            title = 'Cancel'
           />
         </View>
     </ScrollView>

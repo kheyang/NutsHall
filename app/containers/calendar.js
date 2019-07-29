@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Alert, ToastAndroid } from 'react-native';
 import {Agenda} from 'react-native-calendars';
 import NavigationManager from "../managers/navigationManager";
 import {db} from "../config";
@@ -52,17 +52,26 @@ export default class Calendar extends Component {
   componentDidMount() {
     itemsRef.on('value', snapshot => {
       let data = snapshot.val()
-      let items = Object.values(data)
+      let items = [];
+      if(data != null) {
+        items = Object.values(data)
+        this.setState({ events: items })
+      }
       // let updatedEvents = this.state.events
       // updatedEvents.push(items)
-      this.setState({ events: items })
+      // this.setState({ events: items })
     })
     reminderRef.child(firebase.auth().currentUser.uid).child('reminders').on('value', snapshot => {
       let data = snapshot.val()
-      let items = Object.values(data)
+      // let items = [];
+      if(data != null) {
+        items = Object.values(data)
+        this.setState({ reminder: items })
+      }
+      // let items = Object.values(data)
       // let updatedEvents = this.state.events
       // updatedEvents.push(items)
-      this.setState({ reminder: items })
+      // this.setState({ reminder: items })
       // console.log(this.state.reminder)
     })
   }
@@ -83,6 +92,20 @@ export default class Calendar extends Component {
           // setTimeout(() => {
           //   console.log(selectedDate)
           // },1)
+        }}
+        theme={{
+          // agendaDayTextColor: 'yellow',
+          // agendaDayNumColor: 'green',
+          agendaTodayColor: '#006400',
+          agendaKnobColor: '#006400',
+          selectedDayBackgroundColor: '#006400',
+          dotColor: '#006400',
+          todayTextColor: '#006400',
+          indicatorColor:  '#006400',
+          textDayFontFamily: 'Raleway-Regular',
+          textMonthFontFamily: 'Raleway-Regular',
+          textDayHeaderFontFamily: 'Raleway-Regular',
+          textTodayFontFamily: 'Raleway-Regular',
         }}
       />
     );
@@ -182,7 +205,7 @@ export default class Calendar extends Component {
                     'Delete Reminder',
                     'Do you sure you want to delete the reminder?',
                     [
-                      {text: 'Yes, delete it.', onPress: () => {
+                      {text: 'Yes, delete it', onPress: () => {
                           db.ref('user/'+ firebase.auth().currentUser.uid + '/reminders/' + item[i].serialNumber).remove()
 
                           // this.state.items[item.date] = []
@@ -192,10 +215,16 @@ export default class Calendar extends Component {
                           // newItem[]
                           // console.log(dum)
                           // console.log(arr[item[i].date])
-                          Alert.alert('Reminder has been deleted.')
+                          
+                          ToastAndroid.showWithGravity(
+                            'Reminder has been deleted.',
+                            ToastAndroid.SHORT,
+                            ToastAndroid.CENTER,
+                          )
+                          
                         },
                       },
-                      {text:'No, keep it.', onPress: () => console.log('Remains')}
+                      {text:'No, keep it', onPress: () => console.log('Remains')}
                     ],
                     )
                 }}
@@ -236,13 +265,17 @@ export default class Calendar extends Component {
                   'Delete Reminder',
                   'Do you sure you want to delete the reminder?',
                   [
-                    {text: 'Yes, delete it.', onPress: () => {
+                    {text: 'Yes, delete it', onPress: () => {
                         db.ref('user/'+ firebase.auth().currentUser.uid + '/reminders/' + item.serialNumber).remove()
                         this.state.items[item.date] = []
-                        Alert.alert('Reminder has been deleted.')
+                        ToastAndroid.showWithGravity(
+                          'Reminder has been deleted.',
+                          ToastAndroid.SHORT,
+                          ToastAndroid.CENTER,
+                        )
                       },
                     },
-                    {text:'No, keep it.', onPress: () => console.log('Remains')}
+                    {text:'No, keep it', onPress: () => console.log('Remains')}
                   ],
                   )
               }}
@@ -355,7 +388,7 @@ export default class Calendar extends Component {
 
   renderEmptyDate() {
     return (
-      <View style={styles.emptyDate}><Text>This is empty date!</Text></View>
+      <View style={styles.emptyDate}><Text>Nothing on!</Text></View>
     );
   }
 

@@ -3,8 +3,8 @@ import { StyleSheet, Text, TextInput, View, Button, Alert, TouchableOpacity, Key
 import NavigationManager from "../managers/navigationManager";
 import firebase from 'firebase';
 import { NavigationActions, StackActions} from "react-navigation";
-// import Loading from './loading';
 
+console.disableYellowBox = true;
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -32,44 +32,12 @@ handleBackButton() {
     ' Do you want to exit?',
     [
       { text: 'Yes', onPress: () => BackHandler.exitApp() },
-      { text: 'No', onPress: () => console.log('NO Pressed') }
+      { text: 'No', onPress: () => console.log('No Pressed') }
     ],
     { cancelable: false },
   );
   return true;
 }
-
-// Login = (email, password) => {
-//     try {
-//         firebase
-//             .auth()
-//             .signInWithEmailAndPassword(email, password)
-//             .then((user) => {
-//                 this.setState({
-//                     loading: false
-//                 });            
-//             console.log(JSON.stringify(user))
-//             // AsyncStorage.setItem('userData', JSON.stringify(user));
-//             NavigationManager.navigate('drawerStack')
-//             //  res => {
-//             //  console.log(res.user.email);
-//     //   }
-//             user = firebase.auth().currentUser;
-//             user.updateProfile({
-//                 displayName: (user.email).split('@')[0]
-//             })
-//     });
-//     } catch (error) {
-//         // this.setState({ errorMessage: error.message })
-//         // console.log(error.toString(error));
-//         this.setState({
-//             loading: false,
-//             errorMessage: error.message
-//           });
-//         alert(error.toString(error.message));
-//       }
-//     };
-
 
 
     onButtonPress() {
@@ -95,8 +63,6 @@ handleBackButton() {
          actions: [NavigationActions.navigate({ routeName: "drawerStack" })]
         })
        );
-      // NavigationManager.navigate('drawerStack')
-
     }
   
     onLoginFailure(errorMessage) {
@@ -114,17 +80,10 @@ handleBackButton() {
         )
       }
       return (
-        // <Button
-        //   title="Sign in"
-        //   onPress={this.onButtonPress.bind(this)} 
-        //   />
-
         <View>
           <TouchableOpacity style={styles.buttonContainer}
         onPress={
           this.onButtonPress.bind(this)}
-        // this.setState({ error: '', loading: true })
-        // this.Login(this.state.email, this.state.password)}}
         >
             <Text style={styles.buttonText}> Login </Text>
         </TouchableOpacity>
@@ -134,14 +93,11 @@ handleBackButton() {
         <TouchableOpacity style={styles.smallButtonContainer}
         onPress={() => NavigationManager.navigate('signUpScreen')}
         >
-            <Text style={styles.buttonText}> No account? </Text>
+            <Text style={styles.buttonText}> Don't have an account? Sign Up </Text>
         </TouchableOpacity>
         </View>
       );
     }
-  
-  
-
 
   render() {
     return (
@@ -156,13 +112,6 @@ handleBackButton() {
           source = {require("../assets/images/signIn/signInPage.png")}
           style = {{width:300, height:100, padding: 20, resizeMode:'contain'}}
         />
-        {/* <Text style={styles.mainTitle}>NutsHall</Text>
-            {this.state.errorMessage &&
-            <Text style={{ color: 'red' }}>
-                {this.state.errorMessage}
-            </Text>}
-        
-        <Text style={styles.title}>Hall in a Nutshell</Text> */}
       </View>
 
 
@@ -193,24 +142,13 @@ handleBackButton() {
           returnKeyType="go"
           ref={"pw"}
         />
-        
-        
+              
 
         {this.renderButton()}
 
         <Text style={styles.errorTextStyle}>
           {this.state.error}
         </Text>
-
-        {/* <Button title="LOGIN" onPress={() => this.Login(this.state.email, this.state.password)} />
-        <Button title="SignUp" onPress={() => this.SignUp(this.state.email, this.state.password)} />
-        <Button title="Login" onPress={this.handleLogin} />
-
-        <Button
-          title="Don't have an account? Sign Up"
-          onPress={() => this.props.navigation.navigate('SignUp')}
-        /> */}
-
         </View>
       
         </View>

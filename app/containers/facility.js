@@ -17,7 +17,7 @@ import GridView from 'react-native-super-grid';
 import Swiper from 'react-native-swiper';
 import firebase from 'firebase';
 import { db } from '../config';
-import {YellowBox} from 'react-native';
+import {YellowBox, ToastAndroid} from 'react-native';
 
 
 let itemsRef = db.ref();
@@ -87,8 +87,13 @@ export default class Facility extends Component {
                 onPress={() =>
                   (item.date).isBefore(moment(new Date()), 'day') ||
                     ((item.date).isSame(moment(new Date()), 'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ?
-                    Alert.alert("Date has already passed/time has passed! Move on~") :
-                    (item.endTime != undefined && item.uid == firebase.auth().currentUser.uid) ? 
+                    ToastAndroid.showWithGravity(
+                      "Date/time has already passed!" + "\n" + "Move on~",
+                      ToastAndroid.SHORT,
+                      ToastAndroid.CENTER,
+                    )
+                     :
+                    (item.endTime != undefined && item.uid == firebase.auth().currentUser.uid && item.purpose != undefined) ? 
                     Alert.alert(
                       'Delete Booking',
                       'Do you sure you want to delete this booking?',
@@ -96,26 +101,45 @@ export default class Facility extends Component {
                         {text: 'Yes, delete it.', onPress: () => {
                             db.ref('facilities/' + params.title + "/"+ ((item.date).format("MMM D").toString()) + "/" + item.time).remove()
                             setTimeout(()=> {
-                              this.props.navigation.popToTop();
-                              NavigationManager.navigate("Announcements")}, 1000);
+                              this.props.navigation.pop(2);
+                              // NavigationManager.navigate("Facilities")
+                            }, 1000);
                           },
                         },
                         {text:'No, keep it.', onPress: () => console.log('Remains')}
                       ],
                       )
-                      : (item.endTime != undefined) ?
-                    Alert.alert("Booked by " + item.name) :
+                      : (item.endTime != undefined && item.uid == firebase.auth().currentUser.uid) ? console.log("booking in progress")
+                      :
+                      (item.endTime != undefined) ?
+                      ToastAndroid.showWithGravity(
+                        "Booked by " + item.name ,
+                        ToastAndroid.SHORT,
+                        ToastAndroid.CENTER,
+                      ):
                       NavigationManager.navigate('FacilityBooking', { date: (item.date).format("MMM D").toString(), time: item.time, title: params.title, image: params.image, detail: params.detail })}>
 
                   
 
                   <View style={[styles.itemContainer, (item.date).isBefore(moment(new Date()), 'day') ||
                     ((item.date).isSame(moment(new Date()), 'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ||
-                    (item.endTime != undefined && item.uid != firebase.auth().currentUser.uid) ? { backgroundColor: "#888888" } 
+                    (item.endTime != undefined && item.uid != firebase.auth().currentUser.uid) ? { backgroundColor: "#E5E5E5" } 
                     :(item.endTime != undefined) ? { backgroundColor: "#006400" } :
                      { backgroundColor: "#FFF" }]}>
-                    <Text style={styles.itemName}>{(item.date).format("MMM D").toString()}</Text>
-                    <Text style={styles.itemCode}>{item.time}</Text>
+                    
+                    <Text style={styles.itemName}>{(item.date).isBefore(moment(new Date()), 'day') ||
+                    ((item.date).isSame(moment(new Date()), 'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ||
+                    (item.endTime != undefined && item.purpose == undefined) ? " " 
+                    : ((item.endTime != undefined && item.uid == firebase.auth().currentUser.uid) || (item.endTime != undefined && item.purpose != undefined)) ? (item.purpose) 
+                    // : (item.endTime != undefined && item.uid != firebase.auth().currentUser.uid) ? " "
+                    :(item.date).format("MMM D").toString()}</Text>
+
+                    <Text style={styles.itemCode}>{(item.date).isBefore(moment(new Date()), 'day') ||
+                    ((item.date).isSame(moment(new Date()), 'day') && parseInt(((item.time).split(":"))[0]) <= moment(new Date()).format('H')) ||
+                    (item.endTime != undefined  && item.purpose == undefined) ? " " 
+                    // : ((item.endTime != undefined && item.uid == firebase.auth().currentUser.uid) || (item.endTime != undefined && item.purpose != undefined)) ? (item.purpose) 
+                    :(item.time)}
+                    </Text>
                   </View>
 
                   
@@ -206,7 +230,7 @@ export default class Facility extends Component {
           let startOfNextHour = parseInt(((dateTimes[nextCount].time.split(":"))[0]));
           if (endingTime > startOfNextHour) {
             dateTimes[nextCount]["endTime"] = dateTimes[k].endTime;
-            dateTimes[nextCount]["purpose"] = dateTimes[k]["purpose"];
+            // dateTimes[nextCount]["purpose"] = dateTimes[k]["purpose"];
             dateTimes[nextCount]["name"] = dateTimes[k]["name"];
             dateTimes[nextCount]["uid"] = dateTimes[k]["uid"];
 
@@ -249,7 +273,7 @@ const styles = StyleSheet.create({
   },
   timeLabel: {
     flex: -1,
-    height: 40,
+    height: ROW_HEIGHT,
   },
   timeText: {
     fontSize: 12,
@@ -258,12 +282,14 @@ const styles = StyleSheet.create({
   timeColumn: {
     paddingTop: 10,
     width: 60,
+    height: ROW_HEIGHT * TIME_LABELS_COUNT,
+
   },
   rowContainer: {
     paddingTop: 16,
   },
   timeRow: {
-    height: 40,
+    height: ROW_HEIGHT,
     width: (SCREEN_WIDTH - 60) / 7,
     left: 0,
     right: 0,
@@ -285,16 +311,19 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     borderRadius: 2,
     padding: 0,
-    height: 40,
+    height: ROW_HEIGHT,
     width: ((SCREEN_WIDTH - 60) / 7) - 1,
   },
   itemName: {
     fontSize: 8,
     color: '#000000',
+    fontFamily: "Raleway-Regular"
   },
   itemCode: {
     fontSize: 8,
     color: '#000000',
+    fontFamily: "Raleway-Regular"
+
   },
   backButton: {
     position: 'absolute',
@@ -312,6 +341,8 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontSize: 30,
     fontWeight: 'bold',
+    fontFamily: "Raleway-Regular"
+
   },
 });
 
