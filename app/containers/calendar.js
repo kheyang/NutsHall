@@ -7,7 +7,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from 'firebase';
 import {YellowBox} from 'react-native';
 
-
+console.disableYellowBox = true;
 let itemsRef = db.ref('/event')
 let reminderRef = db.ref('/user')
 

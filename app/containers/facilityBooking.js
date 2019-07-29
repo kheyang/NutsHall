@@ -12,7 +12,7 @@ import { db } from '../config';
 
 let itemsRef = db.ref("facilities");
 let userRef = db.ref("user");
-
+console.disableYellowBox = true;
 
 export default class FacilityBooking extends Component {
   constructor(props) {

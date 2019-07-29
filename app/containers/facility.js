@@ -19,7 +19,7 @@ import firebase from 'firebase';
 import { db } from '../config';
 import {YellowBox} from 'react-native';
 
-
+console.disableYellowBox = true;
 let itemsRef = db.ref();
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const TIME_LABELS_COUNT = 16;

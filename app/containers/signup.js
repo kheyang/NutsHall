@@ -51,12 +51,12 @@ onLoginSuccess() {
     email: '', password: '', name: '', error: '', loading: false
   });
   Alert.alert("Account created!");
-  this.props.navigation.dispatch(
-    NavigationActions.reset({
-     index: 0,
-     actions: [NavigationActions.navigate({ routeName: "drawerStack" })]
-    })
-   );
+  // this.props.navigation.dispatch(
+  //   NavigationActions.reset({
+  //    index: 0,
+  //    actions: [NavigationActions.navigate({ routeName: "drawerStack" })]
+  //   })
+  //  );
   // NavigationManager.navigate('drawerStack')
 
 }
