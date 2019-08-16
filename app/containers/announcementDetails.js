@@ -17,7 +17,7 @@ export default class AnnouncementDetails extends Component {
   })
 
   render () {
-    const { params } = this.props.navigation.state
+    const { params } = this.props.navigation.state;
     return (
       <ScrollView>
         <View style={styles.container}>

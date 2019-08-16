@@ -27,12 +27,12 @@ onButtonPress() {
                 .then((user) => { 
                   user = firebase.auth().currentUser;
                   addUser(user.uid)
+                  user.sendEmailVerification();
                   user.updateProfile({
                     displayName: name
                     
                  })})
-                .then(this.onLoginSuccess.bind(this))
-        
+                .then(this.onLoginSuccess.bind(this))        
         .catch((error) => {
           let errorCode = error.code
           let errorMessage = error.message;

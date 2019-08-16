@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View, Button, Alert, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Image, Keyboard, SafeAreaView, AsyncStorage, ActivityIndicator, Item, Label, BackHandler } from 'react-native'
+import { StyleSheet, Text, TextInput, View, Button, Alert, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Image, Keyboard, SafeAreaView, AsyncStorage, ActivityIndicator, Item, Label, BackHandler,ToastAndroid } from 'react-native'
 import NavigationManager from "../managers/navigationManager";
 import firebase from 'firebase';
 import { NavigationActions, StackActions} from "react-navigation";
@@ -49,8 +49,35 @@ handleBackButton() {
               let errorMessage = error.message;  
                 this.onLoginFailure.bind(this)(errorMessage)
               }
-            );}
-  
+            );
+    }
+
+        // firebase.auth().onAuthStateChanged((user) => {
+        //   if (user) {
+        //     if (user.emailVerified === false) {
+        //       ToastAndroid.showWithGravity(
+        //         "Email not verified!",
+        //         ToastAndroid.LONG,
+        //         ToastAndroid.CENTER,
+        //       )
+        //       this.setState({loading: false });
+        //     } else {
+        //       this.onLoginSuccess.bind(this);
+        //     }
+        //   } else {
+        //     ToastAndroid.showWithGravity(
+        //       "Contact NutsHall admin!",
+        //       ToastAndroid.LONG,
+        //       ToastAndroid.CENTER,
+        //     )
+        //     this.setState({loading: false });
+        //   }
+        // });
+
+        
+            
+        // } 
+      
 
     onLoginSuccess() {
       this.setState({
