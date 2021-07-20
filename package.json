@@ -16,7 +16,7 @@
     "native-base": "^2.13.4",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
-    "react-native": "^0.60.0",
+    "react-native": "^0.62.3",
     "react-native-calendar-picker": "^6.0.0",
     "react-native-calendars": "^1.188.0",
     "react-native-datepicker": "^1.7.2",
